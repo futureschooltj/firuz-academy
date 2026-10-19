@@ -51,6 +51,7 @@ jobs:
           pip install pillow
           python3 "$(ls make_icons*.py | head -n 1)" android/app/src/main/res www
           npx cap sync android
+          F=$(find android/app/src/main/java -name MainActivity.java | head -n 1); sed -i 's/extends BridgeActivity {}/extends BridgeActivity { @Override public void onCreate(android.os.Bundle b) { getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE, android.view.WindowManager.LayoutParams.FLAG_SECURE); super.onCreate(b); } }/' "$F"; grep -q FLAG_SECURE "$F"
 
       - name: Build APK
         working-directory: android
