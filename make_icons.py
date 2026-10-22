@@ -4,7 +4,28 @@ from PIL import Image, ImageDraw, ImageChops
 here = os.path.dirname(os.path.abspath(__file__))
 res = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else None
 web = sys.argv[2] if len(sys.argv) > 2 else '.'
-MARK = Image.open(os.path.join(here, 'logo-mark.png')).convert('RGB')   # логотип дар заминаи сафед
+import glob
+
+def _crop_mark(path):
+    # логотипи пурра (бо навиштаҷот)-ро буридан: танҳо нишона (қисми боло)
+    im = Image.open(path).convert('RGB'); W, H = im.size
+    box = im.crop((0, 0, W, int(H * 0.60)))
+    diff = ImageChops.difference(box, Image.new('RGB', box.size, (255, 255, 255))).convert('L').point(lambda v: 255 if v > 24 else 0)
+    m = box.crop(diff.getbbox()); s = max(m.size); pad = int(s * 0.04)
+    sq = Image.new('RGB', (s + 2 * pad, s + 2 * pad), (255, 255, 255))
+    sq.paste(m, ((s + 2 * pad - m.size[0]) // 2, (s + 2 * pad - m.size[1]) // 2))
+    return sq.resize((1024, 1024), Image.LANCZOS)
+
+_dirs = [here, os.getcwd()]
+_c = [f for d in _dirs for f in sorted(glob.glob(os.path.join(d, 'logo-mark*.png')))]
+if _c:
+    MARK = Image.open(_c[0]).convert('RGB')
+else:
+    _f = [f for d in _dirs for f in sorted(glob.glob(os.path.join(d, 'file_*')))
+          if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
+    if not _f:
+        print('XATO: logo-mark.png ёфт нашуд'); sys.exit(1)
+    MARK = _crop_mark(_f[0])   # логотип дар заминаи сафед
 WHITE = (255, 255, 255)
 
 def on_white(size, scale=1.0, circle=False):
