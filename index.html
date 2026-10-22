@@ -112,6 +112,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--pri);outline:none}
 .banner.warn{background:var(--warn-soft);color:var(--warn)}.banner.bad{background:var(--bad-soft);color:var(--bad)}.banner.ok{background:var(--ok-soft);color:var(--ok)}
 .vid{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;margin-bottom:12px}
 .vid iframe,.vid video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .shield{position:absolute;left:0;right:0;top:0;height:22%;z-index:2}
 .doc{width:100%;height:70vh;border:1px solid var(--line);border-radius:12px;background:#fff}
 .opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px;cursor:pointer;background:var(--card)}
 .opt input{width:20px;height:20px;flex:none;margin-top:2px}
@@ -146,7 +147,7 @@ table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{padding:9px 10p
 <script>
 const DICT={
 app:['Firuz-Academy','Firuz-Academy'],
-tagline:['Физикаро бо мо омӯзед','Изучайте физику с нами'],
+tagline:['',''],
 loginId:['ID (воридшавӣ)','ID (логин)'],password:['Парол','Пароль'],signin:['Ворид шудан','Войти'],
 register:['Сохтани ҳисоби нав','Создать аккаунт'],haveAccount:['Ҳисоб дорам, ворид шудан','Уже есть аккаунт'],
 registerHint:['Ҳисоби шахсӣ созед. ID танҳо аз ҳарфҳои лотинӣ, рақамҳо ва _ - иборат бошад.','Создайте личный аккаунт. ID: латиница, цифры и _ -'],
@@ -170,7 +171,7 @@ language:['Забон','Язык'],theme:['Намуд','Тема'],themeAuto:['�
 role_admin:['Маъмур','Администратор'],role_student:['Хонанда','Ученик'],
 n_home:['Асосӣ','Главная'],n_courses:['Курсҳо','Курсы'],n_cab:['Кабинет','Кабинет'],n_settings:['Танзимот','Настройки'],n_dash:['Назорат','Обзор'],n_students:['Хонандагон','Ученики'],n_orders:['Пардохт','Оплата'],n_more:['Бештар','Ещё'],
 hello:['Салом','Здравствуйте'],availableN:['{n} курси дастрас','Доступно курсов: {n}'],searchCourses:['Ҷустуҷӯи курсҳо…','Поиск курсов…'],noCourses:['Курсҳо ҳоло нестанд','Курсов пока нет'],
-sections:['Қисмҳои физика','Разделы физики'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
+sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
 newLessons:['Дарсҳои нав','Новые уроки'],myProgress:['Пешрафти ман','Мой прогресс'],announcements:['Эълонҳо','Объявления'],contactWa:['Муроҷиат ба маъмурият (WhatsApp)','Связаться с администрацией (WhatsApp)'],
 free:['Ройгон','Бесплатно'],paid:['Пулакӣ','Платно'],opened:['Кушода','Открыт'],hidden:['Пинҳон','Скрыт'],mineCourses:['Аз они ман','Мои'],
 lockedCourse:['Курс баста аст','Курс закрыт'],lockedHint:['Барои дидани видео, китоб ва тестҳо курсро харед.','Купите курс, чтобы открыть видео, книги и тесты.'],buyCourse:['Харидани курс','Купить курс'],
@@ -402,6 +403,22 @@ const bar=p=>`<div class="bar ok"><i style="width:${Math.max(0,Math.min(100,p))}
 const fld=(l,inner)=>`<label class="f"><span>${esc(l)}</span>${inner}</label>`;
 function opts(list,sel,ph){return (ph?`<option value="">${esc(ph)}</option>`:'')+list.map(o=>`<option value="${esc(o[0])}" ${String(o[0])===String(sel)?'selected':''}>${esc(o[1])}</option>`).join('')}
 const ct=c=>(lang==='ru'&&c.titleRu)?c.titleRu:(c.title||'');
+/* ---- каталог: кластер -> фан -> қисмҳо ---- */
+const SUBJ={phys:['Физика','Физика'],chem:['Химия','Химия'],math:['Математика','Математика'],tj:['Забони тоҷикӣ','Таджикский язык'],geo:['География','География'],eng:['Забони англисӣ','Английский язык'],hist:['Таърихи халқи тоҷик','История таджикского народа'],lit:['Адабиёти тоҷик','Таджикская литература'],law:['Ҳуқуқ','Право'],bio:['Биология','Биология']};
+const CLUSTERS=[
+  {id:'k1',n:['Кластери 1','Кластер 1'],s:['phys','chem','math','tj']},
+  {id:'k2',n:['Кластери 2','Кластер 2'],s:['tj','math','geo','eng']},
+  {id:'k3',n:['Кластери 3','Кластер 3'],s:['tj','eng','hist','lit']},
+  {id:'k4',n:['Кластери 4','Кластер 4'],s:['tj','law','hist','eng']},
+  {id:'k5',n:['Кластери 5','Кластер 5'],s:['tj','phys','chem','bio']},
+  {id:'ol',n:['Омодагӣ ба олимпиадаҳои ҷумҳуриявӣ','Подготовка к республиканским олимпиадам'],s:['phys','chem','math','bio','tj','hist','eng','geo','lit','law'].map(x=>'o_'+x)}
+];
+const subjName=id=>{const o=String(id).startsWith('o_');const b=SUBJ[o?id.slice(2):id];if(!b)return String(id);return b[lang==='ru'?1:0]+(o?' (олимпиада)':'')};
+const subjOf=c=>c.subjectId||'phys';
+const clusterOf=id=>CLUSTERS.find(x=>x.id===id);
+const clName=c=>c.n[lang==='ru'?1:0];
+const coursesOfSubject=sid=>visibleCourses().filter(c=>subjOf(c)===sid);
+const SUBJ_OPTS=()=>Object.keys(SUBJ).map(k=>[k,subjName(k)]).concat(Object.keys(SUBJ).map(k=>['o_'+k,subjName('o_'+k)]));
 const cPrice=c=>Math.round((+c.price||0)*(100-(+c.discount||0)))/100;
 const bPrice=b=>Math.round((+b.price||0)*(100-(+b.discount||0)))/100;
 const TYPES=['video','book','theory','test','problem'];
@@ -435,6 +452,8 @@ function viewTitle(){
   if(R.v==='course'&&S.courses[R.p])return ct(S.courses[R.p]);
   if(R.v==='item'){const it=(S.items[R.p.cid]||{})[R.p.iid];return it?it.title:t('app')}
   if(R.v==='aStudent'){const u=vals(S.users).find(x=>x.sid===R.p);return u?u.name:t('n_students')}
+  if(R.v==='cluster'){const c=clusterOf(R.p);return c?clName(c):t('app')}
+  if(R.v==='subject')return subjName(R.p);
   return m[R.v]||t('app');
 }
 function shell(){
@@ -446,7 +465,7 @@ function shell(){
   const pend=admin?pendingOrders():0;
   const body=V[R.v]?V[R.v]():empty();
   return `<header class="top">${left}<h1>${esc(viewTitle())}</h1>${admin?'':`<button class="ib" data-a="root" data-v="courses" aria-label="${esc(t('search'))}">${ic('search')}</button>`}</header><main id="view">${body}</main>
-  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='aCourses'&&R.v==='course'&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
+  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'))||(n[0]==='aCourses'&&R.v==='course'&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
 }
 
 /* ---- course cards ---- */
@@ -458,6 +477,17 @@ function secTile(c){
   return `<button class="sec" data-a="go" data-v="course" data-p="${c.id}"><div class="ti">${secIc(c.icon)}</div><b>${esc(ct(c))}</b><span class="st">${canAccess(c.id)?(c.free?chip(t('free'),'ok'):chip('✓','ok')):chip(t('paid'),'warn')}</span></button>`;
 }
 
+function clusterTile(c){
+  const sub=c.id==='ol'?'':c.s.map(subjName).join(' · ');
+  return `<button class="sec" data-a="go" data-v="cluster" data-p="${c.id}"><div class="ti">${ic('book')}</div><b>${esc(clName(c))}</b>${sub?`<span class="xs mut">${esc(sub)}</span>`:''}</button>`;
+}
+function subjTile(sid){
+  const n=coursesOfSubject(sid).length;
+  return `<button class="sec" data-a="go" data-v="subject" data-p="${sid}"><div class="ti">${ic('book')}</div><b>${esc(subjName(sid))}</b><span class="xs mut">${esc(n?t('nSections',{n}):t('soon'))}</span></button>`;
+}
+V.cluster=function(){const c=clusterOf(R.p);if(!c)return empty();return `<div class="secs">${c.s.map(subjTile).join('')}</div>`};
+V.subject=function(){const cs=coursesOfSubject(R.p);if(!cs.length)return empty(t('soonMsg'));return `<div class="secs">${cs.map(secTile).join('')}</div>`};
+
 /* ---- home ---- */
 V.home=function(){
   const cs=visibleCourses();const acc=cs.filter(c=>canAccess(c.id));
@@ -466,7 +496,7 @@ V.home=function(){
   h+=`<div class="hero"><div class="sm" style="opacity:.85">${esc(t('hello'))},</div><div class="big">${esc(ME.name)}</div><div class="sm" style="opacity:.9">ID: ${esc(ME.login)} · ${esc(t('availableN',{n:acc.length}))}</div></div>`;
   h+=`<div class="search" data-a="root" data-v="courses">${ic('search')}<input type="search" placeholder="${esc(t('searchCourses'))}" readonly style="cursor:pointer"></div>`;
   if(!cs.length)return h+empty(t('noCourses'));
-  h+=`<div class="h3">${esc(t('sections'))}</div><div class="secs">${cs.map(secTile).join('')}</div>`;
+  h+=`<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}</div>`;
   const free=cs.filter(c=>c.free),paid=cs.filter(c=>!c.free),pop=cs.filter(c=>c.popular);
   if(free.length)h+=`<div class="h3">${esc(t('freeCourses'))}</div><div class="hs">${free.map(courseCard).join('')}</div>`;
   if(paid.length)h+=`<div class="h3">${esc(t('paidCourses'))}</div><div class="hs">${paid.map(courseCard).join('')}</div>`;
@@ -540,7 +570,7 @@ V.item=function(){
     const em=ytEmbed(it.url);
     if(!em)h+=`<div class="banner warn">${esc(t('noVideo'))}</div>`;
     else if(em.kind==='video')h+=`<div class="vid"><video controls playsinline preload="metadata" src="${esc(em.src)}" data-cid="${cid}" data-iid="${iid}"></video></div>`;
-    else h+=`<div class="vid"><iframe src="${esc(em.src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="${esc(it.title)}"></iframe></div>`;
+    else h+=`<div class="vid"><iframe src="${esc(em.src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen ${/youtube|vimeo/.test(em.src)?'sandbox="allow-scripts allow-same-origin allow-presentation"':''} referrerpolicy="strict-origin-when-cross-origin" title="${esc(it.title)}"></iframe>${/youtube/.test(em.src)?'<div class="shield"></div>':''}</div>`;
     if(em&&em.kind==='iframe')h+=`<div class="xs mut" style="margin-bottom:8px">${esc(t('videoHint'))}</div>`;
   }else if(it.type==='book'){
     const em=ytEmbed(it.url);
@@ -650,7 +680,7 @@ function loginScreen(){
   const langs=`<div class="seg" style="justify-content:center;margin-top:18px">${LANGS.map(l=>`<button data-a="lang" data-v="${l}" class="${lang===l?'on':''}">${LNAMES[l]}</button>`).join('')}</div>`;
   if(needSetup)return box(`<p>${esc(t('firstRun'))}</p><form data-f="first">${fld(t('name'),`<input type="text" name="name" required>`)}${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" pattern="[A-Za-z0-9_\\-]+" title="${esc(t('loginHint'))}">`)}${fld(t('password'),`<input type="password" name="pw" required minlength="8" autocomplete="new-password">`)}<button class="btn full" type="submit">${esc(t('create'))}</button></form>`);
   if(R.filter.reg)return box(`<p>${esc(t('registerHint'))}</p><form data-f="register">${fld(t('name'),`<input type="text" name="name" required>`)}${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" pattern="[A-Za-z0-9_\\-]+" title="${esc(t('loginHint'))}">`)}${fld(t('phone'),`<input type="tel" name="phone">`)}${fld(t('password'),`<input type="password" name="pw" required minlength="8" autocomplete="new-password">`)}<button class="btn full" type="submit">${esc(t('register'))}</button></form><div class="tc" style="margin-top:14px"><button class="btn ghost sm2" data-a="regToggle">${esc(t('haveAccount'))}</button></div>${langs}`);
-  return box(`<p>${esc(t('tagline'))}</p><form data-f="login">${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" autocorrect="off">`)}${fld(t('password'),`<input type="password" name="pw" required autocomplete="current-password">`)}<button class="btn full" type="submit">${esc(t('signin'))}</button></form>
+  return box(`<form data-f="login">${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" autocorrect="off">`)}${fld(t('password'),`<input type="password" name="pw" required autocomplete="current-password">`)}<button class="btn full" type="submit">${esc(t('signin'))}</button></form>
   <div class="tc" style="margin-top:14px"><button class="btn sec sm2" data-a="regToggle">${esc(t('register'))}</button> <button class="btn ghost sm2" data-a="forgot">${esc(t('forgot'))}</button></div>${langs}`);
 }
 /* ================= admin views ================= */
@@ -1024,6 +1054,7 @@ const SEC_NAMES=['Кинематика','Динамика','Статика','К�
 ACT.courseForm=d=>{
   const c=d.id?S.courses[d.id]:{free:false,active:true,icon:0,order:(Object.keys(S.courses).length+1),price:0,discount:0};
   openModal(d.id?t('editCourse'):t('newCourse'),`<form id="mf" data-f="course"><input type="hidden" name="id" value="${esc(d.id||'')}">${fld(t('titleTg'),`<input type="text" name="title" required value="${esc(c.title||'')}">`)}${fld(t('titleRu'),`<input type="text" name="titleRu" value="${esc(c.titleRu||'')}">`)}${fld(t('desc'),`<textarea name="desc">${esc(c.desc||'')}</textarea>`)}
+  <label class="f"><span>${esc(t('subject'))}</span><select name="subjectId">${opts(SUBJ_OPTS(),c.subjectId||'phys')}</select></label>
   <div class="row"><label class="f grow"><span>${esc(t('icon'))}</span><select name="icon">${opts(SEC_NAMES.map((n,i)=>[i,(i+1)+'. '+n]),c.icon||0)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+c.order||0}"></label></div>
   <div class="row"><label class="f grow"><span>${esc(t('price'))} (TJS)</span><input type="number" name="price" min="0" step="any" value="${+c.price||0}"></label><label class="f grow"><span>${esc(t('discount'))} %</span><input type="number" name="discount" min="0" max="100" value="${+c.discount||0}"></label></div>
   <label class="row" style="margin-bottom:10px"><input type="checkbox" name="free" ${c.free?'checked':''} style="width:22px;height:22px"><b>${esc(t('free'))}</b></label>
@@ -1032,7 +1063,7 @@ ACT.courseForm=d=>{
 };
 FORM.course=async fd=>{
   const id=fd.get('id')||uid();const old=clone(S.courses[id]||{});
-  const doc=Object.assign(old,{title:String(fd.get('title')).trim(),titleRu:String(fd.get('titleRu')||'').trim(),desc:String(fd.get('desc')||'').trim(),icon:+fd.get('icon')||0,order:+fd.get('order')||0,price:+fd.get('price')||0,discount:Math.min(100,Math.max(0,+fd.get('discount')||0)),free:fd.get('free')==='on',popular:fd.get('popular')==='on',active:fd.get('active')==='on',created:old.created||Date.now()});
+  const doc=Object.assign(old,{title:String(fd.get('title')).trim(),titleRu:String(fd.get('titleRu')||'').trim(),desc:String(fd.get('desc')||'').trim(),subjectId:String(fd.get('subjectId')||'phys'),icon:+fd.get('icon')||0,order:+fd.get('order')||0,price:+fd.get('price')||0,discount:Math.min(100,Math.max(0,+fd.get('discount')||0)),free:fd.get('free')==='on',popular:fd.get('popular')==='on',active:fd.get('active')==='on',created:old.created||Date.now()});
   if(!doc.counts)doc.counts={video:0,book:0,theory:0,test:0,problem:0};
   if(!doc.title){toast(t('required'));return}
   const r=await W('set','courses',id,doc);if(r!==null){closeModal();toast(t('saved'))}
@@ -1145,7 +1176,7 @@ ACT.seedPhysics=async()=>{
   const zero={video:0,book:0,theory:0,test:0,problem:0};
   for(let i=0;i<T.length;i++){
     const [id,tg,ru]=T[i];
-    await W('set','courses',id,{title:tg,titleRu:ru,desc:'',icon:i,order:i+1,price:i===0?0:100,discount:0,free:i===0,popular:[0,1,7].includes(i),active:true,counts:Object.assign({},zero),created:Date.now()});
+    await W('set','courses',id,{title:tg,titleRu:ru,desc:'',subjectId:'phys',icon:i,order:i+1,price:i===0?0:100,discount:0,free:i===0,popular:[0,1,7].includes(i),active:true,counts:Object.assign({},zero),created:Date.now()});
   }
   await W('set','bundles','full',{title:'Курси пурраи физика',price:900,discount:0,courseIds:T.map(x=>x[0]),active:true});
   const items={
