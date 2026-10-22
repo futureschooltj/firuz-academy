@@ -419,7 +419,7 @@ const orderOpen=(kind,id)=>vals(S.orders).filter(o=>o.kind===kind&&o.refId===id&
 function ytEmbed(url){
   url=String(url||'').trim();let m;
   if((m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)))return{kind:'iframe',src:'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&playsinline=1'};
-  if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/)))return{kind:'iframe',src:'https://player.vimeo.com/video/'+m[1]};
+  if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-f]{6,}))?/i))){const hm=m[2]||(url.match(/[?&]h=([0-9a-f]+)/i)||[])[1];return{kind:'iframe',src:'https://player.vimeo.com/video/'+m[1]+'?'+(hm?'h='+hm+'&':'')+'title=0&byline=0&portrait=0&dnt=1&playsinline=1'}}
   if((m=url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))return{kind:'iframe',src:'https://drive.google.com/file/d/'+m[1]+'/preview'};
   if(/\.(mp4|webm|m3u8|mov)(\?|$)/i.test(url))return{kind:'video',src:url};
   if(/^https?:\/\//i.test(url))return{kind:'iframe',src:url};
