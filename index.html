@@ -171,7 +171,7 @@ language:['Забон','Язык'],theme:['Намуд','Тема'],themeAuto:['�
 role_admin:['Маъмур','Администратор'],role_student:['Хонанда','Ученик'],
 n_home:['Асосӣ','Главная'],n_courses:['Курсҳо','Курсы'],n_cab:['Кабинет','Кабинет'],n_settings:['Танзимот','Настройки'],n_dash:['Назорат','Обзор'],n_students:['Хонандагон','Ученики'],n_orders:['Пардохт','Оплата'],n_more:['Бештар','Ещё'],
 hello:['Салом','Здравствуйте'],availableN:['{n} курси дастрас','Доступно курсов: {n}'],searchCourses:['Ҷустуҷӯи курсҳо…','Поиск курсов…'],noCourses:['Курсҳо ҳоло нестанд','Курсов пока нет'],
-sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
+sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],allCourses:['Рӯйхати ҳамаи курсҳо','Список всех курсов'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
 newLessons:['Дарсҳои нав','Новые уроки'],myProgress:['Пешрафти ман','Мой прогресс'],announcements:['Эълонҳо','Объявления'],contactWa:['Муроҷиат ба маъмурият (WhatsApp)','Связаться с администрацией (WhatsApp)'],
 free:['Ройгон','Бесплатно'],paid:['Пулакӣ','Платно'],opened:['Кушода','Открыт'],hidden:['Пинҳон','Скрыт'],mineCourses:['Аз они ман','Мои'],
 lockedCourse:['Курс баста аст','Курс закрыт'],lockedHint:['Барои дидани видео, китоб ва тестҳо курсро харед.','Купите курс, чтобы открыть видео, книги и тесты.'],buyCourse:['Харидани курс','Купить курс'],
@@ -454,6 +454,7 @@ function viewTitle(){
   if(R.v==='aStudent'){const u=vals(S.users).find(x=>x.sid===R.p);return u?u.name:t('n_students')}
   if(R.v==='cluster'){const c=clusterOf(R.p);return c?clName(c):t('app')}
   if(R.v==='subject')return subjName(R.p);
+  if(R.v==='aAll')return t('allCourses');
   return m[R.v]||t('app');
 }
 function shell(){
@@ -465,7 +466,7 @@ function shell(){
   const pend=admin?pendingOrders():0;
   const body=V[R.v]?V[R.v]():empty();
   return `<header class="top">${left}<h1>${esc(viewTitle())}</h1>${admin?'':`<button class="ib" data-a="root" data-v="courses" aria-label="${esc(t('search'))}">${ic('search')}</button>`}</header><main id="view">${body}</main>
-  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'))||(n[0]==='aCourses'&&R.v==='course'&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
+  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'))||(n[0]==='aCourses'&&['course','cluster','subject','aAll'].includes(R.v)&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
 }
 
 /* ---- course cards ---- */
@@ -486,7 +487,7 @@ function subjTile(sid){
   return `<button class="sec" data-a="go" data-v="subject" data-p="${sid}"><div class="ti">${ic('book')}</div><b>${esc(subjName(sid))}</b><span class="xs mut">${esc(n?t('nSections',{n}):t('soon'))}</span></button>`;
 }
 V.cluster=function(){const c=clusterOf(R.p);if(!c)return empty();return `<div class="secs">${c.s.map(subjTile).join('')}</div>`};
-V.subject=function(){const cs=coursesOfSubject(R.p);if(!cs.length)return empty(t('soonMsg'));return `<div class="secs">${cs.map(secTile).join('')}</div>`};
+V.subject=function(){const cs=coursesOfSubject(R.p);if(isA())return (cs.length?cs.map(adminCourseCard).join(''):empty(t('soonMsg')))+`<button class="fab" data-a="courseForm" data-sj="${esc(R.p)}" aria-label="${esc(t('newCourse'))}">${ic('plus')}</button>`;if(!cs.length)return empty(t('soonMsg'));return `<div class="secs">${cs.map(secTile).join('')}</div>`};
 
 /* ---- home ---- */
 V.home=function(){
@@ -704,9 +705,16 @@ V.dash=function(){
   return h;
 };
 
+function adminCourseCard(c){return `<div class="card tap" data-a="go" data-v="course" data-p="${c.id}"><div class="row"><div class="av">${secIc(c.icon)}</div><div class="grow"><div class="b">${esc(ct(c))}</div><div class="xs mut">${(c.counts&&Object.values(c.counts).reduce((a,b)=>a+b,0))||0} ${esc(t('itemsN'))}</div></div>${c.free?chip(t('free'),'ok'):chip(money(cPrice(c)),'warn')}${c.active===false?chip(t('hidden'),'gray'):''}</div></div>`}
 V.aCourses=function(){
+  return `<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}</div><button class="btn sec full" data-a="go" data-v="aAll">${esc(t('allCourses'))}</button>`;
+};
+V.aAll=function(){
   const cs=visibleCourses();
-  return (cs.length?cs.map(c=>`<div class="card tap" data-a="go" data-v="course" data-p="${c.id}"><div class="row"><div class="av">${secIc(c.icon)}</div><div class="grow"><div class="b">${esc(ct(c))}</div><div class="xs mut">${(c.counts&&Object.values(c.counts).reduce((a,b)=>a+b,0))||0} ${esc(t('itemsN'))}</div></div>${c.free?chip(t('free'),'ok'):chip(money(cPrice(c)),'warn')}${c.active===false?chip(t('hidden'),'gray'):''}</div></div>`).join(''):`<div class="card"><div class="b">${esc(t('seedTitle'))}</div><div class="sm mut" style="margin:6px 0 10px">${esc(t('seedHint'))}</div><button class="btn full" data-a="seedPhysics">${ic('plus')}${esc(t('seedBtn'))}</button></div>`)
+  const sids=Object.keys(SUBJ).concat(Object.keys(SUBJ).map(k=>'o_'+k).filter(k=>cs.some(c=>subjOf(c)===k)));
+  const card=adminCourseCard;
+  const grp=sid=>{const g=cs.filter(c=>subjOf(c)===sid);return `<div class="row sp" style="margin:14px 0 6px"><div class="h3" style="margin:0">${esc(subjName(sid))}</div><button class="btn sec sm2" data-a="courseForm" data-sj="${sid}">${ic('plus')}</button></div>`+(g.length?g.map(card).join(''):`<div class="xs mut">${esc(t('soon'))}</div>`)};
+  return (cs.length?sids.map(grp).join(''):`<div class="card"><div class="b">${esc(t('seedTitle'))}</div><div class="sm mut" style="margin:6px 0 10px">${esc(t('seedHint'))}</div><button class="btn full" data-a="seedPhysics">${ic('plus')}${esc(t('seedBtn'))}</button></div>`)
   +`<button class="fab" data-a="courseForm" aria-label="${esc(t('newCourse'))}">${ic('plus')}</button>`;
 };
 
@@ -1054,8 +1062,8 @@ const SEC_NAMES=['Кинематика','Динамика','Статика','К�
 ACT.courseForm=d=>{
   const c=d.id?S.courses[d.id]:{free:false,active:true,icon:0,order:(Object.keys(S.courses).length+1),price:0,discount:0};
   openModal(d.id?t('editCourse'):t('newCourse'),`<form id="mf" data-f="course"><input type="hidden" name="id" value="${esc(d.id||'')}">${fld(t('titleTg'),`<input type="text" name="title" required value="${esc(c.title||'')}">`)}${fld(t('titleRu'),`<input type="text" name="titleRu" value="${esc(c.titleRu||'')}">`)}${fld(t('desc'),`<textarea name="desc">${esc(c.desc||'')}</textarea>`)}
-  <label class="f"><span>${esc(t('subject'))}</span><select name="subjectId">${opts(SUBJ_OPTS(),c.subjectId||'phys')}</select></label>
-  <div class="row"><label class="f grow"><span>${esc(t('icon'))}</span><select name="icon">${opts(SEC_NAMES.map((n,i)=>[i,(i+1)+'. '+n]),c.icon||0)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+c.order||0}"></label></div>
+  <label class="f"><span>${esc(t('subject'))}</span><select name="subjectId">${opts(SUBJ_OPTS(),c.subjectId||d.sj||'phys')}</select></label>
+  <div class="row"><label class="f grow"><span>${esc(t('icon'))}</span><select name="icon">${opts(SEC_NAMES.map((n,i)=>[i,t('icon')+' '+(i+1)]),c.icon||0)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+c.order||0}"></label></div>
   <div class="row"><label class="f grow"><span>${esc(t('price'))} (TJS)</span><input type="number" name="price" min="0" step="any" value="${+c.price||0}"></label><label class="f grow"><span>${esc(t('discount'))} %</span><input type="number" name="discount" min="0" max="100" value="${+c.discount||0}"></label></div>
   <label class="row" style="margin-bottom:10px"><input type="checkbox" name="free" ${c.free?'checked':''} style="width:22px;height:22px"><b>${esc(t('free'))}</b></label>
   <label class="row" style="margin-bottom:10px"><input type="checkbox" name="popular" ${c.popular?'checked':''} style="width:22px;height:22px"><b>${esc(t('popular'))}</b></label>
