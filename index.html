@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1546C9">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="manifest.json">
+<title>Firuz-Academy</title>
+<script src="bundle.js"></script>
+<style>
+:root{
+  --bg:#F3F6FC;--card:#FFFFFF;--ink:#0E1B3D;--mut:#5C6A8C;--line:#E4E9F5;
+  --pri:#1457D6;--pri-ink:#FFFFFF;--pri-soft:#E7F0FF;--acc:#FF9F1C;--acc-ink:#3A1E00;
+  --ok:#0F8A4B;--ok-soft:#DDF5E7;--warn:#9A5B00;--warn-soft:#FFF0D2;--bad:#C62F2F;--bad-soft:#FDE3E3;
+  --shadow:0 2px 6px rgba(10,47,126,.05),0 12px 28px rgba(10,47,126,.08);
+  --r:22px;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1020;--card:#151B33;--ink:#EBEEFB;--mut:#9AA3C7;--line:#262E4D;
+    --pri:#7C9BFF;--pri-ink:#0B1020;--pri-soft:#212A55;--acc:#FFA64D;--acc-ink:#2B1700;
+    --ok:#4ADE97;--ok-soft:#14352A;--warn:#FFC25A;--warn-soft:#3B2D10;--bad:#FF8585;--bad-soft:#41191B;--shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1020;--card:#151B33;--ink:#EBEEFB;--mut:#9AA3C7;--line:#262E4D;
+  --pri:#7C9BFF;--pri-ink:#0B1020;--pri-soft:#212A55;--acc:#FFA64D;--acc-ink:#2B1700;
+  --ok:#4ADE97;--ok-soft:#14352A;--warn:#FFC25A;--warn-soft:#3B2D10;--bad:#FF8585;--bad-soft:#41191B;--shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;line-height:1.2}
+a{color:var(--pri)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--pri);color:var(--pri-ink);display:flex;align-items:center;gap:10px;padding:10px 14px;min-height:58px}
+:root[data-theme="dark"] .top{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .top{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}}
+.top .logo{width:36px;height:36px;border-radius:10px;background:#fff;display:grid;place-items:center;overflow:hidden;flex:none}
+.top h1{font-size:18px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:44px;height:44px;border:0;background:transparent;color:inherit;border-radius:12px;display:grid;place-items:center;cursor:pointer;position:relative;flex:none}
+.ib:active{background:rgba(127,127,127,.2)}
+.ib svg{width:24px;height:24px}
+main{padding:14px 14px 96px;max-width:980px;margin:0 auto}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);display:flex;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+.nav button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11.5px;color:var(--mut);cursor:pointer;border-radius:12px;position:relative;min-height:52px}
+.nav button svg{width:24px;height:24px}
+.nav button.on{color:var(--pri);font-weight:700}
+.nav button.on::before{content:"";position:absolute;top:0;width:28px;height:3px;border-radius:2px;background:var(--pri)}
+.dot{position:absolute;top:2px;right:calc(50% - 22px);min-width:18px;height:18px;border-radius:9px;background:var(--acc);color:var(--acc-ink);font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;margin-bottom:12px;border:1px solid var(--line)}
+.card.tap{cursor:pointer}.card.tap:active{background:var(--pri-soft)}
+.row{display:flex;align-items:center;gap:10px}.row.sp{justify-content:space-between}.wrap{flex-wrap:wrap}
+.grow{flex:1;min-width:0}.mut{color:var(--mut)}.sm{font-size:13.5px}.xs{font-size:12px}.b{font-weight:700}
+.h2{font-size:20px;font-weight:700;margin:4px 0 10px}.h3{font-size:16px;font-weight:700;margin:16px 0 8px}
+.gap{height:10px}.tc{text-align:center}
+.empty{padding:26px 10px;text-align:center;color:var(--mut)}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--pri-soft);color:var(--pri);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}.chip.warn{background:var(--warn-soft);color:var(--warn)}.chip.bad{background:var(--bad-soft);color:var(--bad)}.chip.gray{background:var(--line);color:var(--mut)}.chip.acc{background:var(--acc);color:var(--acc-ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:13px;border:0;background:var(--pri);color:var(--pri-ink);font-weight:700;cursor:pointer;font-size:16px;text-decoration:none}
+.btn:active{filter:brightness(.9)}
+.btn.sec{background:var(--pri-soft);color:var(--pri)}.btn.ghost{background:transparent;color:var(--pri);border:1.5px solid var(--line)}.btn.bad{background:var(--bad);color:#fff}.btn.acc{background:var(--acc);color:var(--acc-ink)}.btn.ok{background:var(--ok);color:#fff}
+.btn.sm2{min-height:38px;padding:0 12px;font-size:14px;border-radius:10px}.btn.full{width:100%}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.btn svg{width:20px;height:20px}
+.fab{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:15;width:56px;height:56px;border-radius:18px;background:var(--acc);color:var(--acc-ink);border:0;box-shadow:0 6px 18px rgba(0,0,0,.25);display:grid;place-items:center;cursor:pointer}
+.fab svg{width:28px;height:28px}
+label.f{display:block;margin:0 0 12px;font-size:13.5px;font-weight:600;color:var(--mut)}
+label.f>span{display:block;margin-bottom:5px}
+input[type=text],input[type=password],input[type=date],input[type=month],input[type=time],input[type=number],input[type=tel],input[type=url],input[type=search],select,textarea{width:100%;min-height:48px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--pri);outline:none}
+.seg{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:99px;font-weight:600;font-size:14px;cursor:pointer;min-height:40px}
+.seg button.on{background:var(--pri);border-color:var(--pri);color:var(--pri-ink)}
+.search{position:relative;margin-bottom:10px}.search svg{position:absolute;left:12px;top:12px;width:24px;height:24px;color:var(--mut)}.search input{padding-left:44px}
+.hero{background:linear-gradient(135deg,var(--pri),#2F7BFF);color:#fff;border-radius:20px;padding:18px;margin-bottom:12px}
+:root[data-theme="dark"] .hero{background:linear-gradient(135deg,#213079,#2B4BB5)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:linear-gradient(135deg,#213079,#2B4BB5)}}
+.hero .big{font-size:22px;font-weight:800;margin:2px 0}
+.secs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+@media (min-width:640px){.secs{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.secs{grid-template-columns:repeat(4,1fr)}}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;min-height:104px;box-shadow:var(--shadow);position:relative}
+.sec:active{background:var(--pri-soft)}
+.sec .ti{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--pri-soft);color:var(--pri)}
+.sec .ti svg{width:26px;height:26px}
+.sec b{font-size:14.5px;line-height:1.25}
+.sec .st{position:absolute;top:10px;right:10px}
+.hs{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:none}.hs::-webkit-scrollbar{display:none}
+.hs .cc{flex:none;width:230px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;cursor:pointer;box-shadow:var(--shadow)}
+.cc:active{background:var(--pri-soft)}
+.cc .ti{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--pri-soft);color:var(--pri);flex:none}
+.cc .ti svg{width:24px;height:24px}
+.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;min-width:90px}
+.stat b{display:block;font-size:22px}.stat span{font-size:12px;color:var(--mut)}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri);border-radius:5px}
+.bar.ok>i{background:var(--ok)}
+.li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.li:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:var(--pri-soft);color:var(--pri);display:grid;place-items:center;font-weight:800;flex:none}
+.av svg{width:22px;height:22px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 -14px 12px;padding:0 10px;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;background:transparent;padding:12px 12px;font-weight:600;color:var(--mut);cursor:pointer;border-bottom:3px solid transparent;font-size:15px}
+.tabs button.on{color:var(--pri);border-bottom-color:var(--pri)}
+.banner{border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px;font-weight:600}
+.banner.warn{background:var(--warn-soft);color:var(--warn)}.banner.bad{background:var(--bad-soft);color:var(--bad)}.banner.ok{background:var(--ok-soft);color:var(--ok)}
+.vid{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;margin-bottom:12px}
+.vid iframe,.vid video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .shield{position:absolute;left:0;right:0;top:0;height:22%;z-index:2}
+.doc{width:100%;height:70vh;border:1px solid var(--line);border-radius:12px;background:#fff}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px;cursor:pointer;background:var(--card)}
+.opt input{width:20px;height:20px;flex:none;margin-top:2px}
+.opt.on{border-color:var(--pri);background:var(--pri-soft)}.opt.good{border-color:var(--ok);background:var(--ok-soft)}.opt.badc{border-color:var(--bad);background:var(--bad-soft)}
+.formula{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:17px;font-weight:700;background:var(--pri-soft);color:var(--pri);padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:4px}
+.lock{display:grid;place-items:center;text-align:center;padding:18px 10px}
+.lock svg{width:44px;height:44px;color:var(--acc)}
+.tblw{overflow-x:auto;max-width:100%;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}th{background:var(--pri-soft);color:var(--pri)}
+#modal{position:fixed;inset:0;z-index:50;display:none;background:rgba(10,12,30,.55);align-items:flex-end;justify-content:center}
+#modal.open{display:flex}
+.sheet{background:var(--card);width:100%;max-width:640px;max-height:94%;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.3)}
+.sheet .sh{display:flex;align-items:center;gap:8px;padding:12px 8px 8px 18px;border-bottom:1px solid var(--line)}
+.sheet .sh h2{flex:1;font-size:18px}
+.sheet .sb{padding:16px 18px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sheet .sf{padding:10px 18px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;gap:10px}
+.sheet .sf .btn{flex:1}
+@media (min-width:700px){#modal{align-items:center}.sheet{border-radius:22px}}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;z-index:70;font-weight:600;font-size:14.5px;max-width:90%;display:none;text-align:center}
+#toast.on{display:block}
+.login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:420px;margin:0 auto;padding:24px 20px}
+.login .lg{width:84px;height:84px;border-radius:24px;background:#fff;margin:0 auto 14px;display:grid;place-items:center;box-shadow:var(--shadow);overflow:hidden}
+.login h1{text-align:center;font-size:26px;margin-bottom:4px}
+.login p{text-align:center;margin:0 0 22px;color:var(--mut)}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}}
+/* REDESIGN: рангҳои логотип (кабуди торик ва равшан) */
+body{background:var(--bg)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) body{background:radial-gradient(900px 380px at 100% -80px,#DCE8FF 0,transparent 70%),radial-gradient(700px 320px at -10% 120px,#E8F1FF 0,transparent 70%),var(--bg);background-attachment:fixed}}
+:root[data-theme="light"] body{background:radial-gradient(900px 380px at 100% -80px,#DCE8FF 0,transparent 70%),radial-gradient(700px 320px at -10% 120px,#E8F1FF 0,transparent 70%),var(--bg);background-attachment:fixed}
+.top{background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--ink);padding:12px 16px;min-height:64px}
+.top h1{font-size:21px;font-weight:800;letter-spacing:-.3px}
+.top .logo{width:44px;height:44px;border-radius:14px;box-shadow:0 6px 16px rgba(10,47,126,.22)}
+.ib{background:var(--card);box-shadow:0 2px 8px rgba(10,47,126,.1);border-radius:14px}
+main{padding:12px 16px 120px}
+.nav{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));border:0;border-radius:26px;background:var(--card);background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 34px rgba(10,47,126,.22);padding:6px}
+.nav button{border-radius:20px;min-height:54px;font-weight:600}
+.nav button.on{background:var(--pri-soft);color:var(--pri)}
+.nav button.on::before{display:none}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0A2F7E 0%,#1B7FF0 100%);border-radius:28px;padding:22px 20px;box-shadow:0 14px 30px rgba(20,87,214,.3)}
+.hero::before{content:"";position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero::after{content:"";position:absolute;right:30px;bottom:-60px;width:120px;height:120px;border-radius:50%;background:rgba(255,176,32,.3)}
+.hero .big{font-size:26px;font-weight:800;letter-spacing:-.4px}
+.search input{border:0;box-shadow:0 2px 10px rgba(10,47,126,.08);border-radius:18px;min-height:52px}
+.h3{font-size:18px;font-weight:800;margin:22px 0 10px;letter-spacing:-.2px}
+.secs{gap:12px}
+.sec{border:0;border-radius:24px;padding:16px;min-height:150px;gap:10px;box-shadow:var(--shadow)}
+.sec .ti{width:50px;height:50px;border-radius:17px;color:#fff;background:linear-gradient(135deg,#0A2F7E,#1B7FF0)}
+.sec .ti svg{width:26px;height:26px}
+.sec .num{font-size:24px;font-weight:800}
+.sec b{font-size:16px;letter-spacing:-.2px}
+.sec .tags{display:flex;flex-wrap:wrap;gap:4px}
+.sec .tags i{font-style:normal;font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px;background:var(--pri-soft);color:var(--pri)}
+.secs .sec:nth-child(6n+2) .ti{background:linear-gradient(135deg,#0B63B5,#22B8E8)}
+.secs .sec:nth-child(6n+3) .ti{background:linear-gradient(135deg,#27338F,#6677F0)}
+.secs .sec:nth-child(6n+4) .ti{background:linear-gradient(135deg,#0A6A8F,#2CC7C0)}
+.secs .sec:nth-child(6n+5) .ti{background:linear-gradient(135deg,#1741B8,#5E9BFF)}
+.secs .sec:nth-child(6n+6) .ti{background:linear-gradient(135deg,#F08A00,#FFC233)}
+.secs .sec[data-v=demo]{background:linear-gradient(135deg,#0F9D6B,#22C58B)!important;color:#fff;min-height:0;border-radius:24px}
+.secs .sec[data-v=demo] .ti{background:rgba(255,255,255,.22)!important;color:#fff}
+.secs .sec[data-v=demo] .mut{color:rgba(255,255,255,.88)}
+.cc,.card{border:0;border-radius:22px;box-shadow:var(--shadow)}
+.chip{padding:4px 11px}
+.btn{border-radius:16px;min-height:52px;background:linear-gradient(135deg,#0A3FA8,#1B7FF0);box-shadow:0 8px 18px rgba(20,87,214,.28)}
+.btn.sec,.btn.ghost{background:var(--pri-soft);color:var(--pri);box-shadow:none;border:0}
+.btn.ok{background:linear-gradient(135deg,#0F9D6B,#22C58B);box-shadow:0 8px 18px rgba(15,157,107,.26)}
+.btn.bad{background:var(--bad);box-shadow:none}.btn.acc{background:var(--acc);box-shadow:none}
+.fab{border-radius:20px;box-shadow:0 10px 24px rgba(255,138,31,.4);bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.bar{height:10px;border-radius:6px}.bar>i{background:linear-gradient(90deg,#0A3FA8,#1B7FF0)}
+.seg button{border:0;box-shadow:0 2px 8px rgba(10,47,126,.07)}
+.seg button.on{background:linear-gradient(135deg,#0A3FA8,#1B7FF0)}
+.login .lg{width:104px;height:104px;border-radius:30px;box-shadow:0 14px 30px rgba(10,47,126,.25)}
+.login h1{font-size:30px;font-weight:800;letter-spacing:-.5px}
+input[type=text],input[type=password],input[type=search],input[type=tel],select,textarea{border:0;box-shadow:0 2px 10px rgba(10,47,126,.08);border-radius:16px;min-height:52px}
+.sheet{border-radius:28px 28px 0 0}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal" role="dialog" aria-modal="true"></div>
+<div id="toast" role="status"></div>
+<script>
+const DICT={
+app:['Firuz-Academy','Firuz-Academy'],
+tagline:['',''],
+loginId:['ID (воридшавӣ)','ID (логин)'],password:['Парол','Пароль'],signin:['Ворид шудан','Войти'],
+register:['Сохтани ҳисоби нав','Создать аккаунт'],haveAccount:['Ҳисоб дорам, ворид шудан','Уже есть аккаунт'],
+registerHint:['Ҳисоби шахсӣ созед. ID танҳо аз ҳарфҳои лотинӣ, рақамҳо ва _ - иборат бошад.','Создайте личный аккаунт. ID: латиница, цифры и _ -'],
+firstRun:['Пойгоҳи додаҳо холӣ аст. Ҳисоби аввалини маъмурро созед.','База пуста. Создайте первого администратора.'],
+create:['Сохтан','Создать'],name:['Ному насаб','Имя и фамилия'],phone:['Телефон','Телефон'],
+badLogin:['ID ё парол нодуруст аст','Неверный ID или пароль'],locked:['Бисёр кӯшиш шуд. Каме интизор шавед.','Слишком много попыток. Подождите.'],
+loading:['Бор мешавад…','Загрузка…'],cfgErr:['Танзимоти Firebase ворид нашудааст. Файли firebase-config.js-ро пур кунед.','Настройки Firebase не заполнены (firebase-config.js).'],
+noAccount:['Ҳисоби шумо дар система танзим нашудааст. Ба маъмурият муроҷиат кунед.','Ваш аккаунт не настроен. Обратитесь к администратору.'],
+setupFail:['Анҷом наёфт. Интернетро ва қоидаҳои Firestore-ро санҷед.','Не удалось. Проверьте интернет и правила Firestore.'],
+loginTaken:['Ин ID банд аст','Этот ID занят'],loginHint:['Танҳо ҳарфҳои лотинӣ, рақамҳо ва _ -','Только латиница, цифры и _ -'],
+retry:['Аз нав кӯшиш кардан','Повторить'],offline:['Бе интернет','Нет сети'],noPerm:['Иҷозат нест','Нет прав'],saveFail:['Захира нашуд','Не удалось сохранить'],
+saved:['Сабт шуд','Сохранено'],confirmDel:['Ин амалро баргардондан мумкин нест. Давом медиҳед?','Это действие нельзя отменить. Продолжить?'],
+confirmDelCourse:['Курс нест мешавад (мавод дар дохили он ҳам). Давом медиҳед?','Курс будет удалён. Продолжить?'],
+yes:['Бале','Да'],ok:['Хуб','ОК'],cancel:['Бекор кардан','Отмена'],save:['Сабт кардан','Сохранить'],del:['Нест кардан','Удалить'],edit:['Таҳрир','Изменить'],add:['Илова кардан','Добавить'],close:['Пӯшидан','Закрыть'],back:['Бозгашт','Назад'],send:['Фиристодан','Отправить'],
+search:['Ҷустуҷӯ','Поиск'],empty:['Ҳоло чизе нест','Пока пусто'],required:['Майдонҳои зарурӣ пур карда нашуданд','Заполните обязательные поля'],all:['Ҳама','Все'],
+forgot:['Паролро фаромӯш кардам','Забыли пароль'],forgotSent:['Дархост ба маъмурият фиристода шуд.','Запрос отправлен администратору.'],
+changePass:['Иваз кардани парол','Сменить пароль'],curPass:['Пароли ҷорӣ','Текущий пароль'],newPass:['Пароли нав (аққал 8 аломат)','Новый пароль (мин. 8 символов)'],newPass2:['Пароли навро такрор кунед','Повторите новый пароль'],
+passChanged:['Парол иваз шуд','Пароль изменён'],passShort:['Парол бояд аққал 8 аломат дошта бошад','Пароль минимум 8 символов'],passMismatch:['Паролҳо мувофиқ нестанд','Пароли не совпадают'],wrongCur:['Пароли ҷорӣ нодуруст аст','Текущий пароль неверный'],
+mustChangeNow:['Бо сабаби бехатарӣ паролро ҳозир иваз кунед.','Для безопасности смените пароль сейчас.'],logout:['Баромадан','Выйти'],
+language:['Забон','Язык'],theme:['Намуд','Тема'],themeAuto:['Худкор','Авто'],themeLight:['Равшан','Светлая'],themeDark:['Торик','Тёмная'],update:['Навсозии барнома','Обновить приложение'],version:['Версия','Версия'],
+role_admin:['Маъмур','Администратор'],role_student:['Хонанда','Ученик'],
+n_home:['Асосӣ','Главная'],n_courses:['Курсҳо','Курсы'],n_cab:['Кабинет','Кабинет'],n_settings:['Танзимот','Настройки'],n_dash:['Назорат','Обзор'],n_students:['Хонандагон','Ученики'],n_orders:['Пардохт','Оплата'],n_more:['Бештар','Ещё'],
+hello:['Салом','Здравствуйте'],availableN:['{n} курси дастрас','Доступно курсов: {n}'],searchCourses:['Ҷустуҷӯи курсҳо…','Поиск курсов…'],noCourses:['Курсҳо ҳоло нестанд','Курсов пока нет'],
+sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],nSubjects:['{n} фан','Предметов: {n}'],demoTitle:['Видео-намуна (ройгон)','Бесплатные видео-уроки'],demoSub:['Аввал бубинед, баъд интихоб кунед','Сначала посмотрите, потом выбирайте'],nVideos:['{n} видео','Видео: {n}'],addDemo:['Илова кардани видео','Добавить видео'],demoInit:['Оғози бахш барои ин фан','Создать раздел для этого предмета'],demoEmpty:['Видеоҳои намуна ба қарибӣ илова мешавад.','Бесплатные видео скоро появятся.'],allCourses:['Рӯйхати ҳамаи курсҳо','Список всех курсов'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
+newLessons:['Дарсҳои нав','Новые уроки'],myProgress:['Пешрафти ман','Мой прогресс'],announcements:['Эълонҳо','Объявления'],contactWa:['Муроҷиат ба маъмурият (WhatsApp)','Связаться с администрацией (WhatsApp)'],
+free:['Ройгон','Бесплатно'],paid:['Пулакӣ','Платно'],opened:['Кушода','Открыт'],hidden:['Пинҳон','Скрыт'],mineCourses:['Аз они ман','Мои'],
+lockedCourse:['Курс баста аст','Курс закрыт'],lockedHint:['Барои дидани видео, китоб ва тестҳо курсро харед.','Купите курс, чтобы открыть видео, книги и тесты.'],buyCourse:['Харидани курс','Купить курс'],
+bundles:['Бастаҳо (якчанд курс)','Пакеты (несколько курсов)'],coursesN:['курс','курсов'],noContent:['Дар ин курс ҳоло мавод нест','В курсе пока нет материалов'],progress:['Пешрафт','Прогресс'],
+ty_video:['Видео','Видео'],ty_book:['Китоб','Книга'],ty_theory:['Назария','Теория'],ty_test:['Тест','Тест'],ty_problem:['Масъала','Задача'],
+tb_video:['Видео-дарсҳо','Видеоуроки'],tb_book:['Китобҳо','Книги'],tb_theory:['Назария','Теория'],tb_test:['Тестҳо','Тесты'],tb_problem:['Масъалаҳо','Задачи'],
+lv_easy:['Осон','Лёгкий'],lv_medium:['Миёна','Средний'],lv_hard:['Душвор','Сложный'],min:['дақ.','мин'],qs:['савол','вопросов'],
+done:['Анҷом ёфт','Пройдено'],markDone:['Анҷом ёфт гуфта қайд кардан','Отметить пройденным'],unmark:['Қайдро бекор кардан','Снять отметку'],favorites:['Дарсҳои дӯстдошта','Избранное'],
+prev:['Қаблӣ','Назад'],next:['Навбатӣ','Далее'],noVideo:['Пайванди видео нодуруст ё холист','Ссылка на видео неверна'],videoHint:['Агар видео кушода нашавад, интернетро санҷед ё маъмуриятро огоҳ кунед.','Если видео не открывается, проверьте интернет.'],
+author:['Муаллиф','Автор'],openBook:['Кушодани китоб','Открыть книгу'],downloadBook:['Кушодан / зеркашӣ','Открыть / скачать'],noFile:['Файл гузошта нашудааст','Файл не добавлен'],
+formulas:['Формулаҳо','Формулы'],examples:['Намунаи масъалаҳои ҳалшуда','Примеры решённых задач'],units:['Воҳидҳои ченак','Единицы измерения'],
+solution:['Ҳал','Решение'],step:['Қадам','Шаг'],nextStep:['Қадами навбатӣ','Следующий шаг'],showAll:['Ҳамаро нишон диҳ','Показать всё'],answer:['Ҷавоб','Ответ'],
+submitTest:['Супоридани тест','Сдать тест'],retake:['Такроран супоридан','Пройти заново'],answerAll:['Ба ҳамаи саволҳо ҷавоб диҳед','Ответьте на все вопросы'],excellent:['Аъло!','Отлично!'],good:['Хуб','Хорошо'],tryAgain:['Боз кӯшиш кунед','Попробуйте ещё'],history:['Таърих','История'],
+adminNoProgress:['Админ пешрафт надорад','У администратора нет прогресса'],
+buyTitle:['Харид','Покупка'],orderStatus:['Ҳолати дархост','Статус заявки'],howToBuy:['Тарзи харид','Как купить'],
+hb1:['Тугмаи WhatsApp-ро пахш кунед','Нажмите кнопку WhatsApp'],hb2:['Маъмурият маълумоти ҳамёни электрониро мефиристад','Администратор пришлёт реквизиты кошелька'],hb3:['Маблағро пардохт карда, расидро фиристед','Оплатите и отправьте чек'],hb4:['Маъмурият пардохтро санҷида, курсро мекушояд','Администратор проверит оплату и откроет курс'],
+waBtn:['Муроҷиат тавассути WhatsApp','Написать в WhatsApp'],waMissing:['Рақами WhatsApp ворид нашудааст. Ба маъмурият хабар диҳед.','Номер WhatsApp не указан.'],
+waHello:['Салом! Ман {name} (ID: {id}).','Здравствуйте! Я {name} (ID: {id}).'],
+waBuyMsg:['Салом! Ман мехоҳам курси Firuz-Academy-ро харам.\n\nID-и хонанда: {id}\nНоми хонанда: {name}\nНоми курс: {title}\nНархи курс: {price}\n\nЛутфан маълумоти пардохтро фиристед.','Здравствуйте! Хочу купить курс Firuz-Academy.\n\nID ученика: {id}\nИмя: {name}\nКурс: {title}\nЦена: {price}\n\nПришлите, пожалуйста, реквизиты для оплаты.'],
+payInfo:['Маълумоти пардохт','Данные для оплаты'],walletName:['Номи ҳамёни электронӣ','Название кошелька'],walletNumber:['Рақам / ҳисоб','Номер / счёт'],walletOwner:['Соҳиби ҳамён','Владелец'],waNumber:['Рақами WhatsApp (бо рамзи кишвар)','Номер WhatsApp (с кодом страны)'],payHow:['Дастурамали пардохт','Инструкция по оплате'],
+os_contact:['Интизори муроҷиат','Ожидает обращения'],os_pay_wait:['Интизори пардохт','Ожидает оплаты'],os_checking:['Пардохт дар ҳоли санҷиш','Оплата на проверке'],os_confirmed:['Пардохт тасдиқ шуд','Оплата подтверждена'],os_rejected:['Пардохт рад шуд','Оплата отклонена'],
+myOrders:['Таърихи пардохтҳо','История платежей'],
+boughtCourses:['Курсҳои харидашуда','Купленные курсы'],watchedVideos:['Видеоҳои дидашуда','Просмотрено видео'],avgTests:['Миёнаи тестҳо','Средний балл тестов'],availableCourses:['Курсҳои дастрас','Доступные курсы'],lockedCourses:['Курсҳои баста','Закрытые курсы'],testResults:['Натиҷаи тестҳо','Результаты тестов'],
+dash:['Назорат','Обзор'],pendingOrders:['Дархостҳои кушода','Открытые заявки'],soldCourses:['Харидҳои тасдиқшуда','Подтверждённые покупки'],revenue:['Даромад','Доход'],latestOrders:['Дархостҳои охирин','Последние заявки'],
+seedTitle:['Курсҳои физикаро созед','Создайте курсы физики'],seedHint:['11 қисми физика, як баста ва маводи намунавӣ дар Кинематика сохта мешавад. Нархҳо намунавӣ ҳастанд ва онҳоро тағйир додан мумкин.','Будут созданы 11 разделов физики, пакет и пример материалов. Цены примерные — их можно изменить.'],seedBtn:['Сохтани 11 қисми физика','Создать 11 разделов'],seedConfirm:['11 курс, баста ва маводи намунавӣ сохта мешавад. Давом медиҳед?','Будут созданы 11 курсов, пакет и примеры. Продолжить?'],seeded:['Қисмҳо сохта шуданд','Разделы созданы'],
+setWaFirst:['Аввал рақами WhatsApp ва маълумоти ҳамёнро ворид кунед (пахш кунед)','Сначала укажите WhatsApp и кошелёк (нажмите)'],
+newCourse:['Курси нав','Новый курс'],editCourse:['Таҳрири курс','Изменить курс'],titleTg:['Ном (тоҷикӣ)','Название (тадж.)'],titleRu:['Ном (русӣ, ихтиёрӣ)','Название (рус., необязательно)'],desc:['Тавсиф','Описание'],icon:['Нишона','Иконка'],order:['Тартиб','Порядок'],price:['Нарх','Цена'],discount:['Тахфиф','Скидка'],activeShow:['Нишон дода шавад','Показывать'],itemsN:['мавод','материалов'],
+addItem:['Илова кардан','Добавить'],level:['Сатҳ','Уровень'],title:['Сарлавҳа','Заголовок'],text:['Матн','Текст'],
+videoUrl:['Пайванди видео','Ссылка на видео'],videoUrlHint:['YouTube, Vimeo, Google Drive ё файли .mp4','YouTube, Vimeo, Google Drive или файл .mp4'],duration:['Давомнокӣ','Длительность'],
+fileUrl:['Пайванди файл (PDF)','Ссылка на файл (PDF)'],allowDownload:['Зеркашӣ иҷозат дода шавад','Разрешить скачивание'],theoryText:['Матни назария','Текст теории'],formulasHint:['Формулаҳо (ҳар сатр: формула | шарҳ)','Формулы (строка: формула | пояснение)'],formulasLines:['Формулаҳо (ҳар сатр як формула)','Формулы (по одной в строке)'],
+problemText:['Шарти масъала','Условие задачи'],stepsLines:['Қадамҳои ҳал (ҳар сатр як қадам)','Шаги решения (по одному в строке)'],explainShort:['Шарҳ','Пояснение'],
+question:['Савол','Вопрос'],addQuestion:['Саволи нав','Добавить вопрос'],correct:['Ҷавоби дуруст','Правильный ответ'],needCorrect:['Барои ҳар савол матн, камаш 2 вариант ва ҷавоби дурустро ворид кунед','В каждом вопросе нужны текст, 2+ варианта и верный ответ'],
+newBundle:['Баста нав','Новый пакет'],includedCourses:['Курсҳои дохилшуда','Включённые курсы'],pickCourses:['Камаш як курсро интихоб кунед','Выберите хотя бы один курс'],
+newAnn:['Эълони нав','Новое объявление'],
+searchStudents:['Ҷустуҷӯи хонанда…','Поиск ученика…'],newStudent:['Хонандаи нав','Новый ученик'],editStudent:['Таҳрири хонанда','Изменить ученика'],active:['Фаъол','Активен'],inactive:['Ғайрифаъол','Отключён'],activate:['Фаъол кардан','Включить'],deactivate:['Ғайрифаъол кардан','Отключить'],
+setPassword:['Пароли нав','Новый пароль'],tempPass:['Пароли муваққатӣ','Временный пароль'],genPass:['Сохтани пароли тасодуфӣ','Сгенерировать пароль'],mustChange:['Хонанда паролро ҳангоми воридшавии аввал иваз мекунад','Ученик сменит пароль при первом входе'],passCopy:['Маълумоти воридшавӣ','Данные для входа'],passNote:['Паролро ҳозир нависед: баъд дида намешавад.','Запишите пароль сейчас: потом он не виден.'],
+courseAccess:['Дастрасӣ ба курсҳо','Доступ к курсам'],accessGranted:['Иҷозат дода шуд','Доступ открыт'],accessNone:['Иҷозат нест','Доступа нет'],grant:['Иҷозат додан','Дать доступ'],revoke:['Бекор кардани иҷозат','Отозвать доступ'],revokeConfirm:['Дастрасӣ ба курс қатъ мешавад. Давом медиҳед?','Доступ к курсу будет закрыт. Продолжить?'],
+openOrders:['Кушода','Открытые'],studentInfo:['Дидани маълумоти хонанда','Данные ученика'],confirmPay:['Тасдиқи пардохт','Подтвердить оплату'],rejectPay:['Рад кардани пардохт','Отклонить оплату'],rejectConfirm:['Пардохт рад мешавад. Давом медиҳед?','Оплата будет отклонена. Продолжить?'],grantAccess:['Додани иҷозат ба курс','Дать доступ к курсу'],grantUnconfirmed:['Пардохт ҳанӯз тасдиқ нашудааст. Ба ҳар ҳол иҷозат медиҳед?','Оплата не подтверждена. Всё равно дать доступ?'],payAccess:['Пардохтҳо ва иҷозат','Оплаты и доступ'],
+resetReq:['Дархостҳои барқарорсозии парол','Запросы сброса пароля'],auditLog:['Таърихи иҷозатҳо ва тағйирот','История доступов и изменений'],backup:['Нусхаи эҳтиётӣ','Резервная копия'],backupMake:['Нусхаи эҳтиётӣ гирифтан (JSON)','Скачать резервную копию (JSON)'],backupHint:['Курсҳо, мавод, баста, хонандагон ва пардохтҳо дар як файл захира мешаванд.','Курсы, материалы, пакеты, ученики и оплаты сохраняются в один файл.'],
+au_grant:['Иҷозат дода шуд','Доступ выдан'],au_revoke:['Иҷозат бекор шуд','Доступ отозван'],au_confirm:['Пардохт тасдиқ шуд','Оплата подтверждена'],au_reject:['Пардохт рад шуд','Оплата отклонена'],au_status:['Ҳолат тағйир ёфт','Статус изменён'],au_student_add:['Хонанда илова шуд','Ученик добавлен'],au_student_del:['Хонанда нест шуд','Ученик удалён'],au_pw_reset:['Парол иваз шуд','Пароль сброшен'],au_activate:['Ҳисоб фаъол шуд','Аккаунт включён'],au_deactivate:['Ҳисоб ғайрифаъол шуд','Аккаунт отключён'],
+};
+const LANGS=['tg','ru'];const LNAMES={tg:'Тоҷикӣ',ru:'Русский'};
+let lang=(()=>{try{return localStorage.getItem('pa_lang')||'tg'}catch(e){return 'tg'}})();
+function t(k,vars){
+  const r=DICT[k];let s=r?(r[LANGS.indexOf(lang)]||r[0]):k;
+  if(vars)for(const x in vars)s=s.split('{'+x+'}').join(vars[x]);
+  return s;
+}
+'use strict';
+const VER='1.0.0';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const pad=n=>String(n).padStart(2,'0');
+const fmtTs=ms=>{const d=new Date(ms||Date.now());return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes())};
+const clone=o=>JSON.parse(JSON.stringify(o));
+const initials=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+const sortBy=(arr,f)=>arr.sort((a,b)=>{const x=f(a),y=f(b);return x<y?-1:x>y?1:0});
+const vals=o=>Object.keys(o||{}).map(id=>Object.assign({id},o[id]));
+const pct=(a,b)=>b?Math.round(a*100/b):0;
+const money=n=>(Math.round((+n||0)*100)/100)+' '+'TJS';
+
+/* ---------- icons ---------- */
+const IC={
+home:'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z',
+book:'M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5M8 7h7',
+user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6 8-6s8 2 8 6',
+users:'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M16 4.3a3.5 3.5 0 0 1 0 6.4M17.5 14.7c2.4.5 4 2.3 4 5.3',
+gear:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
+search:'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM21 21l-5-5',
+plus:'M12 5v14M5 12h14',back:'M15 5l-7 7 7 7',x:'M6 6l12 12M18 6L6 18',
+trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
+check:'M5 12l5 5 9-10',logout:'M10 4H5v16h5M15 8l4 4-4 4M19 12H9',
+play:'M7 4l13 8-13 8z',lock:'M6 11V8a6 6 0 1 1 12 0v3M5 11h14v10H5z',
+star:'M12 3l2.8 5.9 6.2.8-4.6 4.3 1.2 6.3L12 17.3 6.4 20.3l1.2-6.3L3 9.7l6.2-.8z',
+bell:'M6 17v-6a6 6 0 1 1 12 0v6l2 2H4zM10 21h4',
+chat:'M4 5h16v11H10l-6 4z',cart:'M3 4h2l2.5 11h10L20 7H6.5M9 20h.01M17 20h.01',
+chart:'M4 20V10M10 20V4M16 20v-7M22 20H2',dl:'M12 4v11M7 11l5 5 5-5M5 20h14',
+file:'M6 3h8l5 5v13H6zM14 3v5h5M9 13h6M9 17h6',
+list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',
+shield:'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4',
+more:'M5 12h.01M12 12h.01M19 12h.01',refresh:'M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7',
+q:'M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.2-1.5 2.4M12 18h.01',
+tag:'M3 12V4h8l10 10-8 8zM8 8h.01'
+};
+const SEC_ICONS=[
+'M3 17l5-5 4 4 8-9M15 7h5v5',
+'M4 12h13M12 6l6 6-6 6M4 5v14',
+'M12 4v16M6 20h12M4 8h16M4 8l-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z',
+'M13 2L4 14h7l-1 8 9-12h-7z',
+'M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0',
+'M10 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM20 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM15 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
+'M10 4a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0zM12 9v7',
+'M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5',
+'M5 3h5v8a2 2 0 0 0 4 0V3h5v8a7 7 0 0 1-14 0zM5 7h5M14 7h5',
+'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+'M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM3 12c0-3 4-5 9-5s9 2 9 5-4 5-9 5-9-2-9-5zM7.5 4.2c2.5-1.4 6 2.4 8.5 6.8s3 9 .5 10.5c-2.5 1.4-6-2.4-8.5-6.8s-3-9-.5-10.5z'];
+const svg=(d,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+const ic=n=>svg(IC[n]||'');
+const secIc=i=>svg(SEC_ICONS[(+i||0)%SEC_ICONS.length]);
+const LOGO=`<img src="data:image/png;base64,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" alt="" style="width:100%;height:100%;object-fit:contain;display:block">`;
+
+/* ---------- state ---------- */
+const S={courses:{},bundles:{},ann:{},cfg:{},access:{},progress:{},results:{},orders:{},users:{},accessAll:{},resets:{},audit:{},items:{},sProg:{},sRes:{}};
+let DB=null,AUTH=null,ME=null,authReady=false,needSetup=false,settingUp=false,waited=false,online=navigator.onLine;
+const R={v:'home',p:null,tab:null,stack:[],filter:{}};
+const isA=()=>!!ME&&ME.role==='admin';
+const mySid=()=>ME?ME.sid:null;
+window.addEventListener('online',()=>{online=true;render()});window.addEventListener('offline',()=>{online=false;render()});
+
+const SUBS={};
+function unsubAll(){Object.keys(SUBS).forEach(k=>{try{SUBS[k]()}catch(e){}delete SUBS[k]});Object.keys(S).forEach(k=>{S[k]=k==='cfg'?{}:{}})}
+function sub(key,col,where,apply){
+  if(SUBS[key])return;
+  SUBS[key]=DB.collection(col,where).onSnapshot(snap=>{
+    const o={};snap.docs.forEach(d=>{o[d.id]=Object.assign({id:d.id},d.data())});
+    apply(o);
+    if(key==='courses'||key==='access')syncItems();
+    render();
+  },err=>console.warn('sub',key,err&&err.code));
+}
+function startSubs(){
+  sub('courses','courses',null,o=>{S.courses=o});
+  sub('bundles','bundles',null,o=>{S.bundles=o});
+  sub('ann','announcements',null,o=>{S.ann=o});
+  sub('cfg','settings',null,o=>{S.cfg=o.main||{}});
+  if(isA()){
+    sub('users','users',null,o=>{S.users=o});
+    sub('orders','group:orders',null,o=>{S.orders=o});
+    sub('accessAll','group:access',null,o=>{S.accessAll=o});
+    sub('resets','resets',null,o=>{S.resets=o});
+    sub('audit','audit',null,o=>{S.audit=o});
+  }else{
+    const b='students/'+mySid();
+    sub('access',b+'/access',null,o=>{S.access=o});
+    sub('progress',b+'/progress',null,o=>{S.progress=o});
+    sub('results',b+'/results',null,o=>{S.results=o});
+    sub('orders',b+'/orders',null,o=>{S.orders=o});
+  }
+}
+function canAccess(cid){
+  const c=S.courses[cid];if(!c)return false;
+  if(isA())return true;
+  if(c.active===false)return false;
+  if(c.free)return true;
+  const a=S.access[cid];return !!(a&&a.active!==false);
+}
+function syncItems(){
+  if(!DB||!ME)return;
+  const want=new Set(Object.keys(S.courses).filter(canAccess));
+  want.forEach(cid=>{if(!SUBS['it_'+cid])sub('it_'+cid,'courses/'+cid+'/items',null,o=>{S.items[cid]=o})});
+  Object.keys(SUBS).filter(k=>k.startsWith('it_')).forEach(k=>{const cid=k.slice(3);if(!want.has(cid)){try{SUBS[k]()}catch(e){}delete SUBS[k];delete S.items[cid]}});
+}
+function watchStudent(sid){
+  ['sd_prog','sd_res'].forEach(k=>{if(SUBS[k]){try{SUBS[k]()}catch(e){}delete SUBS[k]}});
+  S.sProg={};S.sRes={};
+  if(!sid)return;
+  sub('sd_prog','students/'+sid+'/progress',null,o=>{S.sProg=o});
+  sub('sd_res','students/'+sid+'/results',null,o=>{S.sRes=o});
+}
+async function W(op,col,id,data){
+  try{
+    if(!DB)throw {code:'offline'};
+    const ref=DB.collection(col).doc(id);
+    if(op==='delete')await ref.delete();else if(op==='update')await ref.update(data);else await ref.set(data);
+    return true;
+  }catch(e){
+    const c=e&&e.code;
+    if(c==='permission-denied'||c==='unauthenticated'){toast(t('noPerm'));return null}
+    console.warn('write',col,id,c);toast(t('saveFail'));return null;
+  }
+}
+function audit(action,extra){return W('set','audit',uid(),Object.assign({ts:Date.now(),by:ME.login,action},extra||{}))}
+
+/* ---------- auth ---------- */
+const loginKey=s=>String(s||'').trim().toLowerCase().replace(/[^a-z0-9_\-]/g,'_');
+const emailFor=(key,v)=>key+(v?'.r'+v:'')+'@physicsacademy.app';
+function genPassword(){const a='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';const r=crypto.getRandomValues(new Uint8Array(10));return [...r].map(x=>a[x%a.length]).join('')}
+let fails=0,lockUntil=0;
+async function doLogin(id,pw){
+  if(Date.now()<lockUntil){toast(t('locked'));return false}
+  try{await FSX.signIn(loginKey(id),pw);fails=0;return true}
+  catch(e){
+    if(e&&e.code==='network'){toast(t('offline'));return false}
+    fails++;if(fails>=5){lockUntil=Date.now()+30000;fails=0;toast(t('locked'))}else toast(t('badLogin'));
+    return false;
+  }
+}
+async function onAuthChanged(u){
+  if(settingUp)return;
+  AUTH=u;authReady=true;waited=false;
+  if(!u){unsubAll();ME=null;R.v='home';R.p=null;R.stack=[];R.tab=null;render();return}
+  try{
+    const ud=await FSX.getDoc('users',u.uid);
+    if(!ud||ud.active===false){toast(t('noAccount'));await FSX.signOut();return}
+    ME=Object.assign({},ud,{uid:u.uid});
+  }catch(e){ME=null}
+  if(ME){unsubAll();startSubs();R.v=isA()?'dash':'home';R.stack=[]}
+  setTimeout(()=>{waited=true;render()},8000);
+  render();
+}
+function logout(){try{FSX.signOut()}catch(e){}}
+
+/* ---------- ui plumbing ---------- */
+let toastT=null;
+function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),3200)}
+let modalOnClose=null;
+function openModal(title,body,foot){
+  const m=$('#modal');
+  m.innerHTML=`<div class="sheet"><div class="sh"><h2>${esc(title)}</h2><button class="ib" data-a="closeModal" aria-label="${esc(t('close'))}">${ic('x')}</button></div><div class="sb">${body}</div>${foot?`<div class="sf">${foot}</div>`:''}</div>`;
+  m.classList.add('open');
+}
+function closeModal(){const m=$('#modal');m.classList.remove('open');m.innerHTML='';if(modalOnClose){const f=modalOnClose;modalOnClose=null;f()}render(true)}
+const modalOpen=()=>$('#modal').classList.contains('open');
+function confirmBox(msg,okLabel){
+  return new Promise(res=>{
+    openModal(msg,'',`<button class="btn ghost" data-a="cfNo">${esc(t('cancel'))}</button><button class="btn bad" data-a="cfYes">${esc(okLabel||t('yes'))}</button>`);
+    window.__cf=v=>{window.__cf=null;$('#modal').classList.remove('open');$('#modal').innerHTML='';res(v);render(true)};
+  });
+}
+function go(v,p,tab){R.stack.push({v:R.v,p:R.p,tab:R.tab});R.v=v;R.p=p||null;R.tab=tab||null;window.scrollTo(0,0);render(true)}
+function goRoot(v){R.stack=[];R.v=v;R.p=null;R.tab=null;window.scrollTo(0,0);render(true)}
+function goBack(){const s=R.stack.pop();if(s){R.v=s.v;R.p=s.p;R.tab=s.tab}else{R.v=isA()?'dash':'home';R.p=null}window.scrollTo(0,0);render(true)}
+/* ================= shared helpers & student views ================= */
+const V={};
+const chip=(txt,cls)=>`<span class="chip ${cls||''}">${esc(txt)}</span>`;
+const empty=m=>`<div class="empty">${esc(m||t('empty'))}</div>`;
+const bar=p=>`<div class="bar ok"><i style="width:${Math.max(0,Math.min(100,p))}%"></i></div>`;
+const fld=(l,inner)=>`<label class="f"><span>${esc(l)}</span>${inner}</label>`;
+function opts(list,sel,ph){return (ph?`<option value="">${esc(ph)}</option>`:'')+list.map(o=>`<option value="${esc(o[0])}" ${String(o[0])===String(sel)?'selected':''}>${esc(o[1])}</option>`).join('')}
+const ct=c=>(lang==='ru'&&c.titleRu)?c.titleRu:(c.title||'');
+/* ---- каталог: кластер -> фан -> қисмҳо ---- */
+const SUBJ={phys:['Физика','Физика'],chem:['Химия','Химия'],math:['Математика','Математика'],tj:['Забони тоҷикӣ','Таджикский язык'],geo:['География','География'],eng:['Забони англисӣ','Английский язык'],hist:['Таърихи халқи тоҷик','История таджикского народа'],lit:['Адабиёти тоҷик','Таджикская литература'],law:['Ҳуқуқ','Право'],bio:['Биология','Биология']};
+const CLUSTERS=[
+  {id:'k1',n:['Кластери 1','Кластер 1'],s:['phys','chem','math','tj']},
+  {id:'k2',n:['Кластери 2','Кластер 2'],s:['tj','math','geo','eng']},
+  {id:'k3',n:['Кластери 3','Кластер 3'],s:['tj','eng','hist','lit']},
+  {id:'k4',n:['Кластери 4','Кластер 4'],s:['tj','law','hist','eng']},
+  {id:'k5',n:['Кластери 5','Кластер 5'],s:['tj','phys','chem','bio']},
+  {id:'ol',n:['Омодагӣ ба олимпиадаҳои ҷумҳуриявӣ','Подготовка к республиканским олимпиадам'],s:['phys','chem','math','bio','tj','hist','eng','geo','lit','law'].map(x=>'o_'+x)}
+];
+const subjName=id=>{const o=String(id).startsWith('o_');const b=SUBJ[o?id.slice(2):id];if(!b)return String(id);return b[lang==='ru'?1:0]+(o?' (олимпиада)':'')};
+const subjOf=c=>c.subjectId||'phys';
+const clusterOf=id=>CLUSTERS.find(x=>x.id===id);
+const clName=c=>c.n[lang==='ru'?1:0];
+const coursesOfSubject=sid=>visibleCourses().filter(c=>subjOf(c)===sid);
+const SUBJ_OPTS=()=>Object.keys(SUBJ).map(k=>[k,subjName(k)]).concat(Object.keys(SUBJ).map(k=>['o_'+k,subjName('o_'+k)]));
+const cPrice=c=>Math.round((+c.price||0)*(100-(+c.discount||0)))/100;
+const bPrice=b=>Math.round((+b.price||0)*(100-(+b.discount||0)))/100;
+const TYPES=['video','book','theory','test','problem'];
+const TYPE_IC={video:'play',book:'book',theory:'file',test:'list',problem:'q'};
+const visibleCourses=()=>sortBy(vals(S.courses),c=>(+c.order||0)).filter(c=>!c.demo&&(isA()||c.active!==false));
+const itemsOf=cid=>sortBy(vals(S.items[cid]||{}),x=>String(1e6+(+x.order||0))+(x.title||''));
+const isDone=(cid,iid)=>!!(S.progress[cid]&&S.progress[cid].done&&S.progress[cid].done[iid]);
+const isFav=(cid,iid)=>!!(S.progress[cid]&&S.progress[cid].fav&&S.progress[cid].fav[iid]);
+const coursePct=cid=>{const it=itemsOf(cid);return it.length?Math.round(it.filter(x=>isDone(cid,x.id)).length*100/it.length):0};
+const lvChip=l=>l?chip(t('lv_'+l),l==='easy'?'ok':l==='hard'?'bad':'warn'):'';
+const bestResult=(cid,iid)=>{const r=vals(S.results).filter(x=>x.courseId===cid&&x.itemId===iid);return r.length?Math.max(...r.map(x=>x.pct)):null};
+const waDigits=()=>String(S.cfg.whatsapp||'').replace(/\D/g,'');
+const openedChip=c=>c.free?chip(t('free'),'ok'):canAccess(c.id)?chip(t('opened'),'ok'):chip(money(cPrice(c)),'warn');
+const orderOpen=(kind,id)=>vals(S.orders).filter(o=>o.kind===kind&&o.refId===id&&o.sid===mySid()).sort((a,b)=>b.ts-a.ts)[0];
+function ytEmbed(url){
+  url=String(url||'').trim();let m;
+  if((m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)))return{kind:'iframe',src:'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&playsinline=1'};
+  if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-f]{6,}))?/i))){const hm=m[2]||(url.match(/[?&]h=([0-9a-f]+)/i)||[])[1];return{kind:'iframe',src:'https://player.vimeo.com/video/'+m[1]+'?'+(hm?'h='+hm+'&':'')+'title=0&byline=0&portrait=0&dnt=1&playsinline=1'}}
+  if((m=url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))return{kind:'iframe',src:'https://drive.google.com/file/d/'+m[1]+'/preview'};
+  if(/\.(mp4|webm|m3u8|mov)(\?|$)/i.test(url))return{kind:'video',src:url};
+  if(/^https?:\/\//i.test(url))return{kind:'iframe',src:url};
+  return null;
+}
+
+const ROOTS_S=['home','courses','cabinet','settings'];
+const ROOTS_A=['dash','aCourses','aStudents','aOrders','aMore'];
+function pendingOrders(){return vals(S.orders).filter(o=>['contact','pay_wait','checking'].includes(o.status)).length}
+function viewTitle(){
+  const m={home:t('app'),courses:t('n_courses'),cabinet:t('n_cab'),settings:t('n_settings'),orders:t('myOrders'),ann:t('announcements'),pw:t('changePass'),
+    dash:t('n_dash'),aCourses:t('n_courses'),aStudents:t('n_students'),aOrders:t('payAccess'),aMore:t('n_more'),aBundles:t('bundles'),aSettings:t('payInfo'),aAudit:t('auditLog'),aBackup:t('backup'),buy:t('buyCourse'),favs:t('favorites')};
+  if(R.v==='course'&&S.courses[R.p])return ct(S.courses[R.p]);
+  if(R.v==='item'){const it=(S.items[R.p.cid]||{})[R.p.iid];return it?it.title:t('app')}
+  if(R.v==='aStudent'){const u=vals(S.users).find(x=>x.sid===R.p);return u?u.name:t('n_students')}
+  if(R.v==='cluster'){const c=clusterOf(R.p);return c?clName(c):t('app')}
+  if(R.v==='subject')return subjName(R.p);
+  if(R.v==='aAll')return t('allCourses');
+  if(R.v==='demo')return t('demoTitle');
+  if(R.v==='demoSubj')return subjName(R.p);
+  return m[R.v]||t('app');
+}
+function shell(){
+  const admin=isA();
+  const roots=admin?ROOTS_A:ROOTS_S;
+  const nav=admin?[['dash','chart',t('n_dash')],['aCourses','book',t('n_courses')],['aStudents','users',t('n_students')],['aOrders','cart',t('n_orders')],['aMore','more',t('n_more')]]:[['home','home',t('n_home')],['courses','book',t('n_courses')],['cabinet','user',t('n_cab')],['settings','gear',t('n_settings')]];
+  const sub=R.stack.length>0&&!roots.includes(R.v);
+  const left=sub?`<button class="ib" data-a="back" aria-label="${esc(t('back'))}">${ic('back')}</button>`:`<div class="logo">${LOGO}</div>`;
+  const pend=admin?pendingOrders():0;
+  const body=V[R.v]?V[R.v]():empty();
+  return `<header class="top">${left}<h1>${esc(viewTitle())}</h1>${admin?'':`<button class="ib" data-a="root" data-v="courses" aria-label="${esc(t('search'))}">${ic('search')}</button>`}</header><main id="view">${body}</main>
+  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'||R.v==='demo'||R.v==='demoSubj'))||(n[0]==='aCourses'&&['course','cluster','subject','aAll','demo','demoSubj'].includes(R.v)&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
+}
+
+/* ---- course cards ---- */
+function courseCard(c){
+  const acc=canAccess(c.id);const n=itemsOf(c.id).length;
+  return `<div class="cc" data-a="go" data-v="course" data-p="${c.id}"><div class="row"><div class="ti">${secIc(c.icon)}</div><div class="grow"><div class="b" style="line-height:1.25">${esc(ct(c))}</div><div class="xs mut">${esc(c.free?t('free'):t('paid'))}</div></div>${acc?'':ic('lock').replace('<svg','<svg style="width:20px;height:20px;color:var(--acc)"')}</div><div class="row sp" style="margin-top:10px">${openedChip(c)}${acc&&n?`<span class="xs mut">${coursePct(c.id)}%</span>`:''}</div>${acc&&n?`<div style="margin-top:6px">${bar(coursePct(c.id))}</div>`:''}</div>`;
+}
+function secTile(c){
+  return `<button class="sec" data-a="go" data-v="course" data-p="${c.id}"><div class="ti">${secIc(c.icon)}</div><b>${esc(ct(c))}</b><span class="st">${canAccess(c.id)?(c.free?chip(t('free'),'ok'):chip('✓','ok')):chip(t('paid'),'warn')}</span></button>`;
+}
+
+function clusterTile(c){
+  const names=c.id==='ol'?[]:c.s.map(subjName);
+  const badge=c.id==='ol'?ic('star'):`<span class="num">${c.id.slice(1)}</span>`;
+  return `<button class="sec" data-a="go" data-v="cluster" data-p="${c.id}"><div class="ti">${badge}</div><b>${esc(clName(c))}</b>${names.length?`<div class="tags">${names.map(n=>`<i>${esc(n)}</i>`).join('')}</div>`:`<span class="xs mut">${esc(t('nSubjects',{n:c.s.length}))}</span>`}</button>`;
+}
+function subjTile(sid){
+  const n=coursesOfSubject(sid).length;
+  return `<button class="sec" data-a="go" data-v="subject" data-p="${sid}"><div class="ti">${ic('book')}</div><b>${esc(subjName(sid))}</b><span class="xs mut">${esc(n?t('nSections',{n}):t('soon'))}</span></button>`;
+}
+V.cluster=function(){const c=clusterOf(R.p);if(!c)return empty();return `<div class="secs">${c.s.map(subjTile).join('')}</div>`};
+V.subject=function(){const cs=coursesOfSubject(R.p);if(isA())return (cs.length?cs.map(adminCourseCard).join(''):empty(t('soonMsg')))+`<button class="fab" data-a="courseForm" data-sj="${esc(R.p)}" aria-label="${esc(t('newCourse'))}">${ic('plus')}</button>`;if(!cs.length)return empty(t('soonMsg'));return `<div class="secs">${cs.map(secTile).join('')}</div>`};
+
+const demoId=sid=>'demo_'+sid;
+function demoTile(){return `<button class="sec" data-a="go" data-v="demo" style="grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;background:var(--ok-soft)"><div class="ti" style="background:var(--ok);color:#fff">${ic('play')}</div><div><b>${esc(t('demoTitle'))}</b><div class="xs mut">${esc(t('demoSub'))}</div></div></button>`}
+V.demo=function(){
+  return `<div class="secs">${Object.keys(SUBJ).map(sid=>{const n=itemsOf(demoId(sid)).length;return `<button class="sec" data-a="go" data-v="demoSubj" data-p="${sid}"><div class="ti">${ic('play')}</div><b>${esc(subjName(sid))}</b><span class="xs mut">${esc(n?t('nVideos',{n}):t('soon'))}</span></button>`}).join('')}</div>`;
+};
+V.demoSubj=function(){
+  const sid=R.p,cid=demoId(sid),c=S.courses[cid],its=itemsOf(cid);
+  let h='';
+  if(isA()){
+    if(!c)return empty(t('demoEmpty'))+`<button class="btn full" data-a="demoInit" data-sid="${esc(sid)}">${ic('plus')}${esc(t('demoInit'))}</button>`;
+    h+=`<button class="btn full" data-a="itemForm" data-cid="${cid}" data-type="video" style="margin-bottom:10px">${ic('plus')}${esc(t('addDemo'))}</button>`;
+  }
+  if(!its.length)return h+empty(t('demoEmpty'));
+  return h+`<div class="card">${its.map(it=>itemRow(cid,it)).join('')}</div>`;
+};
+
+/* ---- home ---- */
+V.home=function(){
+  const cs=visibleCourses();const acc=cs.filter(c=>canAccess(c.id));
+  let h='';
+  if(!online)h+=`<div class="banner warn">${esc(t('offline'))}</div>`;
+  h+=`<div class="hero"><div class="sm" style="opacity:.85">${esc(t('hello'))},</div><div class="big">${esc(ME.name)}</div><div class="sm" style="opacity:.9">ID: ${esc(ME.login)} · ${esc(t('availableN',{n:acc.length}))}</div></div>`;
+  h+=`<div class="search" data-a="root" data-v="courses">${ic('search')}<input type="search" placeholder="${esc(t('searchCourses'))}" readonly style="cursor:pointer"></div>`;
+  if(!cs.length)return h+empty(t('noCourses'));
+  h+=`<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}${demoTile()}</div>`;
+  const free=cs.filter(c=>c.free),paid=cs.filter(c=>!c.free),pop=cs.filter(c=>c.popular);
+  if(free.length)h+=`<div class="h3">${esc(t('freeCourses'))}</div><div class="hs">${free.map(courseCard).join('')}</div>`;
+  if(paid.length)h+=`<div class="h3">${esc(t('paidCourses'))}</div><div class="hs">${paid.map(courseCard).join('')}</div>`;
+  if(pop.length)h+=`<div class="h3">${esc(t('popular'))}</div><div class="hs">${pop.map(courseCard).join('')}</div>`;
+  const news=[];acc.forEach(c=>itemsOf(c.id).forEach(it=>news.push({c,it})));
+  sortBy(news,x=>-(x.it.created||0));
+  if(news.length)h+=`<div class="h3">${esc(t('newLessons'))}</div><div class="card">${news.slice(0,5).map(x=>`<div class="li" style="cursor:pointer" data-a="openItem" data-cid="${x.c.id}" data-iid="${x.it.id}"><div class="av">${ic(TYPE_IC[x.it.type])}</div><div class="grow"><div class="b">${esc(x.it.title)}</div><div class="xs mut">${esc(ct(x.c))}</div></div></div>`).join('')}</div>`;
+  const prog=acc.filter(c=>itemsOf(c.id).length);
+  if(prog.length)h+=`<div class="h3">${esc(t('myProgress'))}</div><div class="card">${prog.map(c=>`<div style="margin-bottom:10px"><div class="row sp sm"><span>${esc(ct(c))}</span><b>${coursePct(c.id)}%</b></div>${bar(coursePct(c.id))}</div>`).join('')}</div>`;
+  const an=sortBy(vals(S.ann),a=>-(a.ts||0)).slice(0,3);
+  if(an.length)h+=`<div class="h3">${esc(t('announcements'))}</div>`+an.map(annCard).join('');
+  h+=`<button class="btn ok full" data-a="waContact" style="margin-top:6px">${ic('chat')}${esc(t('contactWa'))}</button>`;
+  return h;
+};
+function annCard(a){return `<div class="card"><div class="b">${esc(a.title)}</div><div class="sm" style="margin:6px 0;white-space:pre-wrap">${esc(a.body)}</div><div class="xs mut">${esc(fmtTs(a.ts))}</div></div>`}
+V.ann=function(){
+  const an=sortBy(vals(S.ann),a=>-(a.ts||0));
+  return (an.length?an.map(a=>annCard(a).replace('</div></div>',`</div>${isA()?`<div style="margin-top:8px"><button class="btn ghost sm2" data-a="annDel" data-id="${a.id}">${ic('trash')}</button></div>`:''}</div>`)).join(''):empty())+(isA()?`<button class="fab" data-a="annForm" aria-label="${esc(t('newAnn'))}">${ic('plus')}</button>`:'');
+};
+
+/* ---- courses list ---- */
+V.courses=function(){
+  const f=R.filter.cf||'all';const q=(R.filter.cq||'').toLowerCase();
+  let cs=visibleCourses().filter(c=>!q||ct(c).toLowerCase().includes(q)||(c.title||'').toLowerCase().includes(q));
+  if(f==='free')cs=cs.filter(c=>c.free);else if(f==='paid')cs=cs.filter(c=>!c.free);else if(f==='mine')cs=cs.filter(c=>canAccess(c.id));
+  const seg=[['all',t('all')],['free',t('free')],['paid',t('paid')],['mine',t('mineCourses')]];
+  return `<div class="search">${ic('search')}<input type="search" data-i="cq" placeholder="${esc(t('searchCourses'))}" value="${esc(R.filter.cq||'')}"></div>
+  <div class="seg">${seg.map(x=>`<button data-a="cf" data-v="${x[0]}" class="${f===x[0]?'on':''}">${esc(x[1])}</button>`).join('')}</div>
+  <div class="secs" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr))">${cs.map(courseCard).join('')||''}</div>${cs.length?'':empty(t('noCourses'))}`;
+};
+
+/* ---- course ---- */
+function itemRow(cid,it){
+  const done=isDone(cid,it.id);const best=it.type==='test'?bestResult(cid,it.id):null;
+  const meta=[t('ty_'+it.type),it.duration?it.duration+' '+t('min'):'',it.type==='test'&&it.questions?it.questions.length+' '+t('qs'):''].filter(Boolean).join(' · ');
+  return `<div class="li" style="cursor:pointer" data-a="openItem" data-cid="${cid}" data-iid="${it.id}"><div class="av" style="${done?'background:var(--ok-soft);color:var(--ok)':''}">${done?ic('check'):ic(TYPE_IC[it.type])}</div><div class="grow"><div class="b">${esc(it.title)}</div><div class="xs mut">${esc(meta)}</div></div>${best!=null?chip(best+'%',best>=70?'ok':'warn'):''}${lvChip(it.level)}${isFav(cid,it.id)?`<span style="color:var(--acc)">${ic('star').replace('<svg','<svg style="width:18px;height:18px;fill:currentColor"')}</span>`:''}${isA()?`<button class="ib" data-a="itemForm" data-cid="${cid}" data-type="${it.type}" data-iid="${it.id}" aria-label="${esc(t('edit'))}">${ic('edit')}</button><button class="ib" data-a="itemDel" data-cid="${cid}" data-iid="${it.id}" aria-label="${esc(t('del'))}">${ic('trash')}</button>`:''}</div>`;
+}
+V.course=function(){
+  const c=S.courses[R.p];if(!c)return empty();
+  const acc=canAccess(c.id);const cnt=c.counts||{};
+  let h=`<div class="card"><div class="row"><div class="av" style="width:52px;height:52px;border-radius:16px">${secIc(c.icon)}</div><div class="grow"><div class="b" style="font-size:19px">${esc(ct(c))}</div><div class="row wrap" style="margin-top:4px">${openedChip(c)}${c.discount&&!c.free?chip('−'+c.discount+'%','acc'):''}${c.active===false?chip(t('hidden'),'gray'):''}</div></div></div>${c.desc?`<div class="sm" style="margin-top:10px;white-space:pre-wrap">${esc(c.desc)}</div>`:''}
+  <div class="row wrap" style="margin-top:10px"><span class="chip gray">${esc(t('ty_video'))}: ${cnt.video||0}</span><span class="chip gray">${esc(t('ty_book'))}: ${cnt.book||0}</span><span class="chip gray">${esc(t('ty_theory'))}: ${cnt.theory||0}</span><span class="chip gray">${esc(t('ty_test'))}: ${cnt.test||0}</span><span class="chip gray">${esc(t('ty_problem'))}: ${cnt.problem||0}</span></div>
+  ${isA()?`<div class="row wrap" style="margin-top:12px"><button class="btn sec sm2" data-a="courseForm" data-id="${c.id}">${ic('edit')}${esc(t('edit'))}</button><button class="btn ghost sm2" data-a="courseDel" data-id="${c.id}">${ic('trash')}</button></div>`:''}</div>`;
+  if(!acc){
+    h+=`<div class="card lock">${ic('lock')}<div class="b" style="font-size:18px;margin:8px 0 4px">${esc(t('locked'+'Course'))}</div><div class="sm mut" style="margin-bottom:12px">${esc(t('lockedHint'))}</div><div class="b" style="font-size:24px;margin-bottom:12px">${c.discount?`<s class="mut sm">${money(c.price)}</s> `:''}${money(cPrice(c))}</div><button class="btn acc full" data-a="buy" data-kind="course" data-id="${c.id}">${ic('cart')}${esc(t('buyCourse'))}</button></div>`;
+    const bs=vals(S.bundles).filter(b=>b.active!==false&&(b.courseIds||[]).includes(c.id));
+    if(bs.length)h+=`<div class="h3">${esc(t('bundles'))}</div>`+bs.map(b=>`<div class="card tap" data-a="buy" data-kind="bundle" data-id="${b.id}"><div class="row sp"><div><div class="b">${esc(b.title)}</div><div class="xs mut">${(b.courseIds||[]).length} ${esc(t('coursesN'))}</div></div>${chip(money(bPrice(b)),'warn')}</div></div>`).join('');
+    return h;
+  }
+  const all=itemsOf(c.id);
+  const tabs=TYPES.filter(ty=>all.some(x=>x.type===ty)||isA());
+  if(!all.length&&!isA())return h+empty(t('noContent'));
+  const tab=tabs.includes(R.tab)?R.tab:(tabs[0]||'video');
+  h+=`<div class="row sp"><span class="sm mut">${esc(t('progress'))}: <b>${coursePct(c.id)}%</b></span></div>${bar(coursePct(c.id))}<div class="gap"></div>`;
+  h+=`<div class="tabs">${tabs.map(ty=>`<button data-a="tab" data-v="${ty}" class="${tab===ty?'on':''}">${esc(t('tb_'+ty))}</button>`).join('')}</div>`;
+  const list=all.filter(x=>x.type===tab);
+  h+=list.length?`<div class="card">${list.map(it=>itemRow(c.id,it)).join('')}</div>`:empty();
+  if(isA())h+=`<button class="btn full" data-a="itemForm" data-cid="${c.id}" data-type="${tab}">${ic('plus')}${esc(t('addItem'))}: ${esc(t('ty_'+tab))}</button>`;
+  return h;
+};
+
+/* ---- item viewer ---- */
+let TST=null,PRB=null;
+function siblings(cid,iid){const it=(S.items[cid]||{})[iid];const l=itemsOf(cid).filter(x=>x.type===it.type);const i=l.findIndex(x=>x.id===iid);return{prev:l[i-1],next:l[i+1]}}
+V.item=function(){
+  const {cid,iid}=R.p||{};const c=S.courses[cid];const it=(S.items[cid]||{})[iid];
+  if(!c||!it||!canAccess(cid))return empty();
+  const done=isDone(cid,iid),fav=isFav(cid,iid);
+  let h=`<div class="card"><div class="row sp"><div class="grow"><div class="b" style="font-size:19px">${esc(it.title)}</div><div class="row wrap" style="margin-top:6px">${chip(t('ty_'+it.type),'')}${lvChip(it.level)}${it.duration?chip(it.duration+' '+t('min'),'gray'):''}${done?chip(t('done'),'ok'):''}</div></div></div>${it.desc?`<div class="sm" style="margin-top:10px;white-space:pre-wrap">${esc(it.desc)}</div>`:''}</div>`;
+  if(it.type==='video'){
+    const em=ytEmbed(it.url);
+    if(!em)h+=`<div class="banner warn">${esc(t('noVideo'))}</div>`;
+    else if(em.kind==='video')h+=`<div class="vid"><video controls playsinline preload="metadata" src="${esc(em.src)}" data-cid="${cid}" data-iid="${iid}"></video></div>`;
+    else h+=`<div class="vid"><iframe src="${esc(em.src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen ${/youtube|vimeo/.test(em.src)?'sandbox="allow-scripts allow-same-origin allow-presentation"':''} referrerpolicy="strict-origin-when-cross-origin" title="${esc(it.title)}"></iframe>${/youtube/.test(em.src)?'<div class="shield"></div>':''}</div>`;
+    if(em&&em.kind==='iframe')h+=`<div class="xs mut" style="margin-bottom:8px">${esc(t('videoHint'))}</div>`;
+  }else if(it.type==='book'){
+    const em=ytEmbed(it.url);
+    if(em&&em.src.includes('drive.google.com'))h+=`<iframe class="doc" src="${esc(em.src)}" title="${esc(it.title)}"></iframe>`;
+    if(it.author)h+=`<div class="sm mut" style="margin:8px 0">${esc(t('author'))}: ${esc(it.author)}</div>`;
+    if(it.url&&(it.allowDownload!==false||!(em&&em.src.includes('drive.google.com'))))h+=`<button class="btn sec full" data-a="openUrl" data-u="${esc(it.url)}">${ic('dl')}${esc(it.allowDownload===false?t('openBook'):t('downloadBook'))}</button>`;
+    else if(!it.url)h+=`<div class="banner warn">${esc(t('noFile'))}</div>`;
+  }else if(it.type==='theory'){
+    h+=`<div class="card" style="white-space:pre-wrap">${esc(it.body||'')}</div>`;
+    const fs=String(it.formulas||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    if(fs.length)h+=`<div class="h3">${esc(t('formulas'))}</div>`+fs.map(x=>{const p=x.split('|');return `<div class="card"><div class="formula">${esc(p[0].trim())}</div>${p[1]?`<div class="sm">${esc(p.slice(1).join('|').trim())}</div>`:''}</div>`}).join('');
+    if(it.examples)h+=`<div class="h3">${esc(t('examples'))}</div><div class="card" style="white-space:pre-wrap">${esc(it.examples)}</div>`;
+    if(it.units)h+=`<div class="h3">${esc(t('units'))}</div><div class="card" style="white-space:pre-wrap">${esc(it.units)}</div>`;
+  }else if(it.type==='problem'){
+    const key=cid+'/'+iid;if(!PRB||PRB.key!==key)PRB={key,shown:0};
+    const steps=String(it.steps||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    h+=`<div class="card" style="white-space:pre-wrap">${esc(it.text||'')}</div>`;
+    const fs=String(it.formulas||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    if(fs.length)h+=`<div class="h3">${esc(t('formulas'))}</div><div class="card">${fs.map(x=>`<div class="formula" style="margin:2px 6px 2px 0">${esc(x)}</div>`).join('')}</div>`;
+    h+=`<div class="h3">${esc(t('solution'))}</div>`;
+    h+=steps.slice(0,PRB.shown).map((s,i)=>`<div class="card"><div class="xs mut">${esc(t('step'))} ${i+1}</div><div style="white-space:pre-wrap">${esc(s)}</div></div>`).join('');
+    if(PRB.shown<steps.length)h+=`<div class="row"><button class="btn sec grow" data-a="nextStep">${esc(t('nextStep'))}</button><button class="btn ghost" data-a="allSteps">${esc(t('showAll'))}</button></div>`;
+    else if(it.answer)h+=`<div class="banner ok">${esc(t('answer'))}: ${esc(it.answer)}</div>`;
+    if(it.explain)h+=`<div class="card sm" style="white-space:pre-wrap;margin-top:10px">${esc(it.explain)}</div>`;
+  }else if(it.type==='test'){
+    h+=testHtml(cid,iid,it);
+  }
+  if(it.type!=='test')h+=`<div class="row wrap" style="margin-top:12px"><button class="btn ${done?'ghost':'ok'} grow" data-a="toggleDone" data-cid="${cid}" data-iid="${iid}">${ic('check')}${esc(done?t('unmark'):t('markDone'))}</button><button class="btn ghost" data-a="toggleFav" data-cid="${cid}" data-iid="${iid}" aria-label="${esc(t('favorites'))}">${ic('star').replace('<svg','<svg style="'+(fav?'fill:var(--acc);color:var(--acc)':'')+'"')}</button></div>`;
+  const sb=siblings(cid,iid);
+  h+=`<div class="row" style="margin-top:12px">${sb.prev?`<button class="btn sec grow" data-a="openItem" data-cid="${cid}" data-iid="${sb.prev.id}" data-rep="1">‹ ${esc(t('prev'))}</button>`:'<span class="grow"></span>'}${sb.next?`<button class="btn sec grow" data-a="openItem" data-cid="${cid}" data-iid="${sb.next.id}" data-rep="1">${esc(t('next'))} ›</button>`:'<span class="grow"></span>'}</div>`;
+  return h;
+};
+function testHtml(cid,iid,it){
+  const key=cid+'/'+iid;if(!TST||TST.key!==key)TST={key,ans:{},sub:false,res:null};
+  const qs=it.questions||[];
+  let h='';
+  if(TST.sub&&TST.res){const r=TST.res;h+=`<div class="card tc"><div style="font-size:34px;font-weight:800">${r.score}/${r.max}</div><div class="b ${r.pct>=70?'':'mut'}">${r.pct}%</div><div style="margin-top:6px">${chip(r.pct>=90?t('excellent'):r.pct>=70?t('good'):t('tryAgain'),r.pct>=70?'ok':'warn')}</div></div>`}
+  h+=qs.map((q,qi)=>{
+    const sel=TST.ans[qi];
+    return `<div class="card"><div class="b" style="margin-bottom:8px">${qi+1}. ${esc(q.q)}</div>${(q.opts||[]).map((o,oi)=>{if(!o)return '';
+      let cls='';if(TST.sub){if(oi===q.correct)cls='good';else if(oi===sel)cls='badc'}else if(sel===oi)cls='on';
+      return `<div class="opt ${cls}" ${TST.sub?'':`data-a="pick" data-q="${qi}" data-o="${oi}"`}><b>${'ABCD'[oi]}</b><span>${esc(o)}</span></div>`}).join('')}${TST.sub&&q.explain?`<div class="sm mut" style="margin-top:6px">💡 ${esc(q.explain)}</div>`:''}</div>`}).join('');
+  if(!qs.length)h+=empty();
+  else if(!TST.sub)h+=`<button class="btn full" data-a="testSubmit" data-cid="${cid}" data-iid="${iid}">${esc(t('submitTest'))}</button>`;
+  else h+=`<button class="btn full" data-a="testRetry">${ic('refresh')}${esc(t('retake'))}</button>`;
+  const hist=sortBy(vals(S.results).filter(x=>x.courseId===cid&&x.itemId===iid),x=>-(x.ts||0)).slice(0,5);
+  if(hist.length)h+=`<div class="h3">${esc(t('history'))}</div><div class="card">${hist.map(x=>`<div class="li"><div class="grow sm">${esc(fmtTs(x.ts))}</div><b>${x.score}/${x.max}</b>${chip(x.pct+'%',x.pct>=70?'ok':'warn')}</div>`).join('')}</div>`;
+  return h;
+}
+
+/* ---- buy ---- */
+V.buy=function(){
+  const {kind,id}=R.p||{};const it=kind==='bundle'?S.bundles[id]:S.courses[id];if(!it)return empty();
+  const title=kind==='bundle'?it.title:ct(it);const price=kind==='bundle'?bPrice(it):cPrice(it);const cfg=S.cfg;
+  const o=orderOpen(kind,id);
+  let h=`<div class="card"><div class="b" style="font-size:19px">${esc(title)}</div>`;
+  if(kind==='course'){const n=it.counts||{};h+=`${it.desc?`<div class="sm" style="margin:8px 0;white-space:pre-wrap">${esc(it.desc)}</div>`:''}<div class="row wrap"><span class="chip gray">${esc(t('ty_video'))}: ${n.video||0}</span><span class="chip gray">${esc(t('ty_book'))}: ${n.book||0}</span><span class="chip gray">${esc(t('ty_test'))}: ${n.test||0}</span><span class="chip gray">${esc(t('ty_problem'))}: ${n.problem||0}</span></div>`}
+  else h+=`<div class="sm" style="margin:8px 0">${(it.courseIds||[]).map(cid=>S.courses[cid]?'• '+esc(ct(S.courses[cid])):'').join('<br>')}</div>`;
+  h+=`<div class="b" style="font-size:26px;margin-top:10px">${it.discount?`<s class="mut sm">${money(it.price)}</s> `:''}${money(price)}</div></div>`;
+  if(o)h+=`<div class="card"><div class="row sp"><div><div class="xs mut">${esc(t('orderStatus'))}</div><div class="b">${esc(t('os_'+o.status))}</div></div>${chip(fmtTs(o.ts),'gray')}</div></div>`;
+  h+=`<div class="card"><div class="b" style="margin-bottom:6px">${esc(t('howToBuy'))}</div><div class="sm">1. ${esc(t('hb1'))}<br>2. ${esc(t('hb2'))}<br>3. ${esc(t('hb3'))}<br>4. ${esc(t('hb4'))}</div></div>`;
+  h+=`<button class="btn ok full" data-a="waBuy">${ic('chat')}${esc(t('waBtn'))}</button>`;
+  if(cfg.walletNumber||cfg.walletName||cfg.instructions)h+=`<div class="card" style="margin-top:12px"><div class="b" style="margin-bottom:6px">${esc(t('payInfo'))}</div>${cfg.walletName?`<div class="sm"><span class="mut">${esc(t('walletName'))}:</span> <b>${esc(cfg.walletName)}</b></div>`:''}${cfg.walletNumber?`<div class="sm"><span class="mut">${esc(t('walletNumber'))}:</span> <b style="user-select:all">${esc(cfg.walletNumber)}</b></div>`:''}${cfg.walletOwner?`<div class="sm"><span class="mut">${esc(t('walletOwner'))}:</span> <b>${esc(cfg.walletOwner)}</b></div>`:''}${cfg.instructions?`<div class="sm" style="margin-top:6px;white-space:pre-wrap">${esc(cfg.instructions)}</div>`:''}</div>`;
+  return h;
+};
+V.orders=function(){
+  const os=sortBy(vals(S.orders).filter(o=>o.sid===mySid()),o=>-(o.ts||0));
+  return os.length?os.map(o=>`<div class="card"><div class="row sp"><div class="b">${esc(o.title)}</div>${chip(t('os_'+o.status),o.status==='confirmed'?'ok':o.status==='rejected'?'bad':'warn')}</div><div class="sm mut" style="margin-top:4px">${money(o.price)} · ${esc(fmtTs(o.ts))}</div></div>`).join(''):empty();
+};
+
+/* ---- cabinet ---- */
+V.cabinet=function(){
+  const cs=visibleCourses();const acc=cs.filter(c=>canAccess(c.id));
+  const bought=cs.filter(c=>!c.free&&canAccess(c.id));const locked=cs.filter(c=>!canAccess(c.id));
+  let vTot=0,vDone=0;acc.forEach(c=>itemsOf(c.id).forEach(it=>{if(it.type==='video'){vTot++;if(isDone(c.id,it.id))vDone++}}));
+  const best={};vals(S.results).forEach(r=>{const k=r.courseId+'/'+r.itemId;best[k]=Math.max(best[k]||0,r.pct)});
+  const bs=Object.values(best);const avg=bs.length?Math.round(bs.reduce((a,b)=>a+b,0)/bs.length):null;
+  let h=`<div class="card"><div class="row"><div class="av" style="width:56px;height:56px;font-size:20px">${esc(initials(ME.name))}</div><div class="grow"><div class="b" style="font-size:19px">${esc(ME.name)}</div><div class="sm mut">ID: ${esc(ME.login)}</div></div></div></div>
+  <div class="row wrap" style="margin-bottom:12px"><div class="stat"><b>${bought.length}</b><span>${esc(t('boughtCourses'))}</span></div><div class="stat"><b>${vDone}/${vTot}</b><span>${esc(t('watchedVideos'))}</span></div><div class="stat"><b>${avg==null?'—':avg+'%'}</b><span>${esc(t('avgTests'))}</span></div></div>`;
+  h+=`<div class="h3">${esc(t('availableCourses'))}</div>`+(acc.length?`<div class="card">${acc.map(c=>`<div class="li" style="cursor:pointer" data-a="go" data-v="course" data-p="${c.id}"><div class="av">${secIc(c.icon)}</div><div class="grow"><div class="b">${esc(ct(c))}</div>${itemsOf(c.id).length?bar(coursePct(c.id)):''}</div><b>${coursePct(c.id)}%</b></div>`).join('')}</div>`:empty());
+  if(locked.length)h+=`<div class="h3">${esc(t('lockedCourses'))}</div><div class="card">${locked.map(c=>`<div class="li" style="cursor:pointer" data-a="go" data-v="course" data-p="${c.id}"><div class="av" style="color:var(--acc)">${ic('lock')}</div><div class="grow b">${esc(ct(c))}</div>${chip(money(cPrice(c)),'warn')}</div>`).join('')}</div>`;
+  const rs=sortBy(vals(S.results),r=>-(r.ts||0)).slice(0,8);
+  if(rs.length)h+=`<div class="h3">${esc(t('testResults'))}</div><div class="card">${rs.map(r=>{const it=(S.items[r.courseId]||{})[r.itemId];return `<div class="li"><div class="grow"><div class="b">${esc(it?it.title:'—')}</div><div class="xs mut">${esc(fmtTs(r.ts))}</div></div><b>${r.score}/${r.max}</b>${chip(r.pct+'%',r.pct>=70?'ok':'warn')}</div>`}).join('')}</div>`;
+  const favs=[];acc.forEach(c=>itemsOf(c.id).forEach(it=>{if(isFav(c.id,it.id))favs.push({c,it})}));
+  if(favs.length)h+=`<div class="h3">${esc(t('favorites'))}</div><div class="card">${favs.map(x=>`<div class="li" style="cursor:pointer" data-a="openItem" data-cid="${x.c.id}" data-iid="${x.it.id}"><div class="av">${ic(TYPE_IC[x.it.type])}</div><div class="grow b">${esc(x.it.title)}</div></div>`).join('')}</div>`;
+  h+=`<div class="row wrap" style="margin-top:8px"><button class="btn sec grow" data-a="go" data-v="orders">${ic('cart')}${esc(t('myOrders'))}</button><button class="btn sec grow" data-a="go" data-v="ann">${ic('bell')}${esc(t('announcements'))}</button></div>`;
+  return h;
+};
+
+/* ---- settings (shared) ---- */
+V.settings=function(){
+  const th=(()=>{try{return localStorage.getItem('pa_theme')||'auto'}catch(e){return 'auto'}})();
+  return `<div class="card"><div class="row"><div class="av" style="width:52px;height:52px">${esc(initials(ME.name))}</div><div class="grow"><div class="b">${esc(ME.name)}</div><div class="sm mut">ID: ${esc(ME.login)} · ${esc(isA()?t('role_admin'):t('role_student'))}</div></div></div></div>
+  <div class="h3">${esc(t('language'))}</div><div class="seg">${LANGS.map(l=>`<button data-a="lang" data-v="${l}" class="${lang===l?'on':''}">${LNAMES[l]}</button>`).join('')}</div>
+  <div class="h3">${esc(t('theme'))}</div><div class="seg">${[['auto',t('themeAuto')],['light',t('themeLight')],['dark',t('themeDark')]].map(x=>`<button data-a="theme" data-v="${x[0]}" class="${th===x[0]?'on':''}">${esc(x[1])}</button>`).join('')}</div>
+  <button class="btn sec full" data-a="go" data-v="pw" style="margin-bottom:10px">${esc(t('changePass'))}</button>
+  <div class="card"><div class="row sp"><div><b>${esc(t('update'))}</b><div class="sm mut">${esc(t('version'))} ${VER}</div></div><button class="btn sec sm2" data-a="reload">${ic('refresh')}</button></div></div>
+  <button class="btn bad full" data-a="logout">${ic('logout')}${esc(t('logout'))}</button>`;
+};
+V.pw=function(forced){
+  return `${forced===true?`<div class="banner warn">${esc(t('mustChangeNow'))}</div>`:''}<form class="card" data-f="pw">${fld(t('curPass'),`<input type="password" name="cur" required autocomplete="current-password">`)}${fld(t('newPass'),`<input type="password" name="n1" required minlength="8" autocomplete="new-password">`)}${fld(t('newPass2'),`<input type="password" name="n2" required minlength="8" autocomplete="new-password">`)}<button class="btn full" type="submit">${esc(t('save'))}</button></form>`;
+};
+
+/* ---- login / register ---- */
+function loginScreen(){
+  const box=inner=>`<div class="login"><div class="lg">${LOGO}</div><h1>${esc(t('app'))}</h1>${inner}</div>`;
+  const langs=`<div class="seg" style="justify-content:center;margin-top:18px">${LANGS.map(l=>`<button data-a="lang" data-v="${l}" class="${lang===l?'on':''}">${LNAMES[l]}</button>`).join('')}</div>`;
+  if(needSetup)return box(`<p>${esc(t('firstRun'))}</p><form data-f="first">${fld(t('name'),`<input type="text" name="name" required>`)}${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" pattern="[A-Za-z0-9_\\-]+" title="${esc(t('loginHint'))}">`)}${fld(t('password'),`<input type="password" name="pw" required minlength="8" autocomplete="new-password">`)}<button class="btn full" type="submit">${esc(t('create'))}</button></form>`);
+  if(R.filter.reg)return box(`<p>${esc(t('registerHint'))}</p><form data-f="register">${fld(t('name'),`<input type="text" name="name" required>`)}${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" pattern="[A-Za-z0-9_\\-]+" title="${esc(t('loginHint'))}">`)}${fld(t('phone'),`<input type="tel" name="phone">`)}${fld(t('password'),`<input type="password" name="pw" required minlength="8" autocomplete="new-password">`)}<button class="btn full" type="submit">${esc(t('register'))}</button></form><div class="tc" style="margin-top:14px"><button class="btn ghost sm2" data-a="regToggle">${esc(t('haveAccount'))}</button></div>${langs}`);
+  return box(`<form data-f="login">${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" autocomplete="username" autocorrect="off">`)}${fld(t('password'),`<input type="password" name="pw" required autocomplete="current-password">`)}<button class="btn full" type="submit">${esc(t('signin'))}</button></form>
+  <div class="tc" style="margin-top:14px"><button class="btn sec sm2" data-a="regToggle">${esc(t('register'))}</button> <button class="btn ghost sm2" data-a="forgot">${esc(t('forgot'))}</button></div>${langs}`);
+}
+/* ================= admin views ================= */
+const students=()=>sortBy(vals(S.users).filter(u=>u.role==='student'),u=>(u.name||'').toLowerCase());
+const userBySid=sid=>vals(S.users).find(u=>u.sid===sid);
+const accessOf=(sid,cid)=>S.accessAll['students/'+sid+'/access/'+cid];
+const hasAcc=(sid,cid)=>{const a=accessOf(sid,cid);return !!(a&&a.active!==false)};
+const stChip=s=>chip(t('os_'+s),s==='confirmed'?'ok':s==='rejected'?'bad':'warn');
+const STATUSES=['contact','pay_wait','checking','confirmed','rejected'];
+
+V.dash=function(){
+  const sts=students();const os=vals(S.orders);
+  const conf=os.filter(o=>o.status==='confirmed');const rev=conf.reduce((s,o)=>s+(+o.price||0),0);
+  const pend=os.filter(o=>['contact','pay_wait','checking'].includes(o.status));
+  const nCourses=Object.keys(S.courses).length;
+  let h=`<div class="row wrap" style="margin-bottom:12px"><div class="stat"><b>${sts.length}</b><span>${esc(t('n_students'))}</span></div><div class="stat"><b>${pend.length}</b><span>${esc(t('pendingOrders'))}</span></div><div class="stat"><b>${conf.length}</b><span>${esc(t('soldCourses'))}</span></div><div class="stat"><b>${rev}</b><span>${esc(t('revenue'))} (TJS)</span></div></div>`;
+  if(!nCourses)h+=`<div class="card"><div class="b">${esc(t('seedTitle'))}</div><div class="sm mut" style="margin:6px 0 10px">${esc(t('seedHint'))}</div><button class="btn full" data-a="seedPhysics">${ic('plus')}${esc(t('seedBtn'))}</button></div>`;
+  if(!S.cfg.whatsapp)h+=`<div class="banner warn" data-a="go" data-v="aSettings" style="cursor:pointer">${esc(t('setWaFirst'))}</div>`;
+  const last=sortBy(os,o=>-(o.ts||0)).slice(0,6);
+  h+=`<div class="h3">${esc(t('latestOrders'))}</div>`+(last.length?`<div class="card">${last.map(o=>`<div class="li" style="cursor:pointer" data-a="root" data-v="aOrders"><div class="grow"><div class="b">${esc(o.title)}</div><div class="xs mut">${esc(o.name)} · ${esc(fmtTs(o.ts))}</div></div>${stChip(o.status)}</div>`).join('')}</div>`:empty());
+  return h;
+};
+
+function adminCourseCard(c){return `<div class="card tap" data-a="go" data-v="course" data-p="${c.id}"><div class="row"><div class="av">${secIc(c.icon)}</div><div class="grow"><div class="b">${esc(ct(c))}</div><div class="xs mut">${(c.counts&&Object.values(c.counts).reduce((a,b)=>a+b,0))||0} ${esc(t('itemsN'))}</div></div>${c.free?chip(t('free'),'ok'):chip(money(cPrice(c)),'warn')}${c.active===false?chip(t('hidden'),'gray'):''}</div></div>`}
+V.aCourses=function(){
+  return `<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}${demoTile()}</div><button class="btn sec full" data-a="go" data-v="aAll">${esc(t('allCourses'))}</button>`;
+};
+V.aAll=function(){
+  const cs=visibleCourses();
+  const sids=Object.keys(SUBJ).concat(Object.keys(SUBJ).map(k=>'o_'+k).filter(k=>cs.some(c=>subjOf(c)===k)));
+  const card=adminCourseCard;
+  const grp=sid=>{const g=cs.filter(c=>subjOf(c)===sid);return `<div class="row sp" style="margin:14px 0 6px"><div class="h3" style="margin:0">${esc(subjName(sid))}</div><button class="btn sec sm2" data-a="courseForm" data-sj="${sid}">${ic('plus')}</button></div>`+(g.length?g.map(card).join(''):`<div class="xs mut">${esc(t('soon'))}</div>`)};
+  return (cs.length?sids.map(grp).join(''):`<div class="card"><div class="b">${esc(t('seedTitle'))}</div><div class="sm mut" style="margin:6px 0 10px">${esc(t('seedHint'))}</div><button class="btn full" data-a="seedPhysics">${ic('plus')}${esc(t('seedBtn'))}</button></div>`)
+  +`<button class="fab" data-a="courseForm" aria-label="${esc(t('newCourse'))}">${ic('plus')}</button>`;
+};
+
+V.aStudents=function(){
+  const q=(R.filter.sq||'').toLowerCase();
+  const list=students().filter(u=>!q||(u.name||'').toLowerCase().includes(q)||(u.login||'').toLowerCase().includes(q));
+  return `<div class="search">${ic('search')}<input type="search" data-i="sq" placeholder="${esc(t('searchStudents'))}" value="${esc(R.filter.sq||'')}"></div>`+
+  (list.length?`<div class="card">${list.map(u=>`<div class="li" style="cursor:pointer" data-a="openStudent" data-sid="${u.sid}"><div class="av">${esc(initials(u.name))}</div><div class="grow"><div class="b">${esc(u.name)}</div><div class="xs mut">ID: ${esc(u.login)}${u.phone?' · '+esc(u.phone):''}</div></div>${u.active===false?chip(t('inactive'),'gray'):''}</div>`).join('')}</div>`:empty())+
+  `<button class="fab" data-a="studentForm" aria-label="${esc(t('newStudent'))}">${ic('plus')}</button>`;
+};
+V.aStudent=function(){
+  const sid=R.p;const u=userBySid(sid);if(!u)return empty();
+  const cs=visibleCourses();
+  let h=`<div class="card"><div class="row"><div class="av" style="width:52px;height:52px">${esc(initials(u.name))}</div><div class="grow"><div class="b" style="font-size:18px">${esc(u.name)}</div><div class="sm mut">ID: ${esc(u.login)}${u.phone?' · '+esc(u.phone):''}</div></div>${u.active===false?chip(t('inactive'),'gray'):chip(t('active'),'ok')}</div>
+  <div class="row wrap" style="margin-top:12px"><button class="btn sec sm2" data-a="studentForm" data-uid="${u.id}" data-sid="${sid}">${ic('edit')}${esc(t('edit'))}</button><button class="btn ghost sm2" data-a="studentToggle" data-sid="${sid}">${esc(u.active===false?t('activate'):t('deactivate'))}</button><button class="btn ghost sm2" data-a="studentDel" data-sid="${sid}">${ic('trash')}</button></div></div>`;
+  h+=`<div class="h3">${esc(t('courseAccess'))}</div><div class="card">${cs.map(c=>{
+    const a=accessOf(sid,c.id);const on=a&&a.active!==false;
+    return `<div class="li"><div class="grow"><div class="b">${esc(ct(c))}</div><div class="xs mut">${c.free?esc(t('free')):on?esc(t('accessGranted')):esc(t('accessNone'))}</div></div>${c.free?chip(t('free'),'ok'):on?`<button class="btn ghost sm2" data-a="revoke" data-sid="${sid}" data-cid="${c.id}">${esc(t('revoke'))}</button>`:`<button class="btn sm2" data-a="grant" data-sid="${sid}" data-cid="${c.id}">${esc(t('grant'))}</button>`}</div>`}).join('')}</div>`;
+  const os=sortBy(vals(S.orders).filter(o=>o.sid===sid),o=>-(o.ts||0));
+  h+=`<div class="h3">${esc(t('myOrders'))}</div>`+(os.length?`<div class="card">${os.map(o=>`<div class="li"><div class="grow"><div class="b">${esc(o.title)}</div><div class="xs mut">${money(o.price)} · ${esc(fmtTs(o.ts))}</div></div>${stChip(o.status)}</div>`).join('')}</div>`:empty());
+  const items=cid=>S.items[cid]||{};
+  const rs=sortBy(vals(S.sRes),r=>-(r.ts||0)).slice(0,10);
+  h+=`<div class="h3">${esc(t('testResults'))}</div>`+(rs.length?`<div class="card">${rs.map(r=>{const it=items(r.courseId)[r.itemId];return `<div class="li"><div class="grow"><div class="b">${esc(it?it.title:'—')}</div><div class="xs mut">${esc(fmtTs(r.ts))}</div></div><b>${r.score}/${r.max}</b>${chip(r.pct+'%',r.pct>=70?'ok':'warn')}</div>`}).join('')}</div>`:empty());
+  h+=`<div class="h3">${esc(t('progress'))}</div><div class="card">${cs.map(c=>{const its=itemsOf(c.id);const p=S.sProg[c.id];const d=its.filter(x=>p&&p.done&&p.done[x.id]).length;return `<div style="margin-bottom:8px"><div class="row sp sm"><span>${esc(ct(c))}</span><b>${d}/${its.length}</b></div>${bar(its.length?d*100/its.length:0)}</div>`}).join('')}</div>`;
+  return h;
+};
+
+V.aOrders=function(){
+  const f=R.filter.of||'open';
+  let os=sortBy(vals(S.orders),o=>-(o.ts||0));
+  const granted=o=>{const ids=o.kind==='bundle'?((S.bundles[o.refId]||{}).courseIds||[]):[o.refId];return ids.length&&ids.every(cid=>hasAcc(o.sid,cid))};
+  if(f==='open')os=os.filter(o=>['contact','pay_wait','checking'].includes(o.status)||(o.status==='confirmed'&&!granted(o)));
+  else if(f!=='all')os=os.filter(o=>o.status===f);
+  const seg=[['open',t('openOrders')],['confirmed',t('os_confirmed')],['rejected',t('os_rejected')],['all',t('all')]];
+  return `<div class="seg">${seg.map(x=>`<button data-a="of" data-v="${x[0]}" class="${f===x[0]?'on':''}">${esc(x[1])}</button>`).join('')}</div>`+
+  (os.length?os.map(o=>{const g=granted(o);return `<div class="card"><div class="row sp"><div class="grow"><div class="b">${esc(o.title)}</div><div class="sm mut">${esc(o.name)} · ID: ${esc(o.login)}</div><div class="xs mut">${money(o.price)} · ${esc(fmtTs(o.ts))}</div></div>${stChip(o.status)}</div>
+    <div class="row wrap" style="margin-top:10px">${g?chip(t('accessGranted'),'ok'):chip(t('accessNone'),'gray')}</div>
+    <label class="f" style="margin:10px 0 8px"><span>${esc(t('orderStatus'))}</span><select data-c="ordStatus" data-sid="${o.sid}" data-oid="${o.oid||o.id}">${opts(STATUSES.map(s=>[s,t('os_'+s)]),o.status)}</select></label>
+    <div class="row wrap"><button class="btn sec sm2" data-a="openStudent" data-sid="${o.sid}">${esc(t('studentInfo'))}</button><button class="btn ok sm2" data-a="ordConfirm" data-sid="${o.sid}" data-oid="${o.oid||o.id}" ${o.status==='confirmed'?'disabled':''}>${esc(t('confirmPay'))}</button><button class="btn bad sm2" data-a="ordReject" data-sid="${o.sid}" data-oid="${o.oid||o.id}" ${o.status==='rejected'?'disabled':''}>${esc(t('rejectPay'))}</button>${g?`<button class="btn ghost sm2" data-a="ordRevoke" data-sid="${o.sid}" data-oid="${o.oid||o.id}">${esc(t('revoke'))}</button>`:`<button class="btn acc sm2" data-a="ordGrant" data-sid="${o.sid}" data-oid="${o.oid||o.id}">${esc(t('grantAccess'))}</button>`}</div></div>`}).join(''):empty());
+};
+
+V.aMore=function(){
+  const rs=vals(S.resets).filter(r=>!r.done);
+  const items=[['aBundles','tag',t('bundles')],['ann','bell',t('announcements')],['aSettings','cart',t('payInfo')],['aAudit','list',t('auditLog')],['aBackup','dl',t('backup')],['settings','gear',t('n_settings')]];
+  let h='';
+  if(rs.length)h+=`<div class="h3">${esc(t('resetReq'))}</div><div class="card">${rs.map(r=>`<div class="li"><div class="grow"><div class="b">${esc(r.login)}</div><div class="xs mut">${esc(fmtTs(r.ts))}</div></div><button class="btn sec sm2" data-a="resetFor" data-id="${r.id}">${esc(t('setPassword'))}</button><button class="btn ghost sm2" data-a="resetDone" data-id="${r.id}">${ic('check')}</button></div>`).join('')}</div>`;
+  return h+`<div class="card">${items.map(x=>`<div class="li" style="cursor:pointer" data-a="go" data-v="${x[0]}"><div class="av">${ic(x[1])}</div><b class="grow">${esc(x[2])}</b><span class="mut">›</span></div>`).join('')}</div>`;
+};
+V.aBundles=function(){
+  const bs=sortBy(vals(S.bundles),b=>(b.title||''));
+  return (bs.length?bs.map(b=>`<div class="card"><div class="row sp"><div class="grow"><div class="b">${esc(b.title)}</div><div class="xs mut">${(b.courseIds||[]).map(id=>S.courses[id]?ct(S.courses[id]):'').filter(Boolean).join(', ')}</div></div>${chip(money(bPrice(b)),'warn')}</div><div class="row wrap" style="margin-top:10px"><button class="btn sec sm2" data-a="bundleForm" data-id="${b.id}">${ic('edit')}${esc(t('edit'))}</button><button class="btn ghost sm2" data-a="bundleDel" data-id="${b.id}">${ic('trash')}</button>${b.active===false?chip(t('hidden'),'gray'):''}</div></div>`).join(''):empty())+`<button class="fab" data-a="bundleForm" aria-label="${esc(t('newBundle'))}">${ic('plus')}</button>`;
+};
+V.aSettings=function(){
+  const c=S.cfg;
+  return `<form class="card" data-f="cfg">${fld(t('waNumber'),`<input type="tel" name="whatsapp" placeholder="992900000000" value="${esc(c.whatsapp||'')}">`)}${fld(t('walletName'),`<input type="text" name="walletName" value="${esc(c.walletName||'')}">`)}${fld(t('walletNumber'),`<input type="text" name="walletNumber" value="${esc(c.walletNumber||'')}">`)}${fld(t('walletOwner'),`<input type="text" name="walletOwner" value="${esc(c.walletOwner||'')}">`)}${fld(t('payHow'),`<textarea name="instructions">${esc(c.instructions||'')}</textarea>`)}<button class="btn full" type="submit">${esc(t('save'))}</button></form>`;
+};
+V.aAudit=function(){
+  const a=sortBy(vals(S.audit),x=>-(x.ts||0)).slice(0,150);
+  return a.length?`<div class="card">${a.map(x=>`<div class="li"><div class="grow"><div class="b sm">${esc(t('au_'+x.action)||x.action)}</div><div class="xs mut">${esc(x.name||'')} ${x.courseId&&S.courses[x.courseId]?'· '+esc(ct(S.courses[x.courseId])):''}</div><div class="xs mut">${esc(fmtTs(x.ts))} · ${esc(x.by||'')}</div></div></div>`).join('')}</div>`:empty();
+};
+V.aBackup=function(){
+  return `<div class="card"><div class="sm mut" style="margin-bottom:10px">${esc(t('backupHint'))}</div><button class="btn full" data-a="doBackup">${ic('dl')}${esc(t('backupMake'))}</button></div>`;
+};
+/* ================= render ================= */
+let rT=null,pendingR=false,forceNext=false;
+function applyTheme(){
+  let th='auto';try{th=localStorage.getItem('pa_theme')||'auto'}catch(e){}
+  const r=document.documentElement;
+  if(th==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',th);
+  r.lang=lang;
+}
+function textFocused(){
+  const a=document.activeElement;if(!a||!$('#app').contains(a))return false;
+  if(a.tagName==='TEXTAREA')return true;
+  if(a.tagName==='INPUT')return ['text','search','password','tel','number','url','email'].includes(a.type);
+  return false;
+}
+const videoPlaying=()=>{const v=document.querySelector('video');return !!(v&&!v.paused&&!v.ended)};
+const embedOpen=()=>R.v==='item'&&!!document.querySelector('.vid iframe,.doc');
+function render(force){if(force===true)forceNext=true;clearTimeout(rT);rT=setTimeout(doRender,30)}
+function doRender(){
+  const force=forceNext;forceNext=false;
+  applyTheme();
+  if(!force&&(textFocused()||videoPlaying()||embedOpen())){pendingR=true;return}
+  pendingR=false;
+  const box=inner=>`<div class="login"><div class="lg">${LOGO}</div><h1>${esc(t('app'))}</h1>${inner}</div>`;
+  let html='';
+  if(!window.FSX||!FSX.configured)html=box(`<div class="banner bad">${esc(t('cfgErr'))}</div>`);
+  else if(!authReady)html=box(`<p>${esc(t('loading'))}</p>`);
+  else if(!AUTH)html=loginScreen();
+  else if(!ME)html=waited?box(`<div class="banner bad">${esc(t('noAccount'))}</div><button class="btn full" data-a="reload">${esc(t('retry'))}</button><div class="gap"></div><button class="btn ghost full" data-a="logout">${esc(t('logout'))}</button>`):box(`<p>${esc(t('loading'))}</p>`);
+  else if(ME.mustChange)html=`<header class="top"><div class="logo">${LOGO}</div><h1>${esc(t('changePass'))}</h1><button class="ib" data-a="logout" aria-label="${esc(t('logout'))}">${ic('logout')}</button></header><main>${V.pw(true)}</main>`;
+  else html=shell();
+  $('#app').innerHTML=html;
+  afterRender();
+}
+function afterRender(){
+  const v=document.querySelector('video[data-cid]');
+  if(v&&!v.__b){
+    v.__b=1;const cid=v.dataset.cid,iid=v.dataset.iid;
+    const pos=((S.progress[cid]||{}).pos||{})[iid];
+    v.addEventListener('loadedmetadata',()=>{if(pos&&v.duration&&pos<v.duration-3)v.currentTime=pos},{once:true});
+    let last=0;
+    v.addEventListener('timeupdate',()=>{const n=Date.now();if(n-last>8000&&v.currentTime>1){last=n;saveProgress(cid,{pos:{[iid]:Math.floor(v.currentTime)}})}});
+    v.addEventListener('pause',()=>{if(v.currentTime>1)saveProgress(cid,{pos:{[iid]:Math.floor(v.currentTime)}});render()});
+    v.addEventListener('ended',()=>{markDone(cid,iid,true)});
+  }
+}
+document.addEventListener('focusout',()=>{setTimeout(()=>{if(pendingR&&!textFocused())render()},60)});
+
+function deepMerge(a,b){for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k]&&typeof a[k]==='object')deepMerge(a[k],b[k]);else a[k]=b[k]}return a}
+function saveProgress(cid,data){
+  if(isA()||!ME)return Promise.resolve();
+  S.progress[cid]=deepMerge(S.progress[cid]||{},clone(data));
+  return W('update','students/'+mySid()+'/progress',cid,Object.assign({sid:mySid(),courseId:cid},data));
+}
+async function markDone(cid,iid,val){
+  if(isA()){toast(t('adminNoProgress'));return}
+  await saveProgress(cid,{done:{[iid]:val}});render(true);
+}
+function keepFocusRender(sel,html){
+  const v=$('#view');v.innerHTML=html;const n=$(sel);
+  if(n){n.focus();try{const l=n.value.length;n.setSelectionRange(l,l)}catch(e){}}
+}
+
+/* ================= events ================= */
+const ACT={},FORM={},CHG={},INP={};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const f=ACT[el.dataset.a];if(f){e.preventDefault();Promise.resolve(f(el.dataset,el)).catch(err=>console.error(err))}});
+document.addEventListener('submit',e=>{const f=e.target.closest('[data-f]');if(!f)return;e.preventDefault();const h=FORM[f.dataset.f];if(h)Promise.resolve(h(new FormData(f),f)).catch(err=>console.error(err))});
+document.addEventListener('change',e=>{const el=e.target.closest('[data-c]');if(!el)return;const h=CHG[el.dataset.c];if(h)Promise.resolve(h(el.value,el)).catch(err=>console.error(err))});
+document.addEventListener('input',e=>{const el=e.target.closest('[data-i]');if(!el)return;const h=INP[el.dataset.i];if(h)h(el.value,el)});
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal'&&!$('#modal').querySelector('[data-a=cfYes]'))closeModal()});
+
+ACT.go=d=>go(d.v,d.p);
+ACT.root=d=>goRoot(d.v);
+ACT.back=()=>goBack();
+ACT.tab=d=>{R.tab=d.v;render(true)};
+ACT.cf=d=>{R.filter.cf=d.v;render(true)};
+ACT.of=d=>{R.filter.of=d.v;render(true)};
+ACT.lang=d=>{lang=d.v;try{localStorage.setItem('pa_lang',lang)}catch(e){}render(true)};
+ACT.theme=d=>{try{localStorage.setItem('pa_theme',d.v)}catch(e){}render(true)};
+ACT.logout=()=>logout();
+ACT.reload=()=>location.reload();
+ACT.closeModal=()=>closeModal();
+ACT.cfYes=()=>window.__cf&&window.__cf(true);
+ACT.cfNo=()=>window.__cf&&window.__cf(false);
+ACT.regToggle=()=>{R.filter.reg=!R.filter.reg;render(true)};
+ACT.openUrl=d=>{try{window.open(d.u,'_blank')}catch(e){location.href=d.u}};
+INP.cq=v=>{R.filter.cq=v;keepFocusRender('[data-i=cq]',V.courses())};
+INP.sq=v=>{R.filter.sq=v;keepFocusRender('[data-i=sq]',V.aStudents())};
+
+/* ---- items ---- */
+ACT.openItem=d=>{
+  const p={cid:d.cid,iid:d.iid};
+  if(d.rep){R.p=p;window.scrollTo(0,0);render(true)}else go('item',p);
+};
+ACT.pick=d=>{if(TST&&!TST.sub){TST.ans[+d.q]=+d.o;render(true)}};
+ACT.testRetry=()=>{TST=null;render(true)};
+ACT.testSubmit=async d=>{
+  const it=(S.items[d.cid]||{})[d.iid];const qs=it.questions||[];
+  if(qs.some((q,i)=>TST.ans[i]==null)){toast(t('answerAll'));return}
+  let score=0;qs.forEach((q,i)=>{if(TST.ans[i]===q.correct)score++});
+  const res={score,max:qs.length,pct:pct(score,qs.length)};
+  TST.sub=true;TST.res=res;render(true);
+  if(isA())return;
+  const rid=uid();
+  S.results[rid]={sid:mySid(),courseId:d.cid,itemId:d.iid,score,max:res.max,pct:res.pct,ts:Date.now()};
+  await W('set','students/'+mySid()+'/results',rid,S.results[rid]);
+  await saveProgress(d.cid,{done:{[d.iid]:true}});render(true);
+};
+ACT.nextStep=()=>{PRB.shown++;render(true)};
+ACT.allSteps=()=>{PRB.shown=999;render(true)};
+ACT.toggleDone=d=>markDone(d.cid,d.iid,!isDone(d.cid,d.iid));
+ACT.toggleFav=async d=>{if(isA()){toast(t('adminNoProgress'));return}await saveProgress(d.cid,{fav:{[d.iid]:!isFav(d.cid,d.iid)}});render(true)};
+
+/* ---- buying via WhatsApp ---- */
+ACT.buy=d=>go('buy',{kind:d.kind,id:d.id});
+function openWa(msg){
+  const n=waDigits();
+  if(!n){toast(t('waMissing'));return}
+  const url='https://wa.me/'+n+(msg?'?text='+encodeURIComponent(msg):'');
+  try{window.open(url,'_blank')}catch(e){location.href=url}
+}
+ACT.waContact=()=>openWa(t('waHello',{name:ME.name,id:ME.login}));
+ACT.waBuy=async()=>{
+  const {kind,id}=R.p;const it=kind==='bundle'?S.bundles[id]:S.courses[id];if(!it)return;
+  const title=kind==='bundle'?it.title:ct(it);const price=kind==='bundle'?bPrice(it):cPrice(it);
+  let o=orderOpen(kind,id);
+  if(!o||!['contact','pay_wait','checking'].includes(o.status)){
+    const oid=uid();
+    o={oid,sid:mySid(),login:ME.login,name:ME.name,kind,refId:id,title,price,status:'contact',ts:Date.now(),history:[{s:'contact',ts:Date.now()}]};
+    S.orders[oid]=o;
+    const r=await W('set','students/'+mySid()+'/orders',oid,o);
+    if(r===null){delete S.orders[oid];return}
+    render(true);
+  }
+  openWa(t('waBuyMsg',{id:ME.login,name:ME.name,title,price:money(price)}));
+};
+
+/* ---- auth forms ---- */
+FORM.login=async fd=>{await doLogin(fd.get('login'),String(fd.get('pw')||''))};
+async function bootstrapAccount(role,fd,isFirst){
+  const login=String(fd.get('login')).trim();const pw=String(fd.get('pw'));const name=String(fd.get('name')).trim();
+  const key=loginKey(login);
+  if(pw.length<8){toast(t('passShort'));return}
+  if(!key||!name){toast(t('required'));return}
+  settingUp=true;
+  try{
+    if(!isFirst){const ex=await FSX.getDoc('logins',key);if(ex){settingUp=false;toast(t('loginTaken'));return}}
+    let u;
+    try{u=await FSX.signUp(emailFor(key,0),pw)}
+    catch(e){if(isFirst&&e&&e.code==='auth/email-already-in-use')u=await FSX.signInEmail(emailFor(key,0),pw);else throw e}
+    await FSX.db.collection('users').doc(u.uid).set({role,active:true,sid:u.uid,login,name,phone:String(fd.get('phone')||'').trim(),created:Date.now(),mustChange:false});
+    await FSX.db.collection('logins').doc(key).set({email:emailFor(key,0),uid:u.uid,sid:u.uid});
+    if(isFirst)await FSX.db.collection('config').doc('init').set({done:true,ts:Date.now()});
+    needSetup=false;settingUp=false;R.filter.reg=false;
+    await onAuthChanged(u);
+  }catch(e){
+    settingUp=false;console.warn(e);
+    toast(e&&e.code==='auth/email-already-in-use'?t('loginTaken'):e&&e.code==='auth/weak-password'?t('passShort'):t('setupFail'));
+    try{await FSX.signOut()}catch(_){}
+  }
+}
+FORM.first=fd=>bootstrapAccount('admin',fd,true);
+FORM.register=fd=>bootstrapAccount('student',fd,false);
+FORM.pw=async fd=>{
+  const cur=String(fd.get('cur')),n1=String(fd.get('n1')),n2=String(fd.get('n2'));
+  if(n1.length<8){toast(t('passShort'));return}
+  if(n1!==n2){toast(t('passMismatch'));return}
+  try{await FSX.changePassword(cur,n1)}
+  catch(e){const c=e&&e.code;toast(c==='auth/wrong-password'||c==='auth/invalid-credential'?t('wrongCur'):t('saveFail'));return}
+  const r=await W('update','users',ME.uid,{mustChange:false});
+  if(r!==null){ME.mustChange=false;toast(t('passChanged'));if(R.stack.length)goBack();else render(true)}
+};
+ACT.forgot=()=>openModal(t('forgot'),`<form id="mf" data-f="forgot">${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off">`)}</form>`,`<button class="btn" type="submit" form="mf">${esc(t('send'))}</button>`);
+FORM.forgot=async fd=>{
+  const login=String(fd.get('login')).trim();const id=loginKey(login)||uid();
+  const r=await W('set','resets',id,{login,ts:Date.now(),done:false});
+  if(r!==null){closeModal();toast(t('forgotSent'))}
+};
+async function newAuthAccount(key,startV,pw){
+  for(let v=startV;v<startV+8;v++){
+    const email=emailFor(key,v);
+    try{const u=await FSX.createAccount(email,pw);return{uid:u,email,v}}
+    catch(e){if(e&&e.code==='auth/email-already-in-use')continue;throw e}
+  }
+  throw {code:'too-many'};
+}
+const authErr=e=>{const c=e&&e.code;return c==='auth/network-request-failed'?t('offline'):c==='auth/weak-password'?t('passShort'):t('saveFail')};
+
+/* ---- admin: students ---- */
+ACT.openStudent=d=>{watchStudent(d.sid);go('aStudent',d.sid)};
+ACT.genPw=()=>{const f=$('#pwf');if(f)f.value=genPassword()};
+ACT.studentForm=d=>{
+  const u=d.uid?S.users[d.uid]:null;const s=u||{active:true};const pw=u?'':genPassword();
+  openModal(u?t('editStudent'):t('newStudent'),`<form id="mf" data-f="student"><input type="hidden" name="uid" value="${esc(d.uid||'')}">${fld(t('name'),`<input type="text" name="name" required value="${esc(s.name||'')}">`)}${fld(t('loginId'),`<input type="text" name="login" required autocapitalize="off" pattern="[A-Za-z0-9_\\-]+" title="${esc(t('loginHint'))}" value="${esc(s.login||'')}" ${u?'readonly':''}>`)}${fld(t('phone'),`<input type="tel" name="phone" value="${esc(s.phone||'')}">`)}
+  <label class="f"><span>${esc(u?t('setPassword'):t('tempPass'))}</span><input type="text" name="pw" id="pwf" value="${esc(d.pass||pw)}" ${u?'':'required'} minlength="8" autocomplete="off" autocapitalize="off"></label><button type="button" class="btn sec sm2" data-a="genPw" style="margin-bottom:12px">${esc(t('genPass'))}</button><div class="xs mut" style="margin-bottom:12px">${esc(t('mustChange'))}</div></form>`,`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
+};
+let resetReqId=null;
+FORM.student=async fd=>{
+  const uidOld=fd.get('uid');const login=String(fd.get('login')).trim();const name=String(fd.get('name')).trim();
+  const phone=String(fd.get('phone')||'').trim();const pw=String(fd.get('pw')||'');const key=loginKey(login);
+  if(!login||!name){toast(t('required'));return}
+  if(!uidOld&&vals(S.users).some(u=>loginKey(u.login)===key)){toast(t('loginTaken'));return}
+  let shown=null;
+  if(!uidOld){
+    if(pw.length<8){toast(t('passShort'));return}
+    let acc;try{acc=await newAuthAccount(key,0,pw)}catch(e){toast(authErr(e));return}
+    const sid=uid();
+    if(null===await W('set','users',acc.uid,{role:'student',active:true,sid,login,name,phone,created:Date.now(),mustChange:true,v:acc.v}))return;
+    if(null===await W('set','logins',key,{email:acc.email,uid:acc.uid,sid}))return;
+    await audit('student_add',{sid,name});shown=pw;
+  }else{
+    const old=clone(S.users[uidOld]||{});
+    if(pw){
+      if(pw.length<8){toast(t('passShort'));return}
+      let acc;try{acc=await newAuthAccount(key,(old.v||0)+1,pw)}catch(e){toast(authErr(e));return}
+      if(null===await W('set','users',acc.uid,Object.assign(old,{name,phone,mustChange:true,v:acc.v})))return;
+      await W('delete','users',uidOld);
+      await W('set','logins',key,{email:acc.email,uid:acc.uid,sid:old.sid});
+      await audit('pw_reset',{sid:old.sid,name});shown=pw;
+    }else{
+      if(null===await W('update','users',uidOld,{name,phone}))return;
+    }
+  }
+  if(resetReqId){await W('update','resets',resetReqId,{done:true});resetReqId=null}
+  closeModal();
+  if(shown)openModal(t('passCopy'),`<div class="card"><div class="sm mut">${esc(t('loginId'))}</div><div class="b" style="font-size:20px">${esc(login)}</div><div class="sm mut" style="margin-top:10px">${esc(t('tempPass'))}</div><div class="b" style="font-size:22px;letter-spacing:1px;user-select:all">${esc(shown)}</div></div><div class="banner warn">${esc(t('passNote'))}</div>`,`<button class="btn" data-a="closeModal">${esc(t('ok'))}</button>`);
+  else toast(t('saved'));
+};
+ACT.studentToggle=async d=>{const u=userBySid(d.sid);if(!u)return;await W('update','users',u.id,{active:u.active===false});audit(u.active===false?'activate':'deactivate',{sid:d.sid,name:u.name})};
+ACT.studentDel=async d=>{
+  const u=userBySid(d.sid);if(!u)return;
+  if(!await confirmBox(t('confirmDel'),t('del')))return;
+  await W('delete','logins',loginKey(u.login));await W('delete','users',u.id);audit('student_del',{sid:d.sid,name:u.name});goBack();
+};
+ACT.resetFor=d=>{
+  const r=S.resets[d.id];const u=vals(S.users).find(x=>loginKey(x.login)===loginKey(r.login));
+  if(!u){toast(t('badLogin'));return}
+  resetReqId=d.id;modalOnClose=()=>{resetReqId=null};
+  ACT.studentForm({uid:u.id,pass:genPassword()});
+};
+ACT.resetDone=d=>W('update','resets',d.id,{done:true});
+
+/* ---- admin: access & orders ---- */
+const findOrder=(sid,oid)=>vals(S.orders).find(o=>o.sid===sid&&(o.oid===oid||o.id===oid));
+const orderCourses=o=>o.kind==='bundle'?((S.bundles[o.refId]||{}).courseIds||[]):[o.refId];
+async function grantCourse(sid,cid,orderId){
+  const u=userBySid(sid);
+  const r=await W('set','students/'+sid+'/access',cid,{sid,courseId:cid,active:true,ts:Date.now(),by:ME.login,orderId:orderId||''});
+  if(r!==null){S.accessAll['students/'+sid+'/access/'+cid]={sid,courseId:cid,active:true};await audit('grant',{sid,name:u?u.name:'',courseId:cid,orderId:orderId||''})}
+  return r;
+}
+async function revokeCourse(sid,cid){
+  const u=userBySid(sid);
+  const r=await W('update','students/'+sid+'/access',cid,{active:false,revokedTs:Date.now()});
+  if(r!==null){S.accessAll['students/'+sid+'/access/'+cid]={sid,courseId:cid,active:false};await audit('revoke',{sid,name:u?u.name:'',courseId:cid})}
+  return r;
+}
+ACT.grant=async d=>{await grantCourse(d.sid,d.cid);toast(t('saved'));render(true)};
+ACT.revoke=async d=>{if(await confirmBox(t('revokeConfirm'),t('revoke'))){await revokeCourse(d.sid,d.cid);render(true)}};
+async function setStatus(o,status,action){
+  const h=(o.history||[]).concat([{s:status,ts:Date.now(),by:ME.login}]);
+  const r=await W('update','students/'+o.sid+'/orders',o.oid||o.id,{status,history:h});
+  if(r!==null){o.status=status;o.history=h;await audit(action||'status',{sid:o.sid,name:o.name,orderId:o.oid||o.id,note:status});render(true)}
+}
+CHG.ordStatus=(v,el)=>{const o=findOrder(el.dataset.sid,el.dataset.oid);if(o)return setStatus(o,v)};
+ACT.ordConfirm=d=>{const o=findOrder(d.sid,d.oid);if(o)return setStatus(o,'confirmed','confirm')};
+ACT.ordReject=async d=>{const o=findOrder(d.sid,d.oid);if(o&&await confirmBox(t('rejectConfirm'),t('rejectPay')))return setStatus(o,'rejected','reject')};
+ACT.ordGrant=async d=>{
+  const o=findOrder(d.sid,d.oid);if(!o)return;
+  if(o.status!=='confirmed'&&!await confirmBox(t('grantUnconfirmed'),t('grantAccess')))return;
+  for(const cid of orderCourses(o))await grantCourse(o.sid,cid,o.oid||o.id);
+  toast(t('saved'));render(true);
+};
+ACT.ordRevoke=async d=>{
+  const o=findOrder(d.sid,d.oid);if(!o)return;
+  if(!await confirmBox(t('revokeConfirm'),t('revoke')))return;
+  for(const cid of orderCourses(o))await revokeCourse(o.sid,cid);
+  render(true);
+};
+
+/* ---- admin: courses ---- */
+const SEC_NAMES=['Кинематика','Динамика','Статика','Кор ва энергия','Лапишҳо ва мавҷҳо','Физикаи молекулавӣ','Термодинамика','Электр','Магнетизм','Оптика','Физикаи атомӣ'];
+ACT.courseForm=d=>{
+  const c=d.id?S.courses[d.id]:{free:false,active:true,icon:0,order:(Object.keys(S.courses).length+1),price:0,discount:0};
+  openModal(d.id?t('editCourse'):t('newCourse'),`<form id="mf" data-f="course"><input type="hidden" name="id" value="${esc(d.id||'')}">${fld(t('titleTg'),`<input type="text" name="title" required value="${esc(c.title||'')}">`)}${fld(t('titleRu'),`<input type="text" name="titleRu" value="${esc(c.titleRu||'')}">`)}${fld(t('desc'),`<textarea name="desc">${esc(c.desc||'')}</textarea>`)}
+  <label class="f"><span>${esc(t('subject'))}</span><select name="subjectId">${opts(SUBJ_OPTS(),c.subjectId||d.sj||'phys')}</select></label>
+  <div class="row"><label class="f grow"><span>${esc(t('icon'))}</span><select name="icon">${opts(SEC_NAMES.map((n,i)=>[i,t('icon')+' '+(i+1)]),c.icon||0)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+c.order||0}"></label></div>
+  <div class="row"><label class="f grow"><span>${esc(t('price'))} (TJS)</span><input type="number" name="price" min="0" step="any" value="${+c.price||0}"></label><label class="f grow"><span>${esc(t('discount'))} %</span><input type="number" name="discount" min="0" max="100" value="${+c.discount||0}"></label></div>
+  <label class="row" style="margin-bottom:10px"><input type="checkbox" name="free" ${c.free?'checked':''} style="width:22px;height:22px"><b>${esc(t('free'))}</b></label>
+  <label class="row" style="margin-bottom:10px"><input type="checkbox" name="popular" ${c.popular?'checked':''} style="width:22px;height:22px"><b>${esc(t('popular'))}</b></label>
+  <label class="row"><input type="checkbox" name="active" ${c.active!==false?'checked':''} style="width:22px;height:22px"><b>${esc(t('activeShow'))}</b></label></form>`,`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
+};
+FORM.course=async fd=>{
+  const id=fd.get('id')||uid();const old=clone(S.courses[id]||{});
+  const doc=Object.assign(old,{title:String(fd.get('title')).trim(),titleRu:String(fd.get('titleRu')||'').trim(),desc:String(fd.get('desc')||'').trim(),subjectId:String(fd.get('subjectId')||'phys'),icon:+fd.get('icon')||0,order:+fd.get('order')||0,price:+fd.get('price')||0,discount:Math.min(100,Math.max(0,+fd.get('discount')||0)),free:fd.get('free')==='on',popular:fd.get('popular')==='on',active:fd.get('active')==='on',created:old.created||Date.now()});
+  if(!doc.counts)doc.counts={video:0,book:0,theory:0,test:0,problem:0};
+  if(!doc.title){toast(t('required'));return}
+  const r=await W('set','courses',id,doc);if(r!==null){closeModal();toast(t('saved'))}
+};
+ACT.courseDel=async d=>{if(!await confirmBox(t('confirmDelCourse'),t('del')))return;await W('delete','courses',d.id);goBack()};
+
+ACT.demoInit=async d=>{
+  const id=demoId(d.sid);
+  const r=await W('set','courses',id,{title:'Намуна: '+subjName(d.sid),subjectId:d.sid,demo:true,free:true,active:true,icon:0,order:999,price:0,discount:0,counts:{video:0,book:0,theory:0,test:0,problem:0},created:Date.now()});
+  if(r!==null)toast(t('saved'));
+};
+
+/* ---- admin: items ---- */
+function countsWith(cid,iid,type){
+  const m={};Object.entries(S.items[cid]||{}).forEach(([id,x])=>{if(id!==iid)m[id]=x.type});if(type)m[iid]=type;
+  const c={video:0,book:0,theory:0,test:0,problem:0};Object.values(m).forEach(tp=>{if(c[tp]!=null)c[tp]++});return c;
+}
+const lvOpts=sel=>opts([['easy',t('lv_easy')],['medium',t('lv_medium')],['hard',t('lv_hard')]],sel||'easy');
+ACT.itemForm=d=>{
+  if(d.type==='test')return openTest(d.cid,d.iid);
+  const it=d.iid?(S.items[d.cid]||{})[d.iid]:{order:itemsOf(d.cid).length+1,level:'easy'};
+  const ty=d.type;let extra='';
+  if(ty==='video')extra=fld(t('videoUrl'),`<input type="url" name="url" placeholder="https://" value="${esc(it.url||'')}">`)+`<div class="xs mut" style="margin:-6px 0 12px">${esc(t('videoUrlHint'))}</div>`+fld(t('duration')+' ('+t('min')+')',`<input type="number" name="duration" value="${+it.duration||0}">`);
+  else if(ty==='book')extra=fld(t('fileUrl'),`<input type="url" name="url" placeholder="https://drive.google.com/file/d/…" value="${esc(it.url||'')}">`)+fld(t('author'),`<input type="text" name="author" value="${esc(it.author||'')}">`)+`<label class="row" style="margin-bottom:12px"><input type="checkbox" name="allowDownload" ${it.allowDownload!==false?'checked':''} style="width:22px;height:22px"><b>${esc(t('allowDownload'))}</b></label>`;
+  else if(ty==='theory')extra=fld(t('theoryText'),`<textarea name="body" rows="7">${esc(it.body||'')}</textarea>`)+fld(t('formulasHint'),`<textarea name="formulas" rows="4" placeholder="v = s / t | Суръат">${esc(it.formulas||'')}</textarea>`)+fld(t('examples'),`<textarea name="examples" rows="4">${esc(it.examples||'')}</textarea>`)+fld(t('units'),`<textarea name="units" rows="3">${esc(it.units||'')}</textarea>`);
+  else if(ty==='problem')extra=fld(t('problemText'),`<textarea name="text" rows="4" required>${esc(it.text||'')}</textarea>`)+fld(t('formulasLines'),`<textarea name="formulas" rows="3">${esc(it.formulas||'')}</textarea>`)+fld(t('stepsLines'),`<textarea name="steps" rows="5">${esc(it.steps||'')}</textarea>`)+fld(t('answer'),`<input type="text" name="answer" value="${esc(it.answer||'')}">`)+fld(t('explainShort'),`<textarea name="explain" rows="3">${esc(it.explain||'')}</textarea>`);
+  openModal((d.iid?t('edit'):t('add'))+': '+t('ty_'+ty),`<form id="mf" data-f="item"><input type="hidden" name="cid" value="${esc(d.cid)}"><input type="hidden" name="iid" value="${esc(d.iid||'')}"><input type="hidden" name="type" value="${ty}">${fld(t('title'),`<input type="text" name="title" required value="${esc(it.title||'')}">`)}${fld(t('desc'),`<textarea name="desc" rows="2">${esc(it.desc||'')}</textarea>`)}<div class="row"><label class="f grow"><span>${esc(t('level'))}</span><select name="level">${lvOpts(it.level)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+it.order||0}"></label></div>${extra}</form>`,`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
+};
+FORM.item=async fd=>{
+  const cid=fd.get('cid'),type=fd.get('type');const iid=fd.get('iid')||uid();
+  const old=clone(((S.items[cid]||{})[iid])||{});
+  const g=k=>String(fd.get(k)||'').trim();
+  const doc=Object.assign(old,{type,title:g('title'),desc:g('desc'),level:fd.get('level')||'easy',order:+fd.get('order')||0,created:old.created||Date.now()});
+  if(type==='video'){doc.url=g('url');doc.duration=+fd.get('duration')||0}
+  if(type==='book'){doc.url=g('url');doc.author=g('author');doc.allowDownload=fd.get('allowDownload')==='on'}
+  if(type==='theory'){doc.body=g('body');doc.formulas=g('formulas');doc.examples=g('examples');doc.units=g('units')}
+  if(type==='problem'){doc.text=g('text');doc.formulas=g('formulas');doc.steps=g('steps');doc.answer=g('answer');doc.explain=g('explain')}
+  if(!doc.title){toast(t('required'));return}
+  const r=await W('set','courses/'+cid+'/items',iid,doc);
+  if(r!==null){S.items[cid]=Object.assign(S.items[cid]||{},{[iid]:doc});await W('update','courses',cid,{counts:countsWith(cid,iid,type)});closeModal();toast(t('saved'))}
+};
+ACT.itemDel=async d=>{
+  if(!await confirmBox(t('confirmDel'),t('del')))return;
+  const c=countsWith(d.cid,d.iid,null);
+  await W('delete','courses/'+d.cid+'/items',d.iid);await W('update','courses',d.cid,{counts:c});
+};
+/* test editor */
+let qd=null;
+function qBody(){
+  const e=qd;
+  return `<form id="mf" data-f="test">${fld(t('title'),`<input type="text" name="title" required value="${esc(e.title)}">`)}<div class="row"><label class="f grow"><span>${esc(t('level'))}</span><select name="level">${lvOpts(e.level)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+e.order||0}"></label></div>
+  <div class="h3">${esc(t('tb_test'))}</div>${e.questions.map((q,i)=>`<div class="card"><div class="row sp"><b>${esc(t('question'))} ${i+1}</b>${e.questions.length>1?`<button type="button" class="btn ghost sm2" data-a="qDel" data-n="${i}">${ic('trash')}</button>`:''}</div><div class="gap"></div>
+    <label class="f"><span>${esc(t('text'))}</span><textarea name="q${i}" rows="2">${esc(q.q)}</textarea></label>
+    ${[0,1,2,3].map(j=>`<div class="row" style="margin-bottom:8px"><input type="radio" name="c${i}" value="${j}" ${q.correct===j?'checked':''} aria-label="${esc(t('correct'))}" style="width:22px;height:22px;flex:none"><input type="text" name="o${i}_${j}" placeholder="${'ABCD'[j]}" value="${esc(q.opts[j]||'')}"></div>`).join('')}<div class="xs mut">● ${esc(t('correct'))}</div>
+    <label class="f" style="margin-top:8px"><span>${esc(t('explainShort'))}</span><textarea name="e${i}" rows="2">${esc(q.explain||'')}</textarea></label></div>`).join('')}
+  <button type="button" class="btn sec full" data-a="qAdd">${ic('plus')}${esc(t('addQuestion'))}</button></form>`;
+}
+function qSync(){
+  const f=$('#mf');if(!f||!qd)return;const fd=new FormData(f);
+  qd.title=String(fd.get('title')||'');qd.level=fd.get('level')||'easy';qd.order=+fd.get('order')||0;
+  qd.questions.forEach((q,i)=>{q.q=String(fd.get('q'+i)||'');q.opts=[0,1,2,3].map(j=>String(fd.get('o'+i+'_'+j)||''));const c=fd.get('c'+i);q.correct=c===null?-1:+c;q.explain=String(fd.get('e'+i)||'')});
+}
+const qRedraw=()=>{const b=$('#modal .sb');if(b)b.innerHTML=qBody()};
+const blankQ=()=>({q:'',opts:['','','',''],correct:-1,explain:''});
+function openTest(cid,iid){
+  const it=iid?(S.items[cid]||{})[iid]:null;
+  qd=it?Object.assign(clone(it),{cid,iid}):{cid,iid:'',title:'',level:'easy',order:itemsOf(cid).length+1,questions:[blankQ()]};
+  qd.questions=(qd.questions&&qd.questions.length?qd.questions:[blankQ()]).map(q=>Object.assign(blankQ(),q));
+  openModal((iid?t('edit'):t('add'))+': '+t('ty_test'),qBody(),`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
+}
+ACT.qAdd=()=>{qSync();qd.questions.push(blankQ());qRedraw()};
+ACT.qDel=d=>{qSync();qd.questions.splice(+d.n,1);qRedraw()};
+FORM.test=async()=>{
+  qSync();const e=qd;
+  if(!e.title.trim()){toast(t('required'));return}
+  for(const q of e.questions){
+    if(!q.q.trim()||q.opts.filter(o=>o.trim()).length<2||q.correct<0||!q.opts[q.correct]||!q.opts[q.correct].trim()){toast(t('needCorrect'));return}
+  }
+  const iid=e.iid||uid();const old=clone(((S.items[e.cid]||{})[iid])||{});
+  const doc=Object.assign(old,{type:'test',title:e.title.trim(),level:e.level,order:e.order,questions:e.questions.map(q=>({q:q.q.trim(),opts:q.opts.map(o=>o.trim()),correct:q.correct,explain:(q.explain||'').trim()})),created:old.created||Date.now()});
+  const r=await W('set','courses/'+e.cid+'/items',iid,doc);
+  if(r!==null){S.items[e.cid]=Object.assign(S.items[e.cid]||{},{[iid]:doc});await W('update','courses',e.cid,{counts:countsWith(e.cid,iid,'test')});closeModal();toast(t('saved'))}
+};
+
+/* ---- admin: bundles, announcements, settings ---- */
+ACT.bundleForm=d=>{
+  const b=d.id?S.bundles[d.id]:{active:true,courseIds:[],price:0,discount:0};
+  openModal(d.id?t('edit'):t('newBundle'),`<form id="mf" data-f="bundle"><input type="hidden" name="id" value="${esc(d.id||'')}">${fld(t('title'),`<input type="text" name="title" required value="${esc(b.title||'')}">`)}<div class="row"><label class="f grow"><span>${esc(t('price'))} (TJS)</span><input type="number" name="price" min="0" step="any" value="${+b.price||0}"></label><label class="f grow"><span>${esc(t('discount'))} %</span><input type="number" name="discount" min="0" max="100" value="${+b.discount||0}"></label></div><div class="b sm" style="margin-bottom:6px">${esc(t('includedCourses'))}</div>${visibleCourses().map(c=>`<label class="row" style="margin-bottom:8px"><input type="checkbox" name="bc_${c.id}" ${(b.courseIds||[]).includes(c.id)?'checked':''} style="width:22px;height:22px"><span>${esc(ct(c))}</span></label>`).join('')}<label class="row" style="margin-top:8px"><input type="checkbox" name="active" ${b.active!==false?'checked':''} style="width:22px;height:22px"><b>${esc(t('activeShow'))}</b></label></form>`,`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
+};
+FORM.bundle=async fd=>{
+  const id=fd.get('id')||uid();
+  const ids=visibleCourses().filter(c=>fd.get('bc_'+c.id)==='on').map(c=>c.id);
+  if(!ids.length){toast(t('pickCourses'));return}
+  const r=await W('set','bundles',id,{title:String(fd.get('title')).trim(),price:+fd.get('price')||0,discount:Math.min(100,Math.max(0,+fd.get('discount')||0)),courseIds:ids,active:fd.get('active')==='on'});
+  if(r!==null){closeModal();toast(t('saved'))}
+};
+ACT.bundleDel=async d=>{if(await confirmBox(t('confirmDel'),t('del')))await W('delete','bundles',d.id)};
+ACT.annForm=()=>openModal(t('newAnn'),`<form id="mf" data-f="ann">${fld(t('title'),`<input type="text" name="title" required>`)}${fld(t('text'),`<textarea name="body" required rows="5"></textarea>`)}</form>`,`<button class="btn" type="submit" form="mf">${esc(t('send'))}</button>`);
+FORM.ann=async fd=>{const r=await W('set','announcements',uid(),{title:String(fd.get('title')).trim(),body:String(fd.get('body')).trim(),ts:Date.now(),by:ME.login});if(r!==null){closeModal();toast(t('saved'))}};
+ACT.annDel=async d=>{if(await confirmBox(t('confirmDel'),t('del')))await W('delete','announcements',d.id)};
+FORM.cfg=async fd=>{
+  const g=k=>String(fd.get(k)||'').trim();
+  const r=await W('set','settings','main',Object.assign(clone(S.cfg),{whatsapp:g('whatsapp').replace(/\D/g,''),walletName:g('walletName'),walletNumber:g('walletNumber'),walletOwner:g('walletOwner'),instructions:g('instructions')}));
+  if(r!==null)toast(t('saved'));
+};
+ACT.doBackup=async()=>{
+  const data={app:'physics-academy',version:VER,created:new Date().toISOString(),courses:S.courses,items:S.items,bundles:S.bundles,announcements:S.ann,settings:S.cfg,
+    students:students().map(u=>({sid:u.sid,login:u.login,name:u.name,phone:u.phone,active:u.active})),orders:Object.values(S.orders),access:Object.values(S.accessAll)};
+  try{await FSX.saveFile('physics-academy-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(data))}catch(e){toast(t('saveFail'))}
+};
+
+/* ---- seed: 11 physics sections ---- */
+ACT.seedPhysics=async()=>{
+  if(!await confirmBox(t('seedConfirm'),t('create')))return;
+  const T=[['kin','Кинематика','Кинематика'],['dyn','Динамика','Динамика'],['stat','Статика','Статика'],['work','Кор, тавоноӣ ва энергия','Работа, мощность и энергия'],['wave','Лапишҳо ва мавҷҳо','Колебания и волны'],['mol','Физикаи молекулавӣ','Молекулярная физика'],['thermo','Термодинамика','Термодинамика'],['elec','Электр','Электричество'],['magn','Магнетизм','Магнетизм'],['opt','Оптика','Оптика'],['atom','Физикаи атомӣ ва ядроӣ','Атомная и ядерная физика']];
+  const zero={video:0,book:0,theory:0,test:0,problem:0};
+  for(let i=0;i<T.length;i++){
+    const [id,tg,ru]=T[i];
+    await W('set','courses',id,{title:tg,titleRu:ru,desc:'',subjectId:'phys',icon:i,order:i+1,price:i===0?0:100,discount:0,free:i===0,popular:[0,1,7].includes(i),active:true,counts:Object.assign({},zero),created:Date.now()});
+  }
+  await W('set','bundles','full',{title:'Курси пурраи физика',price:900,discount:0,courseIds:T.map(x=>x[0]),active:true});
+  const items={
+    th1:{type:'theory',title:'Ҳаракати якрав',level:'easy',order:1,desc:'Мафҳумҳои асосӣ',body:'Ҳаракати якрав ҳаракатест, ки дар он ҷисм дар фосилаҳои баробари вақт роҳҳои баробар мегузарад. Суръат дар чунин ҳаракат тағйир намеёбад.',formulas:'v = s / t | Суръат = роҳ ÷ вақт\ns = v · t | Роҳи тайкарда',examples:'Автомобил бо суръати 20 м/с 5 сония ҳаракат кард. s = 20 · 5 = 100 м.',units:'Суръат: м/с\nРоҳ: м\nВақт: с',created:Date.now()},
+    ts1:{type:'test',title:'Тести асосӣ: ҳаракати якрав',level:'easy',order:1,created:Date.now()-1,questions:[
+      {q:'Суръати автомобил 20 м/с аст. Дар 5 сония чӣ қадар роҳ мегузарад?',opts:['50 м','100 м','25 м','4 м'],correct:1,explain:'s = v·t = 20·5 = 100 м'},
+      {q:'Воҳиди ченаки суръат дар системаи SI кадом аст?',opts:['м/с','км/соат','м','с'],correct:0,explain:'Дар SI суръат бо метр бар сония ченида мешавад.'},
+      {q:'Агар s = 60 м ва t = 12 с бошад, суръат чанд аст?',opts:['5 м/с','720 м/с','48 м/с','72 м/с'],correct:0,explain:'v = s / t = 60 / 12 = 5 м/с'}]},
+    pr1:{type:'problem',title:'Масъалаи 1: суръати миёна',level:'medium',order:1,created:Date.now()-2,text:'Автомобил 150 км роҳро дар 2 соат тай кард. Суръати миёнаи онро ёбед (км/соат).',formulas:'v = s / t',steps:'Додашудаҳо: s = 150 км, t = 2 соат.\nФормулаи суръатро менависем: v = s / t.\nАрзишҳоро мегузорем: v = 150 / 2.\nҲисоб мекунем: v = 75.',answer:'75 км/соат',explain:'Суръати миёна ҳамеша ҳамчун тақсими роҳи умумӣ ба вақти умумӣ ҳисоб мешавад.'}
+  };
+  for(const [id,doc] of Object.entries(items))await W('set','courses/kin/items',id,doc);
+  await W('update','courses','kin',{counts:{video:0,book:0,theory:1,test:1,problem:1}});
+  if(!S.cfg.appName)await W('set','settings','main',Object.assign(clone(S.cfg),{appName:'Firuz-Academy'}));
+  toast(t('seeded'));
+};
+/* ================= boot ================= */
+(async function boot(){
+  applyTheme();render();
+  if(window.FSX&&FSX.configured){
+    DB=FSX.db;
+    if(FSX.onBack)FSX.onBack(()=>{
+      if(modalOpen()){closeModal();return}
+      if(R.stack.length){goBack();return}
+      if(R.v!==(isA()?'dash':'home')){goRoot(isA()?'dash':'home');return}
+      if(FSX.exitApp)FSX.exitApp();
+    });
+    try{const init=await FSX.getDoc('config','init');needSetup=!init}catch(e){needSetup=false}
+    FSX.onAuth(onAuthChanged);
+    if(!FSX.native&&'serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js')}catch(e){}}
+  }else{authReady=true}
+  render();
+})();
+</script>
+</body>
+</html>
