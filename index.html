@@ -171,7 +171,7 @@ language:['Забон','Язык'],theme:['Намуд','Тема'],themeAuto:['�
 role_admin:['Маъмур','Администратор'],role_student:['Хонанда','Ученик'],
 n_home:['Асосӣ','Главная'],n_courses:['Курсҳо','Курсы'],n_cab:['Кабинет','Кабинет'],n_settings:['Танзимот','Настройки'],n_dash:['Назорат','Обзор'],n_students:['Хонандагон','Ученики'],n_orders:['Пардохт','Оплата'],n_more:['Бештар','Ещё'],
 hello:['Салом','Здравствуйте'],availableN:['{n} курси дастрас','Доступно курсов: {n}'],searchCourses:['Ҷустуҷӯи курсҳо…','Поиск курсов…'],noCourses:['Курсҳо ҳоло нестанд','Курсов пока нет'],
-sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],allCourses:['Рӯйхати ҳамаи курсҳо','Список всех курсов'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
+sections:['Қисмҳои физика','Разделы физики'],clusters:['Кластерҳо','Кластеры'],demoTitle:['Видео-намуна (ройгон)','Бесплатные видео-уроки'],demoSub:['Аввал бубинед, баъд интихоб кунед','Сначала посмотрите, потом выбирайте'],nVideos:['{n} видео','Видео: {n}'],addDemo:['Илова кардани видео','Добавить видео'],demoInit:['Оғози бахш барои ин фан','Создать раздел для этого предмета'],demoEmpty:['Видеоҳои намуна ба қарибӣ илова мешавад.','Бесплатные видео скоро появятся.'],allCourses:['Рӯйхати ҳамаи курсҳо','Список всех курсов'],nSections:['{n} қисм','Разделов: {n}'],soon:['Ба қарибӣ','Скоро'],soonMsg:['Ин фан ҳоло қисм надорад. Ба қарибӣ илова мешавад.','В этом предмете пока нет разделов. Скоро появятся.'],subject:['Фан','Предмет'],freeCourses:['Курсҳои ройгон','Бесплатные курсы'],paidCourses:['Курсҳои пулакӣ','Платные курсы'],popular:['Курсҳои машҳур','Популярные курсы'],
 newLessons:['Дарсҳои нав','Новые уроки'],myProgress:['Пешрафти ман','Мой прогресс'],announcements:['Эълонҳо','Объявления'],contactWa:['Муроҷиат ба маъмурият (WhatsApp)','Связаться с администрацией (WhatsApp)'],
 free:['Ройгон','Бесплатно'],paid:['Пулакӣ','Платно'],opened:['Кушода','Открыт'],hidden:['Пинҳон','Скрыт'],mineCourses:['Аз они ман','Мои'],
 lockedCourse:['Курс баста аст','Курс закрыт'],lockedHint:['Барои дидани видео, китоб ва тестҳо курсро харед.','Купите курс, чтобы открыть видео, книги и тесты.'],buyCourse:['Харидани курс','Купить курс'],
@@ -423,7 +423,7 @@ const cPrice=c=>Math.round((+c.price||0)*(100-(+c.discount||0)))/100;
 const bPrice=b=>Math.round((+b.price||0)*(100-(+b.discount||0)))/100;
 const TYPES=['video','book','theory','test','problem'];
 const TYPE_IC={video:'play',book:'book',theory:'file',test:'list',problem:'q'};
-const visibleCourses=()=>sortBy(vals(S.courses),c=>(+c.order||0)).filter(c=>isA()||c.active!==false);
+const visibleCourses=()=>sortBy(vals(S.courses),c=>(+c.order||0)).filter(c=>!c.demo&&(isA()||c.active!==false));
 const itemsOf=cid=>sortBy(vals(S.items[cid]||{}),x=>String(1e6+(+x.order||0))+(x.title||''));
 const isDone=(cid,iid)=>!!(S.progress[cid]&&S.progress[cid].done&&S.progress[cid].done[iid]);
 const isFav=(cid,iid)=>!!(S.progress[cid]&&S.progress[cid].fav&&S.progress[cid].fav[iid]);
@@ -455,6 +455,8 @@ function viewTitle(){
   if(R.v==='cluster'){const c=clusterOf(R.p);return c?clName(c):t('app')}
   if(R.v==='subject')return subjName(R.p);
   if(R.v==='aAll')return t('allCourses');
+  if(R.v==='demo')return t('demoTitle');
+  if(R.v==='demoSubj')return subjName(R.p);
   return m[R.v]||t('app');
 }
 function shell(){
@@ -466,7 +468,7 @@ function shell(){
   const pend=admin?pendingOrders():0;
   const body=V[R.v]?V[R.v]():empty();
   return `<header class="top">${left}<h1>${esc(viewTitle())}</h1>${admin?'':`<button class="ib" data-a="root" data-v="courses" aria-label="${esc(t('search'))}">${ic('search')}</button>`}</header><main id="view">${body}</main>
-  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'))||(n[0]==='aCourses'&&['course','cluster','subject','aAll'].includes(R.v)&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
+  <nav class="nav">${nav.map(n=>`<button data-a="root" data-v="${n[0]}" class="${R.v===n[0]||(n[0]==='home'&&!admin&&(R.v==='cluster'||R.v==='subject'||R.v==='demo'||R.v==='demoSubj'))||(n[0]==='aCourses'&&['course','cluster','subject','aAll','demo','demoSubj'].includes(R.v)&&admin)||(n[0]==='courses'&&R.v==='course'&&!admin)||(n[0]==='aStudents'&&R.v==='aStudent')?'on':''}">${ic(n[1])}<span>${esc(n[2])}</span>${n[0]==='aOrders'&&pend?`<span class="dot">${pend}</span>`:''}</button>`).join('')}</nav>`;
 }
 
 /* ---- course cards ---- */
@@ -489,6 +491,22 @@ function subjTile(sid){
 V.cluster=function(){const c=clusterOf(R.p);if(!c)return empty();return `<div class="secs">${c.s.map(subjTile).join('')}</div>`};
 V.subject=function(){const cs=coursesOfSubject(R.p);if(isA())return (cs.length?cs.map(adminCourseCard).join(''):empty(t('soonMsg')))+`<button class="fab" data-a="courseForm" data-sj="${esc(R.p)}" aria-label="${esc(t('newCourse'))}">${ic('plus')}</button>`;if(!cs.length)return empty(t('soonMsg'));return `<div class="secs">${cs.map(secTile).join('')}</div>`};
 
+const demoId=sid=>'demo_'+sid;
+function demoTile(){return `<button class="sec" data-a="go" data-v="demo" style="grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;background:var(--ok-soft)"><div class="ti" style="background:var(--ok);color:#fff">${ic('play')}</div><div><b>${esc(t('demoTitle'))}</b><div class="xs mut">${esc(t('demoSub'))}</div></div></button>`}
+V.demo=function(){
+  return `<div class="secs">${Object.keys(SUBJ).map(sid=>{const n=itemsOf(demoId(sid)).length;return `<button class="sec" data-a="go" data-v="demoSubj" data-p="${sid}"><div class="ti">${ic('play')}</div><b>${esc(subjName(sid))}</b><span class="xs mut">${esc(n?t('nVideos',{n}):t('soon'))}</span></button>`}).join('')}</div>`;
+};
+V.demoSubj=function(){
+  const sid=R.p,cid=demoId(sid),c=S.courses[cid],its=itemsOf(cid);
+  let h='';
+  if(isA()){
+    if(!c)return empty(t('demoEmpty'))+`<button class="btn full" data-a="demoInit" data-sid="${esc(sid)}">${ic('plus')}${esc(t('demoInit'))}</button>`;
+    h+=`<button class="btn full" data-a="itemForm" data-cid="${cid}" data-type="video" style="margin-bottom:10px">${ic('plus')}${esc(t('addDemo'))}</button>`;
+  }
+  if(!its.length)return h+empty(t('demoEmpty'));
+  return h+`<div class="card">${its.map(it=>itemRow(cid,it)).join('')}</div>`;
+};
+
 /* ---- home ---- */
 V.home=function(){
   const cs=visibleCourses();const acc=cs.filter(c=>canAccess(c.id));
@@ -497,7 +515,7 @@ V.home=function(){
   h+=`<div class="hero"><div class="sm" style="opacity:.85">${esc(t('hello'))},</div><div class="big">${esc(ME.name)}</div><div class="sm" style="opacity:.9">ID: ${esc(ME.login)} · ${esc(t('availableN',{n:acc.length}))}</div></div>`;
   h+=`<div class="search" data-a="root" data-v="courses">${ic('search')}<input type="search" placeholder="${esc(t('searchCourses'))}" readonly style="cursor:pointer"></div>`;
   if(!cs.length)return h+empty(t('noCourses'));
-  h+=`<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}</div>`;
+  h+=`<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}${demoTile()}</div>`;
   const free=cs.filter(c=>c.free),paid=cs.filter(c=>!c.free),pop=cs.filter(c=>c.popular);
   if(free.length)h+=`<div class="h3">${esc(t('freeCourses'))}</div><div class="hs">${free.map(courseCard).join('')}</div>`;
   if(paid.length)h+=`<div class="h3">${esc(t('paidCourses'))}</div><div class="hs">${paid.map(courseCard).join('')}</div>`;
@@ -707,7 +725,7 @@ V.dash=function(){
 
 function adminCourseCard(c){return `<div class="card tap" data-a="go" data-v="course" data-p="${c.id}"><div class="row"><div class="av">${secIc(c.icon)}</div><div class="grow"><div class="b">${esc(ct(c))}</div><div class="xs mut">${(c.counts&&Object.values(c.counts).reduce((a,b)=>a+b,0))||0} ${esc(t('itemsN'))}</div></div>${c.free?chip(t('free'),'ok'):chip(money(cPrice(c)),'warn')}${c.active===false?chip(t('hidden'),'gray'):''}</div></div>`}
 V.aCourses=function(){
-  return `<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}</div><button class="btn sec full" data-a="go" data-v="aAll">${esc(t('allCourses'))}</button>`;
+  return `<div class="h3">${esc(t('clusters'))}</div><div class="secs">${CLUSTERS.map(clusterTile).join('')}${demoTile()}</div><button class="btn sec full" data-a="go" data-v="aAll">${esc(t('allCourses'))}</button>`;
 };
 V.aAll=function(){
   const cs=visibleCourses();
@@ -1077,6 +1095,12 @@ FORM.course=async fd=>{
   const r=await W('set','courses',id,doc);if(r!==null){closeModal();toast(t('saved'))}
 };
 ACT.courseDel=async d=>{if(!await confirmBox(t('confirmDelCourse'),t('del')))return;await W('delete','courses',d.id);goBack()};
+
+ACT.demoInit=async d=>{
+  const id=demoId(d.sid);
+  const r=await W('set','courses',id,{title:'Намуна: '+subjName(d.sid),subjectId:d.sid,demo:true,free:true,active:true,icon:0,order:999,price:0,discount:0,counts:{video:0,book:0,theory:0,test:0,problem:0},created:Date.now()});
+  if(r!==null)toast(t('saved'));
+};
 
 /* ---- admin: items ---- */
 function countsWith(cid,iid,type){
