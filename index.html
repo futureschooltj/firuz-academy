@@ -114,7 +114,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--pri);outline:none}
 .vid iframe,.vid video{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vid .shield{position:absolute;left:0;right:0;top:0;height:22%;z-index:2}
 .doc{width:100%;height:70vh;border:1px solid var(--line);border-radius:12px;background:#fff}
-.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px;cursor:pointer;background:var(--card)}
+.qimg{display:block;max-width:100%;max-height:340px;margin:0 auto 12px;border-radius:12px;border:1px solid var(--line);background:#fff;object-fit:contain}.tmsel{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tmsel button{border:1.5px solid var(--line);background:var(--card);color:inherit;border-radius:999px;padding:8px 14px;font:700 14px inherit;cursor:pointer}.tmsel button.on{background:var(--pri,#1546C9);border-color:var(--pri,#1546C9);color:var(--pri-ink,#fff)}.tmsel input{width:104px;border:1.5px solid var(--line);border-radius:999px;padding:8px 12px;font:700 14px inherit;background:var(--card);color:inherit}.tmr{position:sticky;top:60px;z-index:20;margin:0 0 10px;padding:10px 14px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.08)}.tmr b{font-size:22px;font-variant-numeric:tabular-nums}.tmr.low{border-color:#e11d48;color:#e11d48}.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px;cursor:pointer;background:var(--card)}
 .opt input{width:20px;height:20px;flex:none;margin-top:2px}
 .opt.on{border-color:var(--pri);background:var(--pri-soft)}.opt.good{border-color:var(--ok);background:var(--ok-soft)}.opt.badc{border-color:var(--bad);background:var(--bad-soft)}
 .formula{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:17px;font-weight:700;background:var(--pri-soft);color:var(--pri);padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:4px}
@@ -252,7 +252,7 @@ addItem:['Илова кардан','Добавить'],level:['Сатҳ','Уро
 videoUrl:['Пайванди видео','Ссылка на видео'],videoUrlHint:['YouTube, Vimeo, Google Drive ё файли .mp4','YouTube, Vimeo, Google Drive или файл .mp4'],duration:['Давомнокӣ','Длительность'],
 fileUrl:['Пайванди файл (PDF)','Ссылка на файл (PDF)'],allowDownload:['Зеркашӣ иҷозат дода шавад','Разрешить скачивание'],theoryText:['Матни назария','Текст теории'],formulasHint:['Формулаҳо (ҳар сатр: формула | шарҳ)','Формулы (строка: формула | пояснение)'],formulasLines:['Формулаҳо (ҳар сатр як формула)','Формулы (по одной в строке)'],
 problemText:['Шарти масъала','Условие задачи'],stepsLines:['Қадамҳои ҳал (ҳар сатр як қадам)','Шаги решения (по одному в строке)'],explainShort:['Шарҳ','Пояснение'],
-question:['Савол','Вопрос'],addQuestion:['Саволи нав','Добавить вопрос'],correct:['Ҷавоби дуруст','Правильный ответ'],needCorrect:['Барои ҳар савол матн, камаш 2 вариант ва ҷавоби дурустро ворид кунед','В каждом вопросе нужны текст, 2+ варианта и верный ответ'],
+question:['Савол','Вопрос'],timeLimit:['Вақти пешниҳодшуда (дақиқа, 0 = бе вақт)','Рекомендуемое время (мин, 0 = без лимита)'],chooseTime:['Вақти тестро интихоб кунед','Выберите время теста'],noTime:['Бе вақт','Без таймера'],customMin:['Дақиқа','Минут'],startTest:['Оғози тест','Начать тест'],timeUp:['Вақт тамом шуд!','Время вышло!'],testInfo:['{q} савол · {m} дақиқа','Вопросов: {q} · {m} мин'],testInfoHint:['Пас аз оғоз таймер қатъ намешавад. Вақт тамом шавад, тест худкор супорида мешавад.','После старта таймер не останавливается. По окончании времени тест сдаётся автоматически.'],qImage:['Расм / график (ихтиёрӣ)','Рисунок / график (необязательно)'],addImage:['Илова кардани расм','Добавить рисунок'],delImage:['Нест кардани расм','Удалить рисунок'],imgTooBig:['Ҳаҷми расмҳо хеле калон аст. Расмҳоро кам кунед.','Слишком большой объём рисунков.'],imgErr:['Расм кушода нашуд','Не удалось открыть рисунок'],unanswered:['Бе ҷавоб','Без ответа'],addQuestion:['Саволи нав','Добавить вопрос'],correct:['Ҷавоби дуруст','Правильный ответ'],needCorrect:['Барои ҳар савол матн, камаш 2 вариант ва ҷавоби дурустро ворид кунед','В каждом вопросе нужны текст, 2+ варианта и верный ответ'],
 newBundle:['Баста нав','Новый пакет'],includedCourses:['Курсҳои дохилшуда','Включённые курсы'],pickCourses:['Камаш як курсро интихоб кунед','Выберите хотя бы один курс'],
 newAnn:['Эълони нав','Новое объявление'],
 searchStudents:['Ҷустуҷӯи хонанда…','Поиск ученика…'],newStudent:['Хонандаи нав','Новый ученик'],editStudent:['Таҳрири хонанда','Изменить ученика'],active:['Фаъол','Активен'],inactive:['Ғайрифаъол','Отключён'],activate:['Фаъол кардан','Включить'],deactivate:['Ғайрифаъол кардан','Отключить'],
@@ -600,7 +600,7 @@ V.courses=function(){
 /* ---- course ---- */
 function itemRow(cid,it){
   const done=isDone(cid,it.id);const best=it.type==='test'?bestResult(cid,it.id):null;
-  const meta=[t('ty_'+it.type),it.duration?it.duration+' '+t('min'):'',it.type==='test'&&it.questions?it.questions.length+' '+t('qs'):''].filter(Boolean).join(' · ');
+  const meta=[t('ty_'+it.type),it.duration?it.duration+' '+t('min'):'',it.type==='test'&&it.questions?it.questions.length+' '+t('qs'):'',it.type==='test'&&it.timeLimit?'⏱ '+it.timeLimit+' '+t('min'):''].filter(Boolean).join(' · ');
   return `<div class="li" style="cursor:pointer" data-a="openItem" data-cid="${cid}" data-iid="${it.id}"><div class="av" style="${done?'background:var(--ok-soft);color:var(--ok)':''}">${done?ic('check'):ic(TYPE_IC[it.type])}</div><div class="grow"><div class="b">${esc(it.title)}</div><div class="xs mut">${esc(meta)}</div></div>${best!=null?chip(best+'%',best>=70?'ok':'warn'):''}${lvChip(it.level)}${isFav(cid,it.id)?`<span style="color:var(--acc)">${ic('star').replace('<svg','<svg style="width:18px;height:18px;fill:currentColor"')}</span>`:''}${isA()?`<button class="ib" data-a="itemForm" data-cid="${cid}" data-type="${it.type}" data-iid="${it.id}" aria-label="${esc(t('edit'))}">${ic('edit')}</button><button class="ib" data-a="itemDel" data-cid="${cid}" data-iid="${it.id}" aria-label="${esc(t('del'))}">${ic('trash')}</button>`:''}</div>`;
 }
 V.course=function(){
@@ -672,14 +672,33 @@ V.item=function(){
   h+=`<div class="row" style="margin-top:12px">${sb.prev?`<button class="btn sec grow" data-a="openItem" data-cid="${cid}" data-iid="${sb.prev.id}" data-rep="1">‹ ${esc(t('prev'))}</button>`:'<span class="grow"></span>'}${sb.next?`<button class="btn sec grow" data-a="openItem" data-cid="${cid}" data-iid="${sb.next.id}" data-rep="1">${esc(t('next'))} ›</button>`:'<span class="grow"></span>'}</div>`;
   return h;
 };
+function fmtT(sec){sec=Math.max(0,sec);return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')}
+let TMR=null;
+function tmrStop(){if(TMR){clearInterval(TMR);TMR=null}}
+function tmrStart(cid,iid){
+  tmrStop();
+  TMR=setInterval(()=>{
+    if(!TST||!TST.end||TST.sub||R.v!=='item'||!R.p||R.p.cid!==cid||R.p.iid!==iid){if(!TST||TST.sub||!TST.end||R.v!=='item'){tmrStop();if(TST&&!TST.sub){TST=null}}return}
+    const left=Math.ceil((TST.end-Date.now())/1000);
+    const el=document.getElementById('tmrv');if(el){el.textContent=fmtT(left);const bx=el.closest('.tmr');if(bx)bx.classList.toggle('low',left<=60)}
+    if(left<=0){tmrStop();toast(t('timeUp'));ACT.testSubmit({cid,iid,force:'1'})}
+  },500);
+}
 function testHtml(cid,iid,it){
-  const key=cid+'/'+iid;if(!TST||TST.key!==key)TST={key,ans:{},sub:false,res:null};
-  const qs=it.questions||[];
+  const key=cid+'/'+iid;if(!TST||TST.key!==key)TST={key,ans:{},sub:false,res:null,end:0,started:false};
+  const qs=it.questions||[];const lim=+it.timeLimit||0;
   let h='';
+  if(!TST.started&&!TST.sub&&!isA()){
+    if(TST.sel==null)TST.sel=lim;
+    const opts=[0,5,10,15,20,30,45,60];if(lim&&!opts.includes(lim))opts.push(lim);opts.sort((x,y)=>x-y);
+    h+=`<div class="card"><div class="b">⏱ ${esc(t('chooseTime'))}</div><div class="tmsel">${opts.map(m=>`<button type="button" data-a="tmSel" data-m="${m}" class="${TST.sel===m?'on':''}">${m?m+' '+esc(t('min')):esc(t('noTime'))}</button>`).join('')}<input type="number" min="1" max="300" inputmode="numeric" placeholder="${esc(t('customMin'))}" data-c="tmCustom" value="${opts.includes(TST.sel)?'':TST.sel}"></div>${TST.sel>0?`<div class="sm mut" style="margin-bottom:10px">${esc(t('testInfo',{q:qs.length,m:TST.sel}))}. ${esc(t('testInfoHint'))}</div><button class="btn full" data-a="testStart" data-cid="${cid}" data-iid="${iid}">${esc(t('startTest'))}</button>`:''}</div>`;
+    if(TST.sel>0)return h;
+  }
+  if(TST.started&&TST.end&&!TST.sub){const left=Math.ceil((TST.end-Date.now())/1000);h+=`<div class="tmr${left<=60?' low':''}"><span>⏱</span><b id="tmrv">${fmtT(left)}</b></div>`}
   if(TST.sub&&TST.res){const r=TST.res;h+=`<div class="card tc"><div style="font-size:34px;font-weight:800">${r.score}/${r.max}</div><div class="b ${r.pct>=70?'':'mut'}">${r.pct}%</div><div style="margin-top:6px">${chip(r.pct>=90?t('excellent'):r.pct>=70?t('good'):t('tryAgain'),r.pct>=70?'ok':'warn')}</div></div>`}
   h+=qs.map((q,qi)=>{
     const sel=TST.ans[qi];
-    return `<div class="card"><div class="b" style="margin-bottom:8px">${qi+1}. ${esc(q.q)}</div>${(q.opts||[]).map((o,oi)=>{if(!o)return '';
+    return `<div class="card"><div class="b" style="margin-bottom:8px">${qi+1}. ${esc(q.q)}</div>${q.img?`<img class="qimg" src="${esc(q.img)}" alt="">`:''}${(q.opts||[]).map((o,oi)=>{if(!o)return '';
       let cls='';if(TST.sub){if(oi===q.correct)cls='good';else if(oi===sel)cls='badc'}else if(sel===oi)cls='on';
       return `<div class="opt ${cls}" ${TST.sub?'':`data-a="pick" data-q="${qi}" data-o="${oi}"`}><b>${'ABCD'[oi]}</b><span>${esc(o)}</span></div>`}).join('')}${TST.sub&&q.explain?`<div class="sm mut" style="margin-top:6px">💡 ${esc(q.explain)}</div>`:''}</div>`}).join('');
   if(!qs.length)h+=empty();
@@ -940,10 +959,14 @@ ACT.openItem=d=>{
   if(d.rep){R.p=p;window.scrollTo(0,0);render(true)}else go('item',p);
 };
 ACT.pick=d=>{if(TST&&!TST.sub){TST.ans[+d.q]=+d.o;render(true)}};
-ACT.testRetry=()=>{TST=null;render(true)};
+ACT.tmSel=d=>{if(TST&&!TST.started){TST.sel=+d.m;render(true)}};
+CHG.tmCustom=v=>{const m=Math.max(0,Math.min(300,Math.round(+v||0)));if(TST&&!TST.started){TST.sel=m;render(true)}};
+ACT.testRetry=()=>{tmrStop();TST=null;render(true)};
+ACT.testStart=d=>{const it=(S.items[d.cid]||{})[d.iid];if(!it)return;const m=TST&&TST.key===d.cid+'/'+d.iid?(+TST.sel||0):(+it.timeLimit||0);if(m<=0)return;TST={key:d.cid+'/'+d.iid,sel:m,ans:{},sub:false,res:null,started:true,end:Date.now()+m*60000};tmrStart(d.cid,d.iid);render(true)};
 ACT.testSubmit=async d=>{
   const it=(S.items[d.cid]||{})[d.iid];const qs=it.questions||[];
-  if(qs.some((q,i)=>TST.ans[i]==null)){toast(t('answerAll'));return}
+  if(!d.force&&qs.some((q,i)=>TST.ans[i]==null)){toast(t('answerAll'));return}
+  tmrStop();
   let score=0;qs.forEach((q,i)=>{if(TST.ans[i]===q.correct)score++});
   const res={score,max:qs.length,pct:pct(score,qs.length)};
   TST.sub=true;TST.res=res;render(true);
@@ -1191,25 +1214,30 @@ let qd=null;
 function qBody(){
   const e=qd;
   return `<form id="mf" data-f="test">${fld(t('title'),`<input type="text" name="title" required value="${esc(e.title)}">`)}<div class="row"><label class="f grow"><span>${esc(t('level'))}</span><select name="level">${lvOpts(e.level)}</select></label><label class="f grow"><span>${esc(t('order'))}</span><input type="number" name="order" value="${+e.order||0}"></label></div>
+  ${fld(t('timeLimit'),`<input type="number" name="tl" min="0" max="300" value="${+e.timeLimit||0}">`)}
   <div class="h3">${esc(t('tb_test'))}</div>${e.questions.map((q,i)=>`<div class="card"><div class="row sp"><b>${esc(t('question'))} ${i+1}</b>${e.questions.length>1?`<button type="button" class="btn ghost sm2" data-a="qDel" data-n="${i}">${ic('trash')}</button>`:''}</div><div class="gap"></div>
     <label class="f"><span>${esc(t('text'))}</span><textarea name="q${i}" rows="2">${esc(q.q)}</textarea></label>
+    <div class="f"><span>${esc(t('qImage'))}</span>${q.img?`<img class="qimg" src="${esc(q.img)}" alt=""><button type="button" class="btn ghost sm2" data-a="qImgDel" data-n="${i}">${ic('trash')}${esc(t('delImage'))}</button>`:`<input type="file" accept="image/*" data-c="qImg" data-n="${i}">`}</div>
     ${[0,1,2,3].map(j=>`<div class="row" style="margin-bottom:8px"><input type="radio" name="c${i}" value="${j}" ${q.correct===j?'checked':''} aria-label="${esc(t('correct'))}" style="width:22px;height:22px;flex:none"><input type="text" name="o${i}_${j}" placeholder="${'ABCD'[j]}" value="${esc(q.opts[j]||'')}"></div>`).join('')}<div class="xs mut">● ${esc(t('correct'))}</div>
     <label class="f" style="margin-top:8px"><span>${esc(t('explainShort'))}</span><textarea name="e${i}" rows="2">${esc(q.explain||'')}</textarea></label></div>`).join('')}
   <button type="button" class="btn sec full" data-a="qAdd">${ic('plus')}${esc(t('addQuestion'))}</button></form>`;
 }
 function qSync(){
   const f=$('#mf');if(!f||!qd)return;const fd=new FormData(f);
-  qd.title=String(fd.get('title')||'');qd.level=fd.get('level')||'easy';qd.order=+fd.get('order')||0;
+  qd.title=String(fd.get('title')||'');qd.level=fd.get('level')||'easy';qd.order=+fd.get('order')||0;qd.timeLimit=Math.max(0,Math.min(300,+fd.get('tl')||0));
   qd.questions.forEach((q,i)=>{q.q=String(fd.get('q'+i)||'');q.opts=[0,1,2,3].map(j=>String(fd.get('o'+i+'_'+j)||''));const c=fd.get('c'+i);q.correct=c===null?-1:+c;q.explain=String(fd.get('e'+i)||'')});
 }
 const qRedraw=()=>{const b=$('#modal .sb');if(b)b.innerHTML=qBody()};
-const blankQ=()=>({q:'',opts:['','','',''],correct:-1,explain:''});
+const blankQ=()=>({q:'',opts:['','','',''],correct:-1,explain:'',img:''});
 function openTest(cid,iid){
   const it=iid?(S.items[cid]||{})[iid]:null;
   qd=it?Object.assign(clone(it),{cid,iid}):{cid,iid:'',title:'',level:'easy',order:itemsOf(cid).length+1,questions:[blankQ()]};
   qd.questions=(qd.questions&&qd.questions.length?qd.questions:[blankQ()]).map(q=>Object.assign(blankQ(),q));
   openModal((iid?t('edit'):t('add'))+': '+t('ty_test'),qBody(),`<button class="btn" type="submit" form="mf">${esc(t('save'))}</button>`);
 }
+function imgToData(file,max=900,q=.78){return new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',q))};im.src=fr.result};fr.readAsDataURL(file)})}
+CHG.qImg=async(v,el)=>{const f=el.files&&el.files[0];if(!f)return;qSync();try{qd.questions[+el.dataset.n].img=await imgToData(f)}catch(e){toast(t('imgErr'))}qRedraw()};
+ACT.qImgDel=d=>{qSync();qd.questions[+d.n].img='';qRedraw()};
 ACT.qAdd=()=>{qSync();qd.questions.push(blankQ());qRedraw()};
 ACT.qDel=d=>{qSync();qd.questions.splice(+d.n,1);qRedraw()};
 FORM.test=async()=>{
@@ -1218,8 +1246,9 @@ FORM.test=async()=>{
   for(const q of e.questions){
     if(!q.q.trim()||q.opts.filter(o=>o.trim()).length<2||q.correct<0||!q.opts[q.correct]||!q.opts[q.correct].trim()){toast(t('needCorrect'));return}
   }
+  if(JSON.stringify(e.questions).length>900000){toast(t('imgTooBig'));return}
   const iid=e.iid||uid();const old=clone(((S.items[e.cid]||{})[iid])||{});
-  const doc=Object.assign(old,{type:'test',title:e.title.trim(),level:e.level,order:e.order,questions:e.questions.map(q=>({q:q.q.trim(),opts:q.opts.map(o=>o.trim()),correct:q.correct,explain:(q.explain||'').trim()})),created:old.created||Date.now()});
+  const doc=Object.assign(old,{type:'test',title:e.title.trim(),level:e.level,order:e.order,questions:e.questions.map(q=>({q:q.q.trim(),opts:q.opts.map(o=>o.trim()),correct:q.correct,explain:(q.explain||'').trim(),img:q.img||''})),timeLimit:e.timeLimit||0,created:old.created||Date.now()});
   const r=await W('set','courses/'+e.cid+'/items',iid,doc);
   if(r!==null){S.items[e.cid]=Object.assign(S.items[e.cid]||{},{[iid]:doc});await W('update','courses',e.cid,{counts:countsWith(e.cid,iid,'test')});closeModal();toast(t('saved'))}
 };
