@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import {
   initializeFirestore, persistentLocalCache, persistentSingleTabManager,
-  collection, collectionGroup, doc, getDoc, setDoc, deleteDoc, onSnapshot, query, where
+  collection, collectionGroup, doc, getDoc, setDoc, deleteDoc, onSnapshot, query, where, writeBatch
 } from 'firebase/firestore';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
@@ -47,11 +47,32 @@ const db = {
     },
     doc: id => ({
       set: d => fast(setDoc(doc(fs, c, id), d)),
+      setWait: d => setDoc(doc(fs, c, id), d),
       update: d => fast(setDoc(doc(fs, c, id), d, { merge: true })),
       delete: () => fast(deleteDoc(doc(fs, c, id)))
     })
   })
 };
+
+// Рамзи дастрасӣ: як амал (batch) — рамз «истифода шуд» + дастрасӣ ба курсҳо барои муддати days рӯз
+async function redeem(code, sid, name) {
+  if (!navigator.onLine) throw { code: 'network' };
+  const ref = doc(fs, 'codes', code);
+  let snap;
+  try { snap = await getDoc(ref); } catch (e) { throw { code: (e && e.code === 'unavailable') ? 'network' : 'bad' }; }
+  if (!snap.exists()) throw { code: 'bad' };
+  const c = snap.data();
+  if (c.used) throw { code: 'used' };
+  const now = Date.now();
+  const exp = now + (+c.days || 365) * 86400000;
+  const b = writeBatch(fs);
+  b.update(ref, { used: true, usedBy: sid, usedTs: now, usedName: String(name || '') });
+  (c.courseIds || []).forEach(cid => b.set(doc(fs, 'students', sid, 'access', cid),
+    { sid, courseId: cid, active: true, ts: now, by: 'code', code, expires: exp }));
+  try { await b.commit(); }
+  catch (e) { throw { code: (e && e.code === 'unavailable') ? 'network' : 'bad' }; }
+  return c.courseIds || [];
+}
 
 async function getD(c, id) {
   const s = await getDoc(doc(fs, c, id));
@@ -115,6 +136,7 @@ async function saveFile(name, data) {
 window.FSX = {
   configured, native, db,
   getDoc: getD,
+  redeem,
   signIn, signInEmail, signUp, createAccount, changePassword,
   signOut: () => signOut(auth),
   onAuth: cb => onAuthStateChanged(auth, cb),
