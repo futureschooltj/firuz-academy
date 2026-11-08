@@ -115,6 +115,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--pri);outline:none}
 .vid{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;margin-bottom:12px}
 .vid iframe,.vid video{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vid .shield{position:absolute;left:0;right:0;top:0;height:22%;z-index:2}
+.vid .vb{position:absolute;z-index:2}
+.vid .vb.tr{top:0;right:0;width:64px;height:min(150px,70%)}
+.vid .vb.br{bottom:0;right:0;width:40px;height:46px}
 .doc{width:100%;height:70vh;border:1px solid var(--line);border-radius:12px;background:#fff}
 .qimg{display:block;max-width:100%;max-height:340px;margin:0 auto 12px;border-radius:12px;border:1px solid var(--line);background:#fff;object-fit:contain}.tmsel{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tmsel button{border:1.5px solid var(--line);background:var(--card);color:inherit;border-radius:999px;padding:8px 14px;font:700 14px inherit;cursor:pointer}.tmsel button.on{background:var(--pri,#1546C9);border-color:var(--pri,#1546C9);color:var(--pri-ink,#fff)}.tmsel input{width:104px;border:1.5px solid var(--line);border-radius:999px;padding:8px 12px;font:700 14px inherit;background:var(--card);color:inherit}.tmr{position:sticky;top:60px;z-index:20;margin:0 0 10px;padding:10px 14px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.08)}.tmr b{font-size:22px;font-variant-numeric:tabular-nums}.tmr.low{border-color:#e11d48;color:#e11d48}.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px;cursor:pointer;background:var(--card)}
 .opt input{width:20px;height:20px;flex:none;margin-top:2px}
@@ -659,7 +662,7 @@ V.item=function(){
     const em=ytEmbed(it.url);
     if(!em)h+=`<div class="banner warn">${esc(t('noVideo'))}</div>`;
     else if(em.kind==='video')h+=`<div class="vid"><video controls playsinline preload="metadata" src="${esc(em.src)}" data-cid="${cid}" data-iid="${iid}"></video></div>`;
-    else h+=`<div class="vid"><iframe src="${esc(em.src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen ${/youtube|vimeo/.test(em.src)?'sandbox="allow-scripts allow-same-origin allow-presentation"':''} referrerpolicy="strict-origin-when-cross-origin" title="${esc(it.title)}"></iframe>${/youtube/.test(em.src)?'<div class="shield"></div>':''}</div>`;
+    else h+=`<div class="vid"><iframe src="${esc(em.src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen ${/youtube|vimeo/.test(em.src)?'sandbox="allow-scripts allow-same-origin allow-presentation"':''} referrerpolicy="strict-origin-when-cross-origin" title="${esc(it.title)}"></iframe>${/youtube/.test(em.src)?'<div class="shield"></div>':/vimeo/.test(em.src)?'<div class="vb tr"></div><div class="vb br"></div>':''}</div>`;
     if(em&&em.kind==='iframe')h+=`<div class="xs mut" style="margin-bottom:8px">${esc(t('videoHint'))}</div>`;
   }else if(it.type==='book'){
     if(it.pages>0){
