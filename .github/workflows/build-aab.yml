@@ -38,6 +38,7 @@ jobs:
         run: |
           printf '%s' '{"appId":"tj.firuzacademy.app","appName":"Firuz-Academy","webDir":"www","server":{"androidScheme":"https"}}' > capacitor.config.json
           npx cap add android
+          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 24/' android/variables.gradle
           pip install pillow
           python3 "$(ls make_icons*.py | head -n 1)" android/app/src/main/res www
           npx cap sync android
